@@ -16,6 +16,8 @@ import others.Controller;
 public class FrameHand extends JFrame {
 	
 	private Controller controller;
+	
+	private JPanel panel = new JPanel();
 
 	private JButton button_use = new JButton("Use");
 	private JButton button_right = new JButton(">>");
@@ -31,10 +33,8 @@ public class FrameHand extends JFrame {
 		Dimension dim = tk.getScreenSize();
 		
 		setSize(25*(dim.width/100), 50*(dim.height/100));
-		setLocation(45*(dim.width/100), 30*(dim.height/100));
+		setLocation(45*(dim.width/100), 50*(dim.height/100));
 		setTitle("Hand");
-		
-		JPanel panel = new JPanel();
 		
 		button_use.addActionListener(new ListenerUse(controller));
 		button_right.addActionListener(new ListenerRight(controller));
