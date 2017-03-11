@@ -4,10 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import others.Controller;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 public class FrameStatus extends JFrame {
+	
+	private Controller controller;
 	
 	private int resets = 4;
 	private int life = 4;
@@ -23,14 +27,16 @@ public class FrameStatus extends JFrame {
 	private JLabel label_attacks = new JLabel("Attacks: " + attacks);
 	private JLabel label_distance = new JLabel("Distance: +" + distance);
 	
-	public FrameStatus() {
+	public FrameStatus(Controller c) {
+		controller = c;
+		
 		setVisible(true);
 		setResizable(true);
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();
 		
-		setSize(7*(dim.width/100), 50*(dim.height/100));
+		setSize(10*(dim.width/100), 50*(dim.height/100));
 		setLocation(70*(dim.width/100), 30*(dim.height/100));
 		setTitle("Status");
 		

@@ -1,5 +1,4 @@
 package others;
-import frames.FrameStatus;
 
 public class run {
 
