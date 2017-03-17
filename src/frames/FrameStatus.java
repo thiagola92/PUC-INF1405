@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import others.Color;
+import cards.Color;
 import others.Controller;
 
 import java.awt.Dimension;
