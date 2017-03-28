@@ -4,7 +4,9 @@
 Renamed to class **Status**.  
 Moved variables that represent status from player to the class **Status**.
 
-Reason: I wanted to compress all information that is a int and could be changed every time in one game into one single class.
+Reason: I wanted to compress all information that is a int and could be changed every time in one game into one single class.  
+Also, right now have one "character" that have one unique ability will make the game too complex.  
+I may add after the basic things end.
 
 ## State ##
 One enumeration that say the state of player.
