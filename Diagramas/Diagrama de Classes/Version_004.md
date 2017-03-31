@@ -18,7 +18,7 @@ And there is no reason for the diagram tell variable that you can already suspec
 You can delete variable team: Color becauseYou can see by the arrow that this class have a enumeration of color.
 
 ## Board ##
-Board received some methods that will do the basic things of the cards, like attack/equip. Still not sure if this should be there or inside class **Weapon** and ** Equipement**.
+Board received some methods that will do the basic things of the cards, like attack/equip. Still not sure if this should be there or inside class **Weapon** and **Equipement**.
 
 ## Game ##
 This class will be responsabile for reciving one command and translate to the game. Also the other way.
