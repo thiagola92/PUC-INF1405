@@ -1,9 +1,9 @@
 # Index #
-* [Version 002](#Version-002)
-* [Version 003]
-* [Version 004]
-* [Verison 005]
-* [Version 006]
+* [Version 002](https://github.com/thiagola92/Reset/blob/master/digrams/class%20diagram/Patch_History.md#version-002)
+* [Version 003](https://github.com/thiagola92/Reset/blob/master/digrams/class%20diagram/Patch_History.md#version-003)
+* [Version 004](https://github.com/thiagola92/Reset/blob/master/digrams/class%20diagram/Patch_History.md#version-004)
+* [Verison 005](https://github.com/thiagola92/Reset/blob/master/digrams/class%20diagram/Patch_History.md#version-005)
+* [Version 006](https://github.com/thiagola92/Reset/blob/master/digrams/class%20diagram/Patch_History.md#version-006)
 
 # Version 002 #
 
