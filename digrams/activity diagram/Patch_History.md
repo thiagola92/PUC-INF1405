@@ -1,4 +1,4 @@
-# Changes #
+# Version 002 #
 
 ## Player ##
 Do jeito que estava escrito "Esperar turno" podia ir para "Turno" a qualquer momento. Foi mudado para ter uma condição, É "Seu turno?" [Sim] e [Não].    
