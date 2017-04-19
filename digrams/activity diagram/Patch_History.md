@@ -14,3 +14,20 @@ Estar sendo atacado depende de outro jogador, então a decisão foi transferida 
 
 ## Another Player ##
 Tudo que envolve a resposta de um segundo jogador, ficará dentro daquela área.
+
+# Version 003 #
+
+Eram basicamente 3 partes  
+* Conectar com o server.
+* Quando não era a vez do jogador.
+* Quando era a vez do jogador.
+
+Primeira parte estava okay.  
+A segunda parte você tinha que mostrar tudo que podia fazer fora do seu turno e tudo que o OUTRO jogador podia fazer fora do turno dele.  
+A terceira acabava sendo o inverso apenas, mostrar tudo que você pode fazer dentro do seu turno e tudo que o outr jogador pode fazer fora do turno dele.  
+
+O professor simplificou fazendo 
+* Conectar com o server.
+* Quando é a vez do jogador.
+
+E criou uma atividade "Definir jogador do turno" e dela você vai para o jogador do turno, não precisa mais de uma condição de ficar esperando ser a vez.  
