@@ -31,3 +31,11 @@ O professor simplificou fazendo
 * Quando é a vez do jogador.
 
 E criou uma atividade "Definir jogador do turno" e dela você vai para o jogador do turno, não precisa mais de uma condição de ficar esperando ser a vez.  
+
+# Version 004 #
+
+Eu não entendi direito, mas aparentemente era bom eu botar uma condição que verifica se o __t__ segundos passou, embora achasse que isso já estaria incluso no "Espera t segundos".  
+Professor falou que poderia eliminar "Turno" pos não é um estado do jogador, em outras palavras, um estado onde o jogador não faz nada, não é um estado necessário.  
+Consequentemente deletei "Pega primeira carta do deck" e "Entrega para jogador do turno" pois essas ações estão implicitas em "Compra carta".  
+Próxima modificação é que varias ações que eram consideradas do outro jogador estavam no servidor, quem está comprando carta ou descartando carta é o jogador, não o server.  
+Por último, acrescentamos uma verificação para saber se o jogador tem carta na mão.  
