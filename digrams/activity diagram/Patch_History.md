@@ -39,3 +39,7 @@ Professor falou que poderia eliminar "Turno" pos não é um estado do jogador, e
 Consequentemente deletei "Pega primeira carta do deck" e "Entrega para jogador do turno" pois essas ações estão implicitas em "Compra carta".  
 Próxima modificação é que varias ações que eram consideradas do outro jogador estavam no servidor, quem está comprando carta ou descartando carta é o jogador, não o server.  
 Por último, acrescentamos uma verificação para saber se o jogador tem carta na mão.  
+
+# Version 005 #
+
+Acrescentada um caminho que finaliza o jogo.
