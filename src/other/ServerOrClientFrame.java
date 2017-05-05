@@ -14,13 +14,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class ServerOrClient extends JFrame {
+public class ServerOrClientFrame extends JFrame {
 	
 	private JButton client = new JButton("Player");
 	private JButton server = new JButton("Server");
 	private JPanel panel = new JPanel();		// Default is FlowLayout
 
-	public ServerOrClient() {
+	public ServerOrClientFrame() {
 		this.setVisible(true);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,7 +40,7 @@ public class ServerOrClient extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 		}
 		
 	}
@@ -49,7 +49,7 @@ public class ServerOrClient extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 		}
 		
 	}
