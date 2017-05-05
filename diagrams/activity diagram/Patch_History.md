@@ -7,42 +7,49 @@
 # Version 002 #
 
 ## Player ##
-Do jeito que estava escrito "Esperar turno" podia ir para "Turno" a qualquer momento. Foi mudado para ter uma condição, É "Seu turno?" [Sim] e [Não].    
-Estar sendo atacado depende de outro jogador, então a decisão foi transferida para __Another Player__.    
-"Reação" dava a opção de usar carta ou não, mas "Verificando" não fazia nada demais e no final levava ao mesmo local ("Atualizar jogo") então foi retirado a questão de [Sim] ou [Não], já que não faz diferença no final.    
-"Atualizar jogo" leva a pergunta de novo de "Seu turno?" E o processo se repete.
+(1)From one elipse you should go to another elipse or diamond, not both.  
+Diamonds represent options, so if you can go one way or other, you should use diamond to show when you will pick one or other.  
+Elipse are close to action/state so you shouldn't treat like a loop.
 
-"Usar carta" e "Passar turno" não são estados, são opções que o jogador tem.    
-"Esperando reação" foi retirado e virou "Reação" dentro de __Another Player__.    
+"Esperar turno" could go to "Turno" or to one diamond, this didn't make sense so because you couldn't know when to take which path.  
+"Esperar turno" was removed because there is other way to make a loop and show the condition to get out.
+I tried to show this by making a diamond that could take you to your turn if was your turn or take you to "Esperar" that could make you go back to the diamond.  
+Everything that depends from server do should be on __Server__, everything that depends from the player of the turn to should be on __Player__, everything that depends from other player should be on... __Another Player__.  
+You could remove "Verificando" and put together with "Atualizar jogo", meaning that the diamond also didn't make sense.  
+"Atualizar jogo" is now connecting to the diamond that check if is the player turn.  
+
+"Usar carta" and "Passar turno", reading the diagram you coudn't guess where you would go from "Turno", that's because it should have a diamond (1).  
+
+## Server ##
+"Esperando reação" is not an action from __Server__, moving to __Another Player__ as "Reação".  
 
 ## Another Player ##
-Tudo que envolve a resposta de um segundo jogador, ficará dentro daquela área.
+New.  
 
 # Version 003 #
 
-Eram basicamente 3 partes  
-* Conectar com o server.
-* Quando não era a vez do jogador.
-* Quando era a vez do jogador.
+## Player / Turn Player ##
+Renamed from __Player__ to __Turn Player__.  
+We don't need one loop to check if is the player turn, the __Server__ should warn you, so i am removing the loop diamond.  
+You don't need to treat when is your turn and interacting with someone AND when is not your turn and you are being interacted. The __Turn Player__ and __Another Player Turn__ exist so you can see the action and reaction at the same time and not repeat everything.  
 
-Primeira parte estava okay.  
-A segunda parte você tinha que mostrar tudo que podia fazer fora do seu turno e tudo que o OUTRO jogador podia fazer fora do turno dele.  
-A terceira acabava sendo o inverso apenas, mostrar tudo que você pode fazer dentro do seu turno e tudo que o outr jogador pode fazer fora do turno dele.  
-
-O professor simplificou fazendo 
-* Conectar com o server.
-* Quando é a vez do jogador.
-
+## Server ##
+New state "Definir jogador do turno".
 E criou uma atividade "Definir jogador do turno" e dela você vai para o jogador do turno, não precisa mais de uma condição de ficar esperando ser a vez.  
 
 # Version 004 #
 
-Eu não entendi direito, mas aparentemente era bom eu botar uma condição que verifica se o __t__ segundos passou, embora achasse que isso já estaria incluso no "Espera t segundos".  
-Professor falou que poderia eliminar "Turno" pos não é um estado do jogador, em outras palavras, um estado onde o jogador não faz nada, não é um estado necessário.  
-Consequentemente deletei "Pega primeira carta do deck" e "Entrega para jogador do turno" pois essas ações estão implicitas em "Compra carta".  
-Próxima modificação é que varias ações que eram consideradas do outro jogador estavam no servidor, quem está comprando carta ou descartando carta é o jogador, não o server.  
-Por último, acrescentamos uma verificação para saber se o jogador tem carta na mão.  
+## Server ##
+I didn't get but professor recomended putting another loop on "Espera t segundos".  
+"Pega primeira carta" and "Entregar para o jogador do turno" should be implicit on "Compra carta" so i am removing.  
+
+## Player Turn ##
+A loop to check if you have card on hand, you shouldn't be able to play without cards.  
+
+## Another Player Turn ##
+Every effect from cards on another player should be here(you know that server will manage this effects but it's not his action).   
 
 # Version 005 #
 
-Acrescentada um caminho que finaliza o jogo.
+## Another Player Turn ##
+After being attacked if he is dead, the game end.  
