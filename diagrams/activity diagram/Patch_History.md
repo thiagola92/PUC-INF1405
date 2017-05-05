@@ -1,5 +1,8 @@
 # Index #
-* [Version 002](/Patch_History.md#version-002)
+* [Version 002](#version-002)
+* [Version 003](#version-003)
+* [Version 004](#version-004)
+* [Version 005](#version-005)
 
 # Version 002 #
 
