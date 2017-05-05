@@ -1,5 +1,5 @@
 # Index #
-* [Version 002](https://github.com/thiagola92/Reset/blob/master/digrams/activity%20diagram/Patch_History.md#version-002)
+* [Version 002](/Patch_History.md#version-002)
 
 # Version 002 #
 
