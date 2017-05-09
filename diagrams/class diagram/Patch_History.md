@@ -4,6 +4,8 @@
 * [Version 004](#version-004)
 * [Verison 005](#version-005)
 * [Version 006](#version-006)
+* [Version 007](#version-007)
+* [Version 008](#version-008)
 
 # Version 002 #
 
@@ -154,4 +156,34 @@ Every **Play** connect to one **Card**.
 **Play**s are created by **HistoryEntry**, so there is no reason to connect to **Player**.    
 
 # Version 007 #
+
 Nothing to see here
+
+# Version 008 #
+
+Started to write code in java.
+
+## Player_connection / Connection ##
+The socket responsable for talking with the client, i will putting this together with __Player__.  
+There is no reason to go through __Board__ until __Player__ to call a method in __Player__.  
+
+## Game / ConnectionReceiver ##
+This object will receive all __Conection__ and give it to the __Board__, after the job is done.  
+Changing the name to represent what really is.  
+
+## Board ##
+player_turn renamed to turnFromPlayer.  
+player_turn_attacks renamed to attacksThisTurn.  
+use_card renamed to discardCard. 
+
+### discardCard ###
+Now the __Player__ will be in charge to remove from hand/equip, this method shouldn't be interacting with variables of __Player__ directly.  
+
+## New Things ##
+numberOfPlayers => Still don't know if i need this or i should get the size of the ArrayList with players.
+nextTurn() => Pass turn
+resetAttacksThisTurn() => attacksThisTurn go to 0, so you can attack again.
+increaseAttacksThisTurn() => attacksThisTurn +1, so you know how many times the turn player attacked.
+decideShiftOrder() => Should be called one time only, when the game start to decide the order.
+pickFromDeck() => Pick a card from the deck.
+pickFromDiscard() => Pick a card from the discard.

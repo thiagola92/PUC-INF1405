@@ -27,18 +27,6 @@ public class Board {
 		numberOfPlayers = clients.size();
 		
 		decideShiftOrder(clients);
-		
-		//delete
-		Card card = new Card("Thiago", "Primeiro");
-		deck.add(card);
-		card = new Card("Senpai", "Segundo");
-		deck.add(card);
-		card = new Card("Lenii", "Terceiro");
-		deck.add(card);
-		card = new Card("Gr", "Quarto");
-		deck.add(card);
-		card = new Card("Leo", "Quinta");
-		deck.add(card);
 	}
 	
 	public void nextTurn() {

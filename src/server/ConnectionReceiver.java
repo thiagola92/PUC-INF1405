@@ -1,3 +1,8 @@
+/**
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
+
 package server;
 
 import java.io.IOException;
@@ -9,17 +14,25 @@ public class ConnectionReceiver {
 	
 	private ArrayList<Connection> clients = new ArrayList<Connection>();
 	
-	public ConnectionReceiver(int port, int howManyReceive) {
+	/**
+	 * @param port			Port that will be receving players.
+	 * @param howManyWait	How many players it will wait until start the game.
+	 */
+	public ConnectionReceiver(int port, int howManyWait) {
 		
 		try {
 			ServerSocket serversocket = new ServerSocket(port);
-			
-			while(howManyReceive > 0) {
+
+			while(howManyWait > 0) {
+				System.out.println(">>Waiting " + howManyWait + " players");
+				
 				Connection connection = new Connection(serversocket.accept());
 				clients.add(connection);
 				
-				howManyReceive--;
+				howManyWait--;
 			}
+			
+			System.out.println(">>Connected to everyone, creating game");
 			
 			
 		} catch(SocketTimeoutException e) {

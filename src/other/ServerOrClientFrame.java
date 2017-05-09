@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import client.Connection;
 import server.ConnectionReceiver;
 
 @SuppressWarnings("serial")
@@ -34,7 +35,6 @@ public class ServerOrClientFrame extends JFrame {
 		panel.add(server);
 		
 		this.add(panel);
-		
 		this.pack();	// this function organize the size from objects, let it be the last function called to be precise.
 	}
 
@@ -43,6 +43,8 @@ public class ServerOrClientFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			new Connection(4, "127.0.0.1");
+			
 		}
 		
 	}
@@ -52,7 +54,7 @@ public class ServerOrClientFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			new ConnectionReceiver(4, 1);
+			new ConnectionReceiver(4, 3);
 			
 		}
 		
