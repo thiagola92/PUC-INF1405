@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import server.ConnectionReceiver;
+
 @SuppressWarnings("serial")
 public class ServerOrClientFrame extends JFrame {
 	
@@ -50,6 +52,8 @@ public class ServerOrClientFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			new ConnectionReceiver(4, 1);
+			
 		}
 		
 	}
