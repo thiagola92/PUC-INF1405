@@ -39,14 +39,22 @@ public class Player {
 		}
 	}
 	
-	//delete?
+	/**
+	 * The player use one card, search his hand for the card, if exist then use.
+	 * <br>
+	 * Notice that the card will not be removed from the hand, this will be the cards job's.
+	 * <br>
+	 * Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
+	 * @param name		Name of the card to search.
+	 */
 	public void useCard(String name) {
 		Card card;
 		
 		for(int i=0; i < hand.size(); ++i) {
 			if(hand.get(i).getName() == name) {
-				card = hand.remove(i);
-				card.useCard();
+				card = hand.get(i);
+				card.useCard(this);
+				break;
 			}
 		}
 	}

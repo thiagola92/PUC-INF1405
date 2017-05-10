@@ -23,7 +23,7 @@ public class Card {
 		return description;
 	}
 	
-	public void useCard() {
+	public void useCard(Player player) {
 	}
 
 }
