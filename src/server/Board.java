@@ -56,15 +56,15 @@ public class Board {
 		Connection connection;
 		Player new_player;
 
-		for(int playersPicked = 0; numberOfPlayers - playersPicked > 1; playersPicked++) {
+		for(int playersPicked = 0; numberOfPlayers - playersPicked > 1; ++playersPicked) {
 			connection = clients.remove(r.nextInt(numberOfPlayers - playersPicked));
-			new_player = new Player(connection);
+			new_player = new Player(this, connection);
 			player.add(new_player);
 		}
 		
 		// Picking the last player
 		connection = clients.remove(0);
-		new_player = new Player(connection);
+		new_player = new Player(this, connection);
 		player.add(new_player);
 	}
 	
@@ -93,7 +93,7 @@ public class Board {
 		if(deck.size() < quantity) {
 			//suffle discard
 		} else {
-			for(int i=0; i < quantity; i++) {
+			for(int i=0; i < quantity; ++i) {
 				card[i] = deck.remove(deck.size() - 1);
 			}
 		}
@@ -124,7 +124,7 @@ public class Board {
 	public Card[] pickFromDiscard(int quantity) {
 		Card card[] = new Card[quantity];
 
-		for(int i=0; i < quantity; i++) {
+		for(int i=0; i < quantity; ++i) {
 			card[i] = (discard.size() > 0) ? discard.remove(discard.size() - 1) : pickFromDeck(1)[0];
 		}
 		

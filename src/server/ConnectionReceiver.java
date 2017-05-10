@@ -23,13 +23,11 @@ public class ConnectionReceiver {
 		try {
 			ServerSocket serversocket = new ServerSocket(port);
 
-			while(howManyWait > 0) {
+			for(; howManyWait > 0; --howManyWait) {
 				System.out.println(">>Waiting " + howManyWait + " players");
 				
 				Connection connection = new Connection(serversocket.accept());
 				clients.add(connection);
-				
-				howManyWait--;
 			}
 			
 			System.out.println(">>Connected to everyone, creating game");
