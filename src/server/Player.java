@@ -58,6 +58,29 @@ public class Player {
 			}
 		}
 	}
+	
+	/**
+	 * Search on hand and equipments the card that will be discard.
+	 * @param card		The location of the card
+	 */
+	public void discardCard(Card card) {
+		
+		for(int i=0; i < hand.size(); ++i) {
+			if(hand.get(i) == card) {
+				card = hand.remove(i);
+				break;
+			}
+		}
+		
+		for(int i=0; i < equipment.size(); ++i) {
+			if(equipment.get(i) == card) {
+				card = equipment.remove(i);
+				break;
+			}
+		}
+		
+		board.discardCard(card);
+	}
 
 	
 }
