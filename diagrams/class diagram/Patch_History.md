@@ -6,6 +6,7 @@
 * [Version 006](#version-006)
 * [Version 007](#version-007)
 * [Version 008](#version-008)
+* [Version 009](#version-009)
 
 # Version 002 #
 
@@ -187,3 +188,26 @@ increaseAttacksThisTurn() => attacksThisTurn +1, so you know how many times the 
 decideShiftOrder() => Should be called one time only, when the game start to decide the order.
 pickFromDeck() => Pick a card from the deck.
 pickFromDiscard() => Pick a card from the discard.
+
+# Version 009 #
+
+## Player ##
+Variables:
+* Removed variable 'id'. For now i don't know what to do with it.  
+
+Methods:
+* All methods renamed from something like abc_defg to abcDefg.
+* buy_from_deck() removed could make any player buy, there is no reason for each player have one method like that.
+* pickFromDeck() make this player buy from deck, if you want another player buying from deck call this function from the other player.
+* discardCard() also could make any player discard, now can only make himself discard and instead of using a string to find the card, use the address of the object.
+* receiveCard() is just adding a card to the hand.
+* equipCard() is just adding a card to the hand. And can only target the own player.
+
+## Card ##
+Interface doesn't create variables.
+
+## Equipment ##
+Received name, description from old Card.  
+Received Function that will the card action when called.  
+
+## Function ##
