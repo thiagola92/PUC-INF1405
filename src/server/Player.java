@@ -58,9 +58,19 @@ public class Player {
 			}
 		}
 	}
+
+	/**
+	 * Add one card to your hand.
+	 * @param card		Card that is going to your hand
+	 */
+	public void receiveCard(Card card) {
+		hand.add(card);
+	}
 	
 	/**
 	 * Search on hand and equipments the card that will be discard.
+	 * <br>
+	 * Good side is that work as an unequipCard one time that you have know exactly the card to be removed.
 	 * @param card		The location of the card
 	 */
 	public void discardCard(Card card) {
@@ -81,6 +91,19 @@ public class Player {
 		
 		board.discardCard(card);
 	}
-
+	
+	/**
+	 * Add one card to equipments.
+	 * <br>
+	 * This card must be an equipment.
+	 * @param card		Card to be equipped
+	 */
+	public void equipCard(Equipment card) {
+		equipment.add(card);
+	}
+	
+	public void attackPlayer() {
+		
+	}
 	
 }

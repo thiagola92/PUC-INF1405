@@ -5,7 +5,7 @@
 
 package server;
 
-public class Card {
+public abstract class Card {
 	
 	private String name;
 	private String description;
