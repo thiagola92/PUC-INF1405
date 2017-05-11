@@ -5,25 +5,12 @@
 
 package server;
 
-public abstract class Card {
-	
-	private String name;
-	private String description;
-	
-	public Card(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
+public interface Card {
 
-	public String getName() {
-		return name;
-	}
+	public String getName();
 
-	public String getDescription() {
-		return description;
-	}
+	public String getDescription();
 	
-	public void useCard(Player player) {
-	}
+	public void useCard(Player player);
 
 }

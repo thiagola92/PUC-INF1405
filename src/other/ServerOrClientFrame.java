@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 
 import client.Connection;
 import server.ConnectionReceiver;
+import server.Equipment;
+import server.Function;
+import server.Player;
 
 @SuppressWarnings("serial")
 public class ServerOrClientFrame extends JFrame {
@@ -54,7 +57,23 @@ public class ServerOrClientFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			new ConnectionReceiver(4, 3);
+			// PRE JAVA 8
+			Equipment x = new Equipment("Thiago", "cOE", 10, 10, 10, 10, new Function() {
+
+				@Override
+				public void useCard(Player player) {
+					// TODO Auto-generated method stub
+					System.out.println("OH YEAH");
+				}
+				
+			});
+			x.useCard(null);
+			
+			// POS JAVA 8
+			Equipment y = new Equipment("Thiago", "cOE", 10, 10, 10, 10, (player) -> System.out.println("OMG"));
+			y.useCard(null);
+			
+			//new ConnectionReceiver(4, 3);
 			
 		}
 		
