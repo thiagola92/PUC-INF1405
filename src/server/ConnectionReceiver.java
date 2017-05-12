@@ -27,6 +27,7 @@ public class ConnectionReceiver {
 				System.out.println(">>Waiting " + howManyWait + " players");
 				
 				Connection connection = new Connection(serversocket.accept());
+				connection.start();
 				clients.add(connection);
 			}
 			

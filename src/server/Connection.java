@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Connection {
+public class Connection extends Thread {
 	
 	private Socket client;
 	private Scanner entrada;
@@ -31,10 +31,20 @@ public class Connection {
 		}
 	}
 	
+	/**
+	 * Pass a String and will write to the client.
+	 * @param msg		String to be writed
+	 */
 	public void sendMessage(String msg) {
 		saida.println(msg);
 	}
 	
+	/**
+	 * Receive a string from client.
+	 * <br>
+	 * Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
+	 * @return
+	 */
 	public String receiveMessage() {
 		String msg = null;
 		
@@ -49,6 +59,16 @@ public class Connection {
 		}
 		
 		return msg;
+	}
+	
+	/**
+	 * The action that the connection need to be doing all the time, right now the only thing that i can think is waiting for client message.
+	 */
+	public void run() {
+		while(true) {
+			String msg = receiveMessage();
+			System.out.println(msg);
+		}
 	}
 
 }
