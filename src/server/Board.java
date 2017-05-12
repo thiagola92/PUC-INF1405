@@ -35,6 +35,8 @@ public class Board {
 			turnFromPlayer = 1;
 		else
 			turnFromPlayer += 1;
+
+		System.out.println(">>Turn from player " + turnFromPlayer);
 		
 		resetAttacksThisTurn();
 	}
@@ -66,6 +68,8 @@ public class Board {
 		connection = clients.remove(0);
 		new_player = new Player(this, connection);
 		player.add(new_player);
+		
+		System.out.println(">>Players shifted");
 	}
 	
 	/**
@@ -97,6 +101,8 @@ public class Board {
 				card[i] = deck.remove(deck.size() - 1);
 			}
 		}
+
+		System.out.println(quantity + " were picked from deck");
 		
 		return card;
 	}
@@ -127,6 +133,8 @@ public class Board {
 		for(int i=0; i < quantity; ++i) {
 			card[i] = (discard.size() > 0) ? discard.remove(discard.size() - 1) : pickFromDeck(1)[0];
 		}
+		
+		System.out.println(quantity + " were picked from discard");
 		
 		return card;
 	}

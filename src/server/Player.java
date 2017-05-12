@@ -35,6 +35,7 @@ public class Player {
 		Card[] cards = board.pickFromDeck(quantity);
 		
 		for(; quantity >= 0; --quantity) {
+			System.out.println("Card " + cards[quantity-1] + " picked from the deck");
 			hand.add(cards[quantity-1]);
 		}
 	}
@@ -53,6 +54,7 @@ public class Player {
 		for(int i=0; i < hand.size(); ++i) {
 			if(hand.get(i).getName() == name) {
 				card = hand.get(i);
+				System.out.println("Player " + this.name + " tried to use card " + card.getName());
 				card.useCard(this);
 				break;
 			}

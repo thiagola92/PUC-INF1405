@@ -49,7 +49,6 @@ public class Equipment implements Card {
 
 	@Override
 	public void useCard(Player player) {
-		// TODO Auto-generated method stub
 		function.useCard(player);
 	}
 

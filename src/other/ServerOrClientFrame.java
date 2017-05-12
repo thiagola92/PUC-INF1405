@@ -57,6 +57,7 @@ public class ServerOrClientFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			/*
 			// PRE JAVA 8
 			Equipment x = new Equipment("Thiago", "cOE", 10, 10, 10, 10, new Function() {
 
@@ -70,17 +71,18 @@ public class ServerOrClientFrame extends JFrame {
 			x.useCard(null);
 			
 			// POS JAVA 8
-			Equipment y = new Equipment("Thiago", "cOE", 10, 10, 10, 10, (player) -> System.out.println("OMG"));
+			Equipment y = new Equipment("Thiago", "Coe", 10, 10, 10, 10, (player) -> System.out.println("OMG"));
 			y.useCard(null);
 			
 			// POS JAVA 8 WITH MORE CODE
-			Equipment w = new Equipment("Thiago", "cOE", 10, 10, 10, 10, (player) -> {
+			Equipment w = new Equipment("Thiago", "Coe", 10, 10, 10, 10, (player) -> {
 				System.out.println("YES YOU CAN");
 				System.out.println("REALLY");
 			});
 			w.useCard(null);
+			*/
 			
-			//new ConnectionReceiver(4, 3);
+			new ConnectionReceiver(4, 3);
 			
 		}
 		
