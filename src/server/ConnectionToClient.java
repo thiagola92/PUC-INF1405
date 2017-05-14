@@ -13,8 +13,6 @@ import java.util.Scanner;
 
 public class ConnectionToClient extends Thread {
 	
-	private Player player;
-	
 	private Socket client;
 	private Scanner entrada;
 	private PrintStream saida;
@@ -32,81 +30,49 @@ public class ConnectionToClient extends Thread {
 			System.out.println("IOException - if an I/O error occurs when creating the output stream or if the socket is not connected.");
 		}
 	}
-
-	/**
-	 * Hold on one variable the player that this connection represents.
-	 * @param player	Player that this connection represents
-	 */
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
 	
 	/**
 	 * Pass a String and will write to the client.
-	 * @param message		String to be writed
+	 * @param message		String to be write
 	 */
 	public void sendMessage(String message) {
 		saida.println(message);
 	}
 	
 	/**
-	 * Receive a string from client.
-	 * <br>
-	 * Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
-	 * @return
-	 */
-	public String receiveMessage() {
-		String message = null;
-		
-		try {
-			
-			message = entrada.nextLine();
-			
-		} catch(NoSuchElementException e) {
-			System.out.println("NoSuchElementException - if no line was found.");
-		} catch(IllegalStateException e) {
-			System.out.println("IllegalStateException - if this scanner is closed.");
-		}
-		
-		return message;
-	}
-	
-	/**
-	 * Right now i don't know how much use this method have.
-	 * <br>
-	 * Receive a message and translate to actions in the game.
+	 * Receive a string from client and split it, so you can now the arguments.
 	 * <br>
 	 * The message arguments are divide by comma, for example:
 	 * <br>
 	 * USE,CARD
 	 * <br>
 	 * This way i know that the first argument means you are trying to use a card and the second the card you want to use.
-	 * @param message		Message to be translate to action.
+	 * <br>
+	 * Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
+	 * @return		One array of arguments for the class Player interpret.
 	 */
-	public void translate(String message) {
-		String[] arguments;
-		arguments = message.split("[,]");
+	public String[] receiveMessage() {
+		String[] arguments = null;
+		String message = null;
 		
-		for(int i=0; i < arguments.length; ++i) {
-			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
+		try {
+			
+			message = entrada.nextLine();
+			arguments = message.split("[,]");
+			
+		} catch(NoSuchElementException e) {
+			System.out.println("NoSuchElementException - if no line was found.");
+		} catch(IllegalStateException e) {
+			System.out.println("IllegalStateException - if this scanner is closed.");
 		}
-		
-		if(arguments[0] == "USECARD") {
-			sendMessage(player.useCard(arguments[1]) + "");
-		}
-		
+
+		return arguments;
 	}
 	
 	/**
 	 * The action that the connection need to be doing all the time, right now the only thing that i can think is waiting for client message.
 	 */
 	public void run() {
-		//Temporary
-		while(true) {
-			String message = receiveMessage();
-			System.out.format(">>Message received: %s\n", message);
-			translate(message);
-		}
 	}
 
 }

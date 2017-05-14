@@ -44,15 +44,15 @@ public class ServerOrClientFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			ConnectionToServer c = new ConnectionToServer(4, "127.0.0.1");
-			c.start();
+			ConnectionToServer connection = new ConnectionToServer(4, "127.0.0.1");
+			connection.start();
 
 			// Temporary
 			while(true) {
 				@SuppressWarnings("resource")
 				Scanner scan = new Scanner(System.in);
 				String message = scan.nextLine();
-				c.sendMessage(message);
+				connection.sendMessage(message);
 			}
 			
 		}
@@ -89,7 +89,7 @@ public class ServerOrClientFrame extends JFrame {
 			w.useCard(null);
 			*/
 			
-			new ConnectionReceiver(4, 3);
+			new ConnectionReceiver(4, 1);
 			
 		}
 		

@@ -11,6 +11,6 @@ public interface Card {
 	
 	public String getDescription();
 	
-	public boolean useCard(Player player);
+	public void useCard(Player player);
 
 }

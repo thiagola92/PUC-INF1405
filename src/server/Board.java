@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Board {
 	
-	private int turnFromPlayer = 0;			// Number going from 1 to numberOfPlayers
+	private int turnFromPlayer = 0;			// Number going from 0 to numberOfPlayers - 1
 	private int numberOfPlayers = 0;
 	private int attacksThisTurn = 0;
 	
@@ -29,10 +29,25 @@ public class Board {
 		decideShiftOrder(clients);
 	}
 	
+	/**
+	 * The game will start and this action will repeat yourself until the game end.
+	 */
+	public void startGame() {
+		while(true) {
+			System.out.format(">>Waiting command from player %d\n", turnFromPlayer);
+			player.get(turnFromPlayer).command();
+		}
+	}
+	
+	/**
+	 * Shift the turn to the next player.
+	 * <br>
+	 * This includes reset the counter of attacks.
+	 */
 	public void nextTurn() {
 		
-		if(turnFromPlayer == numberOfPlayers)
-			turnFromPlayer = 1;
+		if(turnFromPlayer == numberOfPlayers - 1)
+			turnFromPlayer = 0;
 		else
 			turnFromPlayer += 1;
 

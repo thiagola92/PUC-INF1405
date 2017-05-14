@@ -6,5 +6,5 @@
 package server;
 
 public interface Function {
-	public boolean useCard(Player player);
+	public void useCard(Player player);
 }

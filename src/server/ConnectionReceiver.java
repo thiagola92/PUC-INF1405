@@ -27,7 +27,6 @@ public class ConnectionReceiver {
 				System.out.format(">>Waiting %s players\n", howManyWait);
 				
 				ConnectionToClient connection = new ConnectionToClient(serversocket.accept());
-				connection.start();
 				clients.add(connection);
 			}
 			
@@ -46,6 +45,7 @@ public class ConnectionReceiver {
 			System.out.println("IllegalBlockingModeException - if this socket has an associated channel, the channel is in non-blocking mode, and there is no connection ready to be accepted");
 		}
 		
-		new Board(clients);
+		Board game = new Board(clients);
+		game.startGame();
 	}
 }

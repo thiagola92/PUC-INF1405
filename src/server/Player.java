@@ -25,7 +25,6 @@ public class Player {
 	public Player(Board board, ConnectionToClient connection) {
 		this.board = board;
 		this.connection = connection;
-		connection.setPlayer(this);
 	}
 	
 	public String getName() {
@@ -56,8 +55,13 @@ public class Player {
 	public void pickFromDeck(int quantity) {
 		Card[] cards = board.pickFromDeck(quantity);
 		
+		if(cards == null) {
+			System.out.println(">>Deck is empty");
+			return;
+		}
+		
 		for(; quantity >= 0; --quantity) {
-			System.out.format("Card %s picked from the deck", cards[quantity-1].getName());
+			System.out.format(">>Card %s picked from the deck", cards[quantity-1].getName());
 			hand.add(cards[quantity-1]);
 		}
 	}
@@ -69,25 +73,21 @@ public class Player {
 	 * <br>
 	 * Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
 	 * @param name		Name of the card to search.
-	 * @return 
 	 */
-	public boolean useCard(String name) {
+	public void useCard(String name) {
 		Card card;
-		boolean wasCardUsed = false;
 		
 		for(int i=0; i < hand.size(); ++i) {
 			if(hand.get(i).getName() == name) {
 				card = hand.get(i);
 				System.out.format("Player tried to use card ", this.name, card.getName());
-				wasCardUsed = card.useCard(this);
 				break;
 			}
 		}
-		
-		return wasCardUsed;
 	}
 
 	/**
+	 * MAY BE USELESS
 	 * Add one card to your hand.
 	 * @param card		Card that is going to your hand
 	 */
@@ -121,6 +121,7 @@ public class Player {
 	}
 	
 	/**
+	 * MAY BE USELESS
 	 * Add one card to equipments.
 	 * <br>
 	 * This card must be an equipment.
@@ -132,6 +133,13 @@ public class Player {
 	
 	public void attackPlayer() {
 		
+	}
+	
+	public void command() {
+		String[] arguments = connection.receiveMessage();
+		for(int i=0; i < arguments.length; ++i) {
+			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
+		}
 	}
 	
 }

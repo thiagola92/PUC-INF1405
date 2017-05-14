@@ -53,8 +53,8 @@ public class Equipment implements Card {
 	}
 
 	@Override
-	public boolean useCard(Player player) {
-		return function.useCard(player);
+	public void useCard(Player player) {
+		function.useCard(player);
 	}
 
 }
