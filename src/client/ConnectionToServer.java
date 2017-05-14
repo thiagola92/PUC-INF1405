@@ -7,13 +7,13 @@ import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Connection extends Thread {
+public class ConnectionToServer extends Thread {
 	
 	private Socket server;
 	private Scanner entrada;
 	private PrintStream saida;
 	
-	public Connection(int port, String ip) {
+	public ConnectionToServer(int port, String ip) {
 		
 		try {
 			
@@ -35,20 +35,14 @@ public class Connection extends Thread {
 			System.out.println("IllegalArgumentException - if the port parameter is outside the specified range of valid port values, which is between 0 and 65535, inclusive.");
 		}
 		
-		// Temporary
-		while(true) {
-			Scanner scan = new Scanner(System.in);
-			String msg = scan.nextLine();
-			sendMessage(msg);
-		}
 	}
 
 	/**
 	 * Pass a String and will write to the server.
-	 * @param msg		String to be writed
+	 * @param message		String to be writed
 	 */
-	public void sendMessage(String msg) {
-		saida.println(msg);
+	public void sendMessage(String message) {
+		saida.println(message);
 	}
 
 	/**
@@ -58,11 +52,11 @@ public class Connection extends Thread {
 	 * @return
 	 */
 	public String receiveMessage() {
-		String msg = null;
+		String message = null;
 		
 		try {
 			
-			msg = entrada.nextLine();
+			message = entrada.nextLine();
 			
 		} catch(NoSuchElementException e) {
 			System.out.println("NoSuchElementException - if no line was found.");
@@ -70,16 +64,17 @@ public class Connection extends Thread {
 			System.out.println("IllegalStateException - if this scanner is closed.");
 		}
 		
-		return msg;
+		return message;
 	}
 
 	/**
 	 * The action that the connection need to be doing all the time, right now the only thing that i can think is waiting for server message.
 	 */
 	public void run() {
+		// Temporary
 		while(true) {
-			String msg = receiveMessage();
-			System.out.println(msg);
+			String message = receiveMessage();
+			System.out.println(message);
 		}
 	}
 

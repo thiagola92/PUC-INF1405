@@ -23,7 +23,7 @@ public class Board {
 	 * @param numberOfPlayers	How many players are playing the game,
 	 * 							this will be constant during the game
 	 */
-	public Board(ArrayList<Connection> clients) {
+	public Board(ArrayList<ConnectionToClient> clients) {
 		numberOfPlayers = clients.size();
 		
 		decideShiftOrder(clients);
@@ -36,7 +36,7 @@ public class Board {
 		else
 			turnFromPlayer += 1;
 
-		System.out.println(">>Turn from player " + turnFromPlayer);
+		System.out.format(">>Turn from player %d\n", turnFromPlayer);
 		
 		resetAttacksThisTurn();
 	}
@@ -53,9 +53,9 @@ public class Board {
 	 * Pick randomly each client and fixing with you 'Player'.
 	 * @param clients	ArrayList with all clients that the game will talk
 	 */
-	public void decideShiftOrder(ArrayList<Connection> clients) {
+	public void decideShiftOrder(ArrayList<ConnectionToClient> clients) {
 		Random r = new Random();
-		Connection connection;
+		ConnectionToClient connection;
 		Player new_player;
 
 		for(int playersPicked = 0; numberOfPlayers - playersPicked > 1; ++playersPicked) {
@@ -102,7 +102,7 @@ public class Board {
 			}
 		}
 
-		System.out.println(quantity + " were picked from deck");
+		System.out.format("%d were picked from deck", quantity);
 		
 		return card;
 	}
@@ -134,7 +134,7 @@ public class Board {
 			card[i] = (discard.size() > 0) ? discard.remove(discard.size() - 1) : pickFromDeck(1)[0];
 		}
 		
-		System.out.println(quantity + " were picked from discard");
+		System.out.format(" were picked from discard", quantity);
 		
 		return card;
 	}

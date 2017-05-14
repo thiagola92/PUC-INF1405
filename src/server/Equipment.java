@@ -1,3 +1,8 @@
+/**
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
+
 package server;
 
 public class Equipment implements Card {
@@ -48,8 +53,8 @@ public class Equipment implements Card {
 	}
 
 	@Override
-	public void useCard(Player player) {
-		function.useCard(player);
+	public boolean useCard(Player player) {
+		return function.useCard(player);
 	}
 
 }

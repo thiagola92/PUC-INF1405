@@ -8,16 +8,14 @@ package other;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import client.Connection;
+import client.ConnectionToServer;
 import server.ConnectionReceiver;
-import server.Equipment;
-import server.Function;
-import server.Player;
 
 @SuppressWarnings("serial")
 public class ServerOrClientFrame extends JFrame {
@@ -46,7 +44,16 @@ public class ServerOrClientFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			new Connection(4, "127.0.0.1");
+			ConnectionToServer c = new ConnectionToServer(4, "127.0.0.1");
+			c.start();
+
+			// Temporary
+			while(true) {
+				@SuppressWarnings("resource")
+				Scanner scan = new Scanner(System.in);
+				String message = scan.nextLine();
+				c.sendMessage(message);
+			}
 			
 		}
 		

@@ -17,16 +17,38 @@ public class Player {
 	private Color team;
 	private State state = State.WAITING_TURN;
 	
-	private Connection connection;
+	private ConnectionToClient connection;
 	
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private ArrayList<Card> equipment = new ArrayList<Card>();
 	
-	public Player(Board board, Connection connection) {
+	public Player(Board board, ConnectionToClient connection) {
 		this.board = board;
 		this.connection = connection;
+		connection.setPlayer(this);
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public int getResets() {
+		return resets;
+	}
+
+
+	public int getLifes() {
+		return lifes;
+	}
+
+	public Color getTeam() {
+		return team;
+	}
+
+	public State getState() {
+		return state;
+	}
+
 	/**
 	 * Pick cards from deck and put in the player hand.
 	 * @param quantity	How many cards pick.
@@ -35,7 +57,7 @@ public class Player {
 		Card[] cards = board.pickFromDeck(quantity);
 		
 		for(; quantity >= 0; --quantity) {
-			System.out.println("Card " + cards[quantity-1] + " picked from the deck");
+			System.out.format("Card %s picked from the deck", cards[quantity-1].getName());
 			hand.add(cards[quantity-1]);
 		}
 	}
@@ -47,18 +69,22 @@ public class Player {
 	 * <br>
 	 * Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
 	 * @param name		Name of the card to search.
+	 * @return 
 	 */
-	public void useCard(String name) {
+	public boolean useCard(String name) {
 		Card card;
+		boolean wasCardUsed = false;
 		
 		for(int i=0; i < hand.size(); ++i) {
 			if(hand.get(i).getName() == name) {
 				card = hand.get(i);
-				System.out.println("Player " + this.name + " tried to use card " + card.getName());
-				card.useCard(this);
+				System.out.format("Player tried to use card ", this.name, card.getName());
+				wasCardUsed = card.useCard(this);
 				break;
 			}
 		}
+		
+		return wasCardUsed;
 	}
 
 	/**

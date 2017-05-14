@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ConnectionReceiver {
 	
-	private ArrayList<Connection> clients = new ArrayList<Connection>();
+	private ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
 	
 	/**
 	 * @param port			Port that will be receving players.
@@ -24,15 +24,15 @@ public class ConnectionReceiver {
 			ServerSocket serversocket = new ServerSocket(port);
 
 			for(; howManyWait > 0; --howManyWait) {
-				System.out.println(">>Waiting " + howManyWait + " players");
+				System.out.format(">>Waiting %s players\n", howManyWait);
 				
-				Connection connection = new Connection(serversocket.accept());
+				ConnectionToClient connection = new ConnectionToClient(serversocket.accept());
 				connection.start();
 				clients.add(connection);
 			}
 			
 			System.out.println(">>Connected to everyone, creating game");
-			
+			serversocket.close();
 			
 		} catch(SocketTimeoutException e) {
 			System.out.println("SocketTimeoutException - if a timeout was previously set with setSoTimeout and the timeout has been reached.");
