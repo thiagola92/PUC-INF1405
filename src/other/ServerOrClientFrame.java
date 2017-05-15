@@ -1,4 +1,7 @@
 /**
+ * Create a window that give you two options run as server or run as player.
+ * <br>If you want to run as player, it will try to make a connection to the server.
+ * <br>Else if you want to run as server, it will create ConnectionReceiver that will wait for N connections to the server.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  * @since		1.8
@@ -39,6 +42,7 @@ public class ServerOrClientFrame extends JFrame {
 		this.pack();	// this function organize the size from objects, let it be the last function called to be precise.
 	}
 
+	// Client
 	private class clientActionListener implements ActionListener {
 
 		@Override
@@ -59,6 +63,7 @@ public class ServerOrClientFrame extends JFrame {
 		
 	}
 
+	// Server
 	private class serverActionListener implements ActionListener {
 
 		@Override
@@ -89,7 +94,7 @@ public class ServerOrClientFrame extends JFrame {
 			w.useCard(null);
 			*/
 			
-			new ConnectionReceiver(4, 1);
+			new ConnectionReceiver(4, 2);
 			
 		}
 		

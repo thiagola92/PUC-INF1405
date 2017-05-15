@@ -1,9 +1,13 @@
 /**
+ * Equipments have the ability to stay in game after use
+ * <br>It will attach to one player and have some effect.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
 
-package server;
+package server.card;
+
+import server.player.Player;
 
 public class Equipment implements Card {
 
@@ -13,11 +17,11 @@ public class Equipment implements Card {
 	private int attacks;
 	private int distance;
 	private int range;
-	private Function function;
+	private FunctionEquipment function;
 
 	public Equipment(String name, String description,
 			int damage, int attacks, int distance, int range,
-			Function function) {
+			FunctionEquipment function) {
 		
 		this.name = name;
 		this.description = description;
@@ -54,7 +58,7 @@ public class Equipment implements Card {
 
 	@Override
 	public void useCard(Player player) {
-		function.useCard(player);
+		function.useCard(this, player);
 	}
 
 }

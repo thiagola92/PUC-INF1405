@@ -1,4 +1,7 @@
 /**
+ * The Board have direct or indirect information about everything in the game.
+ * <br>Hold the deck and discard, controlling what you can do with it.
+ * <br>Hold the players, but what can do with it is limited.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
@@ -7,6 +10,11 @@ package server;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import server.card.AllCards;
+import server.card.Card;
+import server.player.ConnectionToClient;
+import server.player.Player;
 
 public class Board {
 	
@@ -27,10 +35,12 @@ public class Board {
 		numberOfPlayers = clients.size();
 		
 		decideShiftOrder(clients);
+		new AllCards(deck);
 	}
 	
 	/**
-	 * The game will start and this action will repeat yourself until the game end.
+	 * Start the game.
+	 * <br>In others words, stay on the loop until the game end.
 	 */
 	public void startGame() {
 		while(true) {
@@ -41,8 +51,7 @@ public class Board {
 	
 	/**
 	 * Shift the turn to the next player.
-	 * <br>
-	 * This includes reset the counter of attacks.
+	 * <br>This includes reset the counter of attacks.
 	 */
 	public void nextTurn() {
 		
@@ -65,8 +74,8 @@ public class Board {
 	}
 	
 	/**
-	 * Pick randomly each client and fixing with you 'Player'.
-	 * @param clients	ArrayList with all clients that the game will talk
+	 * Pick randomly each client and fixing with your 'Player'.
+	 * @param clients	ArrayList of ConnectionToClient
 	 */
 	public void decideShiftOrder(ArrayList<ConnectionToClient> clients) {
 		Random r = new Random();
@@ -89,20 +98,12 @@ public class Board {
 	
 	/**
 	 * Pick cards from the top of deck.
-	 * <br>
-	 * If there is not enough cards, pick the discard and shuffle and now this is the new deck.
-	 * <br>
-	 * Just to be clear, the deck is an ArrayList and let's say that you have this Array as your deck:
-	 * <br>
-	 * <br>
-	 * [Thiago][Leo][Matheus][Senpai][GR]
-	 * <br>
-	 * <br>
-	 * And you are going to pick 1 card from the deck, this card will be [Gr].
-	 * <br>
-	 * The first card that you add to the deck is the last to be removed.
-	 * <br>
-	 * Try to think like a discard pile, the first card played, will be the last to be seeing.
+	 * <br>If there is not enough cards, pick the discard and shuffle and now this is the new deck.
+	 * <br>Just to be clear, the deck is an ArrayList and let's say that you have this Array as your deck:
+	 * <p>[Thiago][Leo][Matheus][Senpai][GR]
+	 * <p>And you are going to pick 1 card from the deck, this card will be [Gr].
+	 * <br>The first card that you add to the deck is the last to be removed.
+	 * <br>Try to think like a discard pile, the first card played, will be the last to be seeing.
 	 * @param quantity	How many cards the player will pick from the deck
 	 * @return			Array of Card
 	 */
@@ -125,22 +126,14 @@ public class Board {
 	/**
 	 * BETA
 	 * Pick cards from the top of discard.
-	 * <br>
-	 * If there is not enough cards, pick from the top of deck.
-	 * <br>
-	 * Just to be clear, the discard is an ArrayList and let's say that you have this Array as your discard:
-	 * <br>
-	 * <br>
-	 * [Thiago][Leo][Matheus][Senpai][GR]
-	 * <br>
-	 * <br>
-	 * And you are going to pick 1 card from the discard, this card will be [Gr].
-	 * <br>
-	 * The first card that you add to the discard is the last to be removed.
-	 * <br>
-	 * Try to think like a discard pile, the first card played, will be the last to be seeing.
+	 * <br>If there is not enough cards, pick from the top of deck.
+	 * <br>Just to be clear, the discard is an ArrayList and let's say that you have this Array as your discard:
+	 * <p>[Thiago][Leo][Matheus][Senpai][GR]
+	 * <p>And you are going to pick 1 card from the discard, this card will be [Gr].
+	 * <br>The first card that you add to the discard is the last to be removed.
+	 * <br>Try to think like a discard pile, the first card played, will be the last to be seeing.
 	 * @param quantity	How many cards the player will pick from discard
-	 * @return			Array of card
+	 * @return			Array of Card
 	 */
 	public Card[] pickFromDiscard(int quantity) {
 		Card card[] = new Card[quantity];
@@ -155,6 +148,8 @@ public class Board {
 	}
 	
 	/**
+	 * Discard one Card to the discard pile.
+	 * <br>This method exist because players shouldn't be able to access the discard or deck as they like.
 	 * @param card		Card that will be discarded
 	 */
 	public void discardCard(Card card) {

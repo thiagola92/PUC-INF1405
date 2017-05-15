@@ -1,11 +1,18 @@
 /**
+ * The Player hold all information about the player.
+ * <br>It is the only class that can make contact with the connection of the player (send message or receive message).
+ * <br>Also can control the cards on hand and the equipments equipped.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
 
-package server;
+package server.player;
 
 import java.util.ArrayList;
+
+import server.Board;
+import server.card.Card;
+import server.card.Equipment;
 
 public class Player {
 	
@@ -22,6 +29,11 @@ public class Player {
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private ArrayList<Card> equipment = new ArrayList<Card>();
 	
+	/**
+	 * Create a class Player.
+	 * @param board			Class Board that will run the game.
+	 * @param connection	Class ConnectionToClient that will let send/receive message to/from the player.
+	 */
 	public Player(Board board, ConnectionToClient connection) {
 		this.board = board;
 		this.connection = connection;
@@ -50,7 +62,7 @@ public class Player {
 
 	/**
 	 * Pick cards from deck and put in the player hand.
-	 * @param quantity	How many cards pick.
+	 * @param quantity	How many cards will pick.
 	 */
 	public void pickFromDeck(int quantity) {
 		Card[] cards = board.pickFromDeck(quantity);
@@ -68,10 +80,8 @@ public class Player {
 	
 	/**
 	 * The player use one card, search his hand for the card, if exist then use.
-	 * <br>
-	 * Notice that the card will not be removed from the hand, this will be the cards job's.
-	 * <br>
-	 * Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
+	 * <br>Notice that the card will not be removed from the hand, this will be the cards job's.
+	 * <br>Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
 	 * @param name		Name of the card to search.
 	 */
 	public void useCard(String name) {
@@ -80,15 +90,16 @@ public class Player {
 		for(int i=0; i < hand.size(); ++i) {
 			if(hand.get(i).getName() == name) {
 				card = hand.get(i);
-				System.out.format("Player tried to use card ", this.name, card.getName());
+				System.out.format(">>Player tried to use card ", this.name, card.getName());
+				card.useCard(this);
 				break;
 			}
 		}
 	}
 
 	/**
-	 * MAY BE USELESS
 	 * Add one card to your hand.
+	 * <br>Cards don't have access to the hand, they will only be able to change using methods.
 	 * @param card		Card that is going to your hand
 	 */
 	public void receiveCard(Card card) {
@@ -97,9 +108,8 @@ public class Player {
 	
 	/**
 	 * Search on hand and equipments the card that will be discard.
-	 * <br>
-	 * Good side is that work as an unequipCard one time that you have know exactly the card to be removed.
-	 * @param card		The location of the card
+	 * <br>Good side is that work as an unequipCard one time that you have know exactly the card to be removed.
+	 * @param card		Card to discard
 	 */
 	public void discardCard(Card card) {
 		
@@ -121,10 +131,9 @@ public class Player {
 	}
 	
 	/**
-	 * MAY BE USELESS
 	 * Add one card to equipments.
-	 * <br>
-	 * This card must be an equipment.
+	 * <br>This card must be an equipment.
+	 * <br>Cards don't have access to the equipments, they will only be able to change using methods.
 	 * @param card		Card to be equipped
 	 */
 	public void equipCard(Equipment card) {
@@ -140,6 +149,12 @@ public class Player {
 		for(int i=0; i < arguments.length; ++i) {
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		}
+		
+		System.out.println(arguments[0].compareTo("NEXTTURN"));
+		if(arguments[0].compareTo("NEXTTURN") == 0)
+			board.nextTurn();
+		else if(arguments[0].compareTo("USECARD") == 0)
+			this.useCard(arguments[1]);
 	}
 	
 }

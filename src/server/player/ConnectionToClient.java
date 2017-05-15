@@ -3,7 +3,7 @@
  * @version		%I%, %G%
  */
 
-package server;
+package server.player;
 
 import java.io.IOException;
 import java.io.PrintStream;

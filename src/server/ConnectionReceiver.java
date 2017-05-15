@@ -1,4 +1,6 @@
 /**
+ * Create a ServerSocket that will wait N connections, making an ArrayList with them.
+ * <br>After it will create a Board and start the game.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
@@ -9,6 +11,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+
+import server.player.ConnectionToClient;
 
 public class ConnectionReceiver {
 	
