@@ -7,12 +7,23 @@ import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * This class take care of sending and receiving messages from the server.
+ * <br>Extends from Thread so can always be waiting from the server update.
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 public class ConnectionToServer extends Thread {
 	
 	private Socket server;
 	private Scanner entrada;
 	private PrintStream saida;
 	
+	/**
+	 * Create the socket that will communicate with the server.
+	 * @param port		Port to connect
+	 * @param ip		IP to connect
+	 */
 	public ConnectionToServer(int port, String ip) {
 		
 		try {
@@ -39,7 +50,7 @@ public class ConnectionToServer extends Thread {
 
 	/**
 	 * Pass a String and will write to the server.
-	 * @param message		String to be writed
+	 * @param message		String to be write to server
 	 */
 	public void sendMessage(String message) {
 		saida.println(message);
@@ -47,8 +58,7 @@ public class ConnectionToServer extends Thread {
 
 	/**
 	 * Receive a string from server.
-	 * <br>
-	 * Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
+	 * <br>Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
 	 * @return
 	 */
 	public String receiveMessage() {

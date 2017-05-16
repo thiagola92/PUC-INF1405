@@ -1,11 +1,3 @@
-/**
- * The Board have direct or indirect information about everything in the game.
- * <br>Hold the deck and discard, controlling what you can do with it.
- * <br>Hold the players, but what can do with it is limited.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
-
 package server;
 
 import java.util.ArrayList;
@@ -16,6 +8,16 @@ import server.card.Card;
 import server.player.ConnectionToClient;
 import server.player.Player;
 
+/**
+ * Here is where the game start.
+ * <br>Board will communicate with:
+ * <li>Players</li>
+ * <li>Deck</li>
+ * <li>Discard</li>
+ * <br>And this 3 shouldn't communicate between them without Board knowing.
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 public class Board {
 	
 	private int turnFromPlayer = 0;			// Number going from 0 to numberOfPlayers - 1
@@ -28,14 +30,19 @@ public class Board {
 	private ArrayList<Player> player = new ArrayList<Player>();
 	
 	/**
-	 * @param numberOfPlayers	How many players are playing the game,
-	 * 							this will be constant during the game
+	 * Receive all clients made during ConnectionReceiver.
+	 * <br>This also give you the number of players because you know the size.
+	 * @param clients		ArrayList of clients
 	 */
 	public Board(ArrayList<ConnectionToClient> clients) {
 		numberOfPlayers = clients.size();
 		
 		decideShiftOrder(clients);
 		new AllCards(deck);
+	}
+	
+	public int getAttacksThisTurn() {
+		return attacksThisTurn;
 	}
 	
 	/**
@@ -51,7 +58,7 @@ public class Board {
 	
 	/**
 	 * Shift the turn to the next player.
-	 * <br>This includes reset the counter of attacks.
+	 * <br>This includes reseting the counter of attacks.
 	 */
 	public void nextTurn() {
 		
@@ -60,9 +67,9 @@ public class Board {
 		else
 			turnFromPlayer += 1;
 
-		System.out.format(">>Turn from player %d\n", turnFromPlayer);
-		
 		resetAttacksThisTurn();
+		
+		System.out.format(">>Turn from player %d\n", turnFromPlayer);
 	}
 	
 	public void resetAttacksThisTurn() {
@@ -75,7 +82,7 @@ public class Board {
 	
 	/**
 	 * Pick randomly each client and fixing with your 'Player'.
-	 * @param clients	ArrayList of ConnectionToClient
+	 * @param clients	ArrayList of clients/players
 	 */
 	public void decideShiftOrder(ArrayList<ConnectionToClient> clients) {
 		Random r = new Random();
@@ -118,7 +125,7 @@ public class Board {
 			}
 		}
 
-		System.out.format("%d were picked from deck", quantity);
+		System.out.format(">>%d cards were picked from deck\n", quantity);
 		
 		return card;
 	}
@@ -142,7 +149,7 @@ public class Board {
 			card[i] = (discard.size() > 0) ? discard.remove(discard.size() - 1) : pickFromDeck(1)[0];
 		}
 		
-		System.out.format(" were picked from discard", quantity);
+		System.out.format(">>%d cards were picked from discard\n", quantity);
 		
 		return card;
 	}
@@ -154,5 +161,7 @@ public class Board {
 	 */
 	public void discardCard(Card card) {
 		discard.add(card);
+		
+		System.out.format(">>Card %s discarded\n", card.getName());
 	}
 }

@@ -1,12 +1,3 @@
-/**
- * Create a window that give you two options run as server or run as player.
- * <br>If you want to run as player, it will try to make a connection to the server.
- * <br>Else if you want to run as server, it will create ConnectionReceiver that will wait for N connections to the server.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- * @since		1.8
- */
-
 package other;
 
 import java.awt.event.ActionEvent;
@@ -20,6 +11,13 @@ import javax.swing.JPanel;
 import client.ConnectionToServer;
 import server.ConnectionReceiver;
 
+/**
+ * Create a window that give you two options run as server or run as player.
+ * <br>If you want to run as player, it will try to make a connection to the server using ConnectionToServer.
+ * <br>Else if you want to run as server, it will create ConnectionReceiver.
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 @SuppressWarnings("serial")
 public class ServerOrClientFrame extends JFrame {
 	
@@ -94,7 +92,7 @@ public class ServerOrClientFrame extends JFrame {
 			w.useCard(null);
 			*/
 			
-			new ConnectionReceiver(4, 2);
+			new ConnectionReceiver(4, 1);
 			
 		}
 		

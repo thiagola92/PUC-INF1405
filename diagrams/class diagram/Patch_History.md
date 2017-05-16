@@ -7,6 +7,7 @@
 * [Version 007](#version-007)
 * [Version 008](#version-008)
 * [Version 009](#version-009)
+* [Version 010](#version-010)
 
 # Version 002 #
 
@@ -211,3 +212,45 @@ Received name, description from old Card.
 Received Function that will the card action when called.  
 
 ## Function ##
+An interface so you could pass anonymous methods, still testing.
+
+# Version 010 #
+
+This may be big...  
+PS: I am commenting everything that i can in the code, may be a bad idea...
+
+## Package Server ##
+Before was
+
+* client
+* other
+* server
+
+Now is
+
+* client
+* other
+* server
+* server.card
+* server.player
+
+I think you are smart enough to know that i did this to be more organized.
+
+## Connection/ConnectionToClient ##
+* Changed the name so you don't confuse with the connection created on player.
+* It will receive a mensagem and split into arguments.
+
+## Connection/ConnectionToServer ##
+* Changed the name so you don't confuse with the connection created on server.
+* Extends thread so can always be listen to changes on server.
+
+## Board ##
+* Changed some System.out.println to System.out.format (concatenation takes too much work/time)
+* turnFromPlayer will count player 0 as a player. For programmers it easy to understand this way.
+* startGame() start the game, one time that this function is called you will be listen one player until he pass the turn.
+
+## FunctionEquipment ##
+As soon you use a card equipment, it will call this interface that knows that you card is an equipment so it will be able to call functions from equipment.
+
+## AllCards ##
+One object to rule them all... One object to create all cards.

@@ -1,10 +1,3 @@
-/**
- * Create a ServerSocket that will wait N connections, making an ArrayList with them.
- * <br>After it will create a Board and start the game.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
-
 package server;
 
 import java.io.IOException;
@@ -14,11 +7,19 @@ import java.util.ArrayList;
 
 import server.player.ConnectionToClient;
 
+/**
+ * This class will receive every connection/player that is trying to play.
+ * <br>After this it will create Board and start the game.
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 public class ConnectionReceiver {
 	
 	private ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
 	
 	/**
+	 * Create a ServerSocket that will wait N connections, making an ArrayList with them.
+	 * <br>After this, it will create a Board and start the game.
 	 * @param port			Port that will be receving players.
 	 * @param howManyWait	How many players it will wait until start the game.
 	 */

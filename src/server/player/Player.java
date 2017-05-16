@@ -1,11 +1,3 @@
-/**
- * The Player hold all information about the player.
- * <br>It is the only class that can make contact with the connection of the player (send message or receive message).
- * <br>Also can control the cards on hand and the equipments equipped.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
-
 package server.player;
 
 import java.util.ArrayList;
@@ -14,6 +6,17 @@ import server.Board;
 import server.card.Card;
 import server.card.Equipment;
 
+/**
+ * You probably came here from Board, this class represent the Player.
+ * <br>Player will communicate with:
+ * <li>Board</li>
+ * <li>Player hand</li>
+ * <li>Player equipments</li>
+ * <li>Player connection</li>
+ * <br>Every player can communicate with board, but it can communicate with others player.
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 public class Player {
 	
 	private Board board;
@@ -27,7 +30,7 @@ public class Player {
 	private ConnectionToClient connection;
 	
 	private ArrayList<Card> hand = new ArrayList<Card>();
-	private ArrayList<Card> equipment = new ArrayList<Card>();
+	private ArrayList<Equipment> equipment = new ArrayList<Equipment>();
 	
 	/**
 	 * Create a class Player.
@@ -73,7 +76,7 @@ public class Player {
 		}
 		
 		for(; quantity >= 0; --quantity) {
-			System.out.format(">>Card %s picked from the deck", cards[quantity-1].getName());
+			System.out.format(">>Card %s picked from the deck\n", cards[quantity-1].getName());
 			hand.add(cards[quantity-1]);
 		}
 	}
@@ -90,7 +93,7 @@ public class Player {
 		for(int i=0; i < hand.size(); ++i) {
 			if(hand.get(i).getName() == name) {
 				card = hand.get(i);
-				System.out.format(">>Player tried to use card ", this.name, card.getName());
+				System.out.format(">>Player %s tried to use card %s\n", this.name, card.getName());
 				card.useCard(this);
 				break;
 			}

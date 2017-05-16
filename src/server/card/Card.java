@@ -1,15 +1,17 @@
-/**
- * Interface for all cards in the game.
- * <br>Every card needs name, description and a function(Player player).
- * <br>Notice that cards receive the player so their action become limited and can't change the game.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
-
 package server.card;
 
 import server.player.Player;
 
+/**
+ * You came here from Board or Player.
+ * <br>This interface was created so you could hold equipments/weapons/events cards in one ArrayList.
+ * <br>All you have to do for a type of card be hold by deck/hand is to implement Card.
+ * <br>You could even create a new type and put on the game (not that easy).
+ * <p>Nottice that when you doesn't know what is (equipment/weapon/event) you can only call this methods.
+ * <p>Notice that useCard is the method default called when the card is used.
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 public interface Card {
 	
 	public String getName();
