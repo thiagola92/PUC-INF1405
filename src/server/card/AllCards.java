@@ -18,11 +18,19 @@ public class AllCards {
 	
 	public AllCards(ArrayList<Card> deck) {
 		
-		equipment(5, "20 push ups every day", "NULL", 1, 0, 0, 0, (card, player) -> {
+		equipment(4, "+DAMAGE", "NULL", 1, 0, 0, 0, (card, player) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(3, "15 pull ups every day", "NULL", 2, 0, 0, 0, (card, player) -> {
+		equipment(4, "+ATTACKS", "NULL", 0, 1, 0, 0, (card, player) -> {
+			player.equipCard(card);
+		});
+		
+		equipment(4, "+DISTANCE", "NULL", 0, 0, 1, 0, (card, player) -> {
+			player.equipCard(card);
+		});
+		
+		equipment(4, "+RANGE", "NULL", 0, 0, 0, 1, (card, player) -> {
 			player.equipCard(card);
 		});
 		
