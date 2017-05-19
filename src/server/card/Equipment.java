@@ -4,7 +4,8 @@ import server.player.Player;
 
 /**
  * You came here from Player.
- * This a unique type of card called equipment.
+ * <br>This a unique type of card called equipment.
+ * <br>They are known for buffing player status.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
@@ -65,7 +66,6 @@ public class Equipment implements Card {
 		return range;
 	}
 
-	@Override
 	public void useCard(Player player) {
 		function.useCard(this, player);
 	}

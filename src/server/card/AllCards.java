@@ -18,20 +18,52 @@ public class AllCards {
 	
 	public AllCards(ArrayList<Card> deck) {
 		
-		equipment(4, "+DAMAGE", "NULL", 1, 0, 0, 0, (card, player) -> {
+		// Equipments
+		
+		equipment(4, "equip1", "NULL", 1, 0, 0, 0, (card, player) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(4, "+ATTACKS", "NULL", 0, 1, 0, 0, (card, player) -> {
+		equipment(4, "equip2", "NULL", 0, 1, 0, 0, (card, player) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(4, "+DISTANCE", "NULL", 0, 0, 1, 0, (card, player) -> {
+		equipment(4, "equip3", "NULL", 0, 0, 1, 0, (card, player) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(4, "+RANGE", "NULL", 0, 0, 0, 1, (card, player) -> {
+		equipment(4, "equip4", "NULL", 0, 0, 0, 1, (card, player) -> {
 			player.equipCard(card);
+		});
+		
+		// Weapons
+		
+		weapon(6, "weapon1", "NULL", 4, 1, 1, (card, player) -> {
+			player.attackPlayer();
+		});
+		
+		weapon(5, "weapon2", "NULL", 3, 1, 2, (card, player) -> {
+			player.attackPlayer();
+		});
+		
+		weapon(4, "weapon3", "NULL", 2, 1, 3, (card, player) -> {
+			player.attackPlayer();
+		});
+		
+		weapon(3, "weapon4", "NULL", 1, 1, 4, (card, player) -> {
+			player.attackPlayer();
+		});
+		
+		weapon(2, "weapon5", "NULL", 1, 2, 3, (card, player) -> {
+			player.attackPlayer();
+		});
+		
+		weapon(2, "weapon6", "NULL", 1, 3, 2, (card, player) -> {
+			player.attackPlayer();
+		});
+		
+		weapon(2, "weapon7", "NULL", 1, 4, 1, (card, player) -> {
+			player.attackPlayer();
 		});
 		
 		System.out.println(">>Created all cards in the game");
@@ -51,6 +83,13 @@ public class AllCards {
 	public void equipment(int quantity, String name, String description, int damage, int attacks, int distance, int range, FunctionEquipment function) {
 		for(int i=0; i < quantity; ++i)
 			allCards.add(new Equipment(name, description, damage, attacks, distance, range, function));
+		
+		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
+	}
+	
+	public void weapon(int quantity, String name, String description, int damage, int attacks, int range, FunctionWeapon function) {
+		for(int i=0; i < quantity; ++i)
+			allCards.add(new Weapon(name, description, damage, attacks, range, function));
 		
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
