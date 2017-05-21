@@ -8,6 +8,7 @@
 * [Version 008](#version-008)
 * [Version 009](#version-009)
 * [Version 010](#version-010)
+* [Version 011](#version-011)
 
 # Version 002 #
 
@@ -254,3 +255,17 @@ As soon you use a card equipment, it will call this interface that knows that yo
 
 ## AllCards ##
 One object to rule them all... One object to create all cards.
+
+# Version 011 #
+
+## FunctionEvent ##
+Created, same reason from FunctionEquipment.
+
+## FunctionWeapon ##
+Created, same reason from FunctionEquipment.
+
+## Weapon ##
+* Removed attacks attribute. Maybe in the future.
+
+## AllCards ##
+* equipment(), weapon() and event() are functions that will create X equals cards.

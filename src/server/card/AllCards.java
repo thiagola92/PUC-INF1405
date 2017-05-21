@@ -38,31 +38,19 @@ public class AllCards {
 		
 		// Weapons
 		
-		weapon(6, "weapon1", "NULL", 4, 1, 1, (card, player) -> {
+		weapon(6, "weapon1", "NULL", 4, 1, (card, player) -> {
 			player.attackPlayer();
 		});
 		
-		weapon(5, "weapon2", "NULL", 3, 1, 2, (card, player) -> {
+		weapon(5, "weapon2", "NULL", 3, 2, (card, player) -> {
 			player.attackPlayer();
 		});
 		
-		weapon(4, "weapon3", "NULL", 2, 1, 3, (card, player) -> {
+		weapon(4, "weapon3", "NULL", 2, 3, (card, player) -> {
 			player.attackPlayer();
 		});
 		
-		weapon(3, "weapon4", "NULL", 1, 1, 4, (card, player) -> {
-			player.attackPlayer();
-		});
-		
-		weapon(2, "weapon5", "NULL", 1, 2, 3, (card, player) -> {
-			player.attackPlayer();
-		});
-		
-		weapon(2, "weapon6", "NULL", 1, 3, 2, (card, player) -> {
-			player.attackPlayer();
-		});
-		
-		weapon(2, "weapon7", "NULL", 1, 4, 1, (card, player) -> {
+		weapon(3, "weapon4", "NULL", 1, 4, (card, player) -> {
 			player.attackPlayer();
 		});
 		
@@ -87,10 +75,16 @@ public class AllCards {
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
 	
-	public void weapon(int quantity, String name, String description, int damage, int attacks, int range, FunctionWeapon function) {
+	public void weapon(int quantity, String name, String description, int damage, int range, FunctionWeapon function) {
 		for(int i=0; i < quantity; ++i)
-			allCards.add(new Weapon(name, description, damage, attacks, range, function));
+			allCards.add(new Weapon(name, description, damage, range, function));
 		
+		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
+	}
+	
+	public void event(int quantity, String name, String description, FunctionEvent function) {
+		for(int i=0; i < quantity; ++i)
+			allCards.add(new Event(name, description, function));
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
 
