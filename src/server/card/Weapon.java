@@ -1,5 +1,6 @@
 package server.card;
 
+import server.Board;
 import server.player.Player;
 
 /**
@@ -44,8 +45,8 @@ public class Weapon implements Card {
 		return range;
 	}
 
-	public void useCard(Player player) {
-		function.useCard(this, player);
+	public void useCard(Player player, Board board) {
+		function.useCard(this, player, board);
 	}
 
 }

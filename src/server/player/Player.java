@@ -13,7 +13,7 @@ import server.card.Equipment;
  * <li>Player hand</li>
  * <li>Player equipments</li>
  * <li>Player connection</li>
- * <br>Every player can communicate with board, but it can communicate with others player.
+ * <br>Every player can communicate with Board and using it can communicate with others player.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
@@ -21,7 +21,7 @@ public class Player {
 	
 	private Board board;
 	
-	private String name = "NULL";
+	private String name;
 	private int resets = 4;
 	private int lifes = 5;
 	private Color team;
@@ -63,50 +63,38 @@ public class Player {
 		return state;
 	}
 
-	/**
-	 * Pick cards from deck and put in the player hand.
-	 * @param quantity	How many cards will pick.
-	 */
-	public void pickFromDeck(int quantity) {
-		Card[] cards = board.pickFromDeck(quantity);
-		
-		if(cards == null) {
-			System.out.println(">>Deck is empty");
-			return;
-		}
-		
-		for(; quantity >= 0; --quantity) {
-			System.out.format(">>Card %s picked from the deck\n", cards[quantity-1].getName());
-			hand.add(cards[quantity-1]);
-		}
-	}
-	
-	/**
-	 * The player use one card, search his hand for the card, if exist then use.
-	 * <br>Notice that the card will not be removed from the hand, this will be the cards job's.
-	 * <br>Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
-	 * @param name		Name of the card to search.
-	 */
-	public void useCard(String name) {
-		Card card;
-		
-		for(int i=0; i < hand.size(); ++i) {
-			if(hand.get(i).getName() == name) {
-				card = hand.get(i);
-				System.out.format(">>Player %s tried to use card %s\n", this.name, card.getName());
-				card.useCard(this);
-				break;
-			}
-		}
+	public void setTeam(Color team) {
+		this.team = team;
+		System.out.format(">>Player %s team is %s\n", name, team);
 	}
 
 	/**
-	 * Add one card to your hand.
-	 * <br>Cards don't have access to the hand, they will only be able to change using methods.
-	 * @param card		Card that is going to your hand
+	 * Add ONE cards to equipments.
+	 * <br>This cards must be an equipment.
+	 * <br>Cards don't have access to the equipments, they will only be able to change using methods.
+	 * @param card		Card to be equipped
 	 */
-	public void receiveCard(Card card) {
-		hand.add(card);
+	public void equipCard(Equipment card) {
+		equipment.add(card);
+		System.out.format(">>Player %s received card %s\n", name, card.getName());
+	}
+	
+	/**
+	 * Add X cards to your hand.
+	 * <br>Cards don't have access to the hand, they will only be able to change using methods.
+	 * @param card		Cards that is going to your hand
+	 */
+	public void receiveCards(Card[] card) {
+		for(int i=0; i < card.length; ++i) {
+			hand.add(card[i]);
+			System.out.format(">>Player %s received card %s\n", name, card[i].getName());
+		}
+	}
+	
+	public void receiveCards(Card card) {
+		Card[] x = new Card[1];
+		x[0] = card;
+		receiveCards(x);
 	}
 	
 	/**
@@ -130,34 +118,50 @@ public class Player {
 			}
 		}
 		
+		System.out.format(">>Player %s discarded %s\n", name, card.getName());
 		board.discardCard(card);
 	}
 	
 	/**
-	 * Add one card to equipments.
-	 * <br>This card must be an equipment.
-	 * <br>Cards don't have access to the equipments, they will only be able to change using methods.
-	 * @param card		Card to be equipped
+	 * The player use one card, search his hand for the card, if exist then use.
+	 * <br>Notice that the card will not be removed from the hand, this will be the cards job's.
+	 * <br>Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
+	 * @param name		Name of the card to search.
 	 */
-	public void equipCard(Equipment card) {
-		equipment.add(card);
+	public void useCard(String name) {
+		Card card;
+
+		System.out.format(">>Player %s tried to use card %s\n", this.name, name);
+		
+		for(int i=0; i < hand.size(); ++i) {
+			if(hand.get(i).getName() == name) {
+				card = hand.get(i);
+				card.useCard(this, board);
+				break;
+			}
+		}
 	}
 	
 	public void attackPlayer() {
-		
 	}
 	
 	public void command() {
 		String[] arguments = connection.receiveMessage();
+		
+		if(arguments == null) {
+			System.out.format(">>#ERROR - null arguments\n");
+			return;
+		}
+		
 		for(int i=0; i < arguments.length; ++i) {
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		}
 		
-		System.out.println(arguments[0].compareTo("NEXTTURN"));
 		if(arguments[0].compareTo("NEXTTURN") == 0)
 			board.nextTurn();
-		else if(arguments[0].compareTo("USECARD") == 0)
+		else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
 			this.useCard(arguments[1]);
+		}
 	}
 	
 }

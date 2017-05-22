@@ -1,5 +1,6 @@
 package server.card;
 
+import server.Board;
 import server.player.Player;
 
 /**
@@ -8,5 +9,5 @@ import server.player.Player;
  * @version		%I%, %G%
  */
 public interface FunctionEquipment {
-	public void useCard(Equipment card, Player player);
+	public void useCard(Equipment card, Player player, Board board);
 }

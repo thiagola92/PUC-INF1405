@@ -1,10 +1,11 @@
 package server;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
 import server.card.AllCards;
 import server.card.Card;
+import server.player.Color;
 import server.player.ConnectionToClient;
 import server.player.Player;
 
@@ -32,6 +33,13 @@ public class Board {
 	/**
 	 * Receive all clients made during ConnectionReceiver.
 	 * <br>This also give you the number of players because you know the size.
+	 * <br>
+	 * <br>It will prepare the game, so this include:
+	 * <li>Decide the order of players
+	 * <li>Add all cards to the deck
+	 * <li>Shuffle them
+	 * <li>Give everyone cards
+	 * <li>Decide everyone teams
 	 * @param clients		ArrayList of clients
 	 */
 	public Board(ArrayList<ConnectionToClient> clients) {
@@ -39,6 +47,44 @@ public class Board {
 		
 		decideShiftOrder(clients);
 		new AllCards(deck);
+		Collections.shuffle(deck);
+		
+		// Distributing cards
+		int cardsStart = 4;
+		for(int i=0; i < player.size(); ++i) {
+			player.get(i).receiveCards(pickFromDeck(cardsStart));
+			if((i+1)%2 == 1)
+				++cardsStart;
+		}
+		
+		/* 
+		 * Deciding how many of each teams have.
+		 * After this shuffling so can distribute the teams randomly.
+		 * 
+		 * Notice that starts from 1, not 0.
+		 * The reason is, the players are already shuffle and the first to play HAVE TO BE yellow.
+		 * So there is no reason to shuffle with others and distributing.
+		 */
+		ArrayList<Color> teams = new ArrayList<Color>();
+		for(int i = 1; i < player.size(); ++i) {
+			if(i == 1)
+				teams.add(Color.BLUE);
+			if(i == 2)
+				teams.add(Color.BLUE);
+
+			if(i > 2 && i%3 == 0)
+				teams.add(Color.YELLOW);
+			if(i > 2 && i%3 == 1)
+				teams.add(Color.RED);
+			else if(i > 2 && i%3 == 2)
+				teams.add(Color.BLUE);
+		}
+		
+		Collections.shuffle(teams);
+		player.get(0).setTeam(Color.YELLOW);
+		for(int i=1; i < player.size(); ++i)
+			player.get(i).setTeam(teams.remove(0));
+		
 	}
 	
 	public int getAttacksThisTurn() {
@@ -54,6 +100,24 @@ public class Board {
 			System.out.format(">>Waiting command from player %d\n", turnFromPlayer);
 			player.get(turnFromPlayer).command();
 		}
+	}
+	
+	/**
+	 * Pick randomly each client and fixing with your 'Player'.
+	 * @param clients	ArrayList of clients/players
+	 */
+	public void decideShiftOrder(ArrayList<ConnectionToClient> clients) {
+		Collections.shuffle(clients);
+		ConnectionToClient connection;
+		Player new_player;
+		
+		for(int i=0; i < clients.size(); ++i) {
+			connection = clients.get(i);
+			new_player = new Player(this, connection);
+			player.add(new_player);
+		}
+		
+		System.out.println(">>Players shifted");
 	}
 	
 	/**
@@ -81,29 +145,6 @@ public class Board {
 	}
 	
 	/**
-	 * Pick randomly each client and fixing with your 'Player'.
-	 * @param clients	ArrayList of clients/players
-	 */
-	public void decideShiftOrder(ArrayList<ConnectionToClient> clients) {
-		Random r = new Random();
-		ConnectionToClient connection;
-		Player new_player;
-
-		for(int playersPicked = 0; numberOfPlayers - playersPicked > 1; ++playersPicked) {
-			connection = clients.remove(r.nextInt(numberOfPlayers - playersPicked));
-			new_player = new Player(this, connection);
-			player.add(new_player);
-		}
-		
-		// Picking the last player
-		connection = clients.remove(0);
-		new_player = new Player(this, connection);
-		player.add(new_player);
-		
-		System.out.println(">>Players shifted");
-	}
-	
-	/**
 	 * Pick cards from the top of deck.
 	 * <br>If there is not enough cards, pick the discard and shuffle and now this is the new deck.
 	 * <br>Just to be clear, the deck is an ArrayList and let's say that you have this Array as your deck:
@@ -118,10 +159,11 @@ public class Board {
 		Card card[] = new Card[quantity];
 		
 		if(deck.size() < quantity) {
-			//suffle discard
+			shuffleDiscardOnDeck();
 		} else {
 			for(int i=0; i < quantity; ++i) {
 				card[i] = deck.remove(deck.size() - 1);
+				System.out.format(">>Card %s picked from the deck\n", card[i].getName());
 			}
 		}
 
@@ -147,11 +189,22 @@ public class Board {
 
 		for(int i=0; i < quantity; ++i) {
 			card[i] = (discard.size() > 0) ? discard.remove(discard.size() - 1) : pickFromDeck(1)[0];
+			System.out.format(">>Card %s picked from the discard\n", card[i].getName());
 		}
 		
 		System.out.format(">>%d cards were picked from discard\n", quantity);
 		
 		return card;
+	}
+	
+	/**
+	 * Put every card from discard on deck and shuffle.
+	 * This will happen every time that the deck ends.
+	 */
+	public void shuffleDiscardOnDeck() {
+		deck.addAll(discard);
+		Collections.shuffle(deck);
+		System.out.println(">>Shuffling the discard on deck");
 	}
 	
 	/**

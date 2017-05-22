@@ -14,44 +14,63 @@ import java.util.ArrayList;
  */
 public class AllCards {
 	
-	private ArrayList<Card> allCards = new ArrayList<Card>();
+	private ArrayList<Card> deck;
 	
 	public AllCards(ArrayList<Card> deck) {
+		this.deck = deck;
 		
 		// Equipments
 		
-		equipment(4, "equip1", "NULL", 1, 0, 0, 0, (card, player) -> {
+		equipment(5, "equip1", "NULL", 1, 0, 0, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(4, "equip2", "NULL", 0, 1, 0, 0, (card, player) -> {
+		equipment(5, "equip2", "NULL", 0, 1, 0, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(4, "equip3", "NULL", 0, 0, 1, 0, (card, player) -> {
+		equipment(5, "equip3", "NULL", 0, 0, 1, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(4, "equip4", "NULL", 0, 0, 0, 1, (card, player) -> {
+		equipment(5, "equip4", "NULL", 0, 0, 0, 1, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
 		// Weapons
 		
-		weapon(6, "weapon1", "NULL", 4, 1, (card, player) -> {
+		weapon(5, "weapon1", "NULL", 4, 1, (card, player, board) -> {
 			player.attackPlayer();
 		});
 		
-		weapon(5, "weapon2", "NULL", 3, 2, (card, player) -> {
+		weapon(5, "weapon2", "NULL", 3, 2, (card, player, board) -> {
 			player.attackPlayer();
 		});
 		
-		weapon(4, "weapon3", "NULL", 2, 3, (card, player) -> {
+		weapon(5, "weapon3", "NULL", 2, 3, (card, player, board) -> {
 			player.attackPlayer();
 		});
 		
-		weapon(3, "weapon4", "NULL", 1, 4, (card, player) -> {
+		weapon(5, "weapon4", "NULL", 1, 4, (card, player, board) -> {
 			player.attackPlayer();
+		});
+		
+		// Events
+		
+		event(5, "event1", "NULL", (card, player, board) -> {
+			player.receiveCards(board.pickFromDeck(1));;
+		});
+		
+		event(5, "event2", "NULL", (card, player, board) -> {
+			player.receiveCards(board.pickFromDeck(2));;
+		});
+		
+		event(5, "event3", "NULL", (card, player, board) -> {
+			player.receiveCards(board.pickFromDeck(3));;
+		});
+		
+		event(5, "event4", "NULL", (card, player, board) -> {
+			player.receiveCards(board.pickFromDeck(4));;
 		});
 		
 		System.out.println(">>Created all cards in the game");
@@ -70,21 +89,37 @@ public class AllCards {
 	 */
 	public void equipment(int quantity, String name, String description, int damage, int attacks, int distance, int range, FunctionEquipment function) {
 		for(int i=0; i < quantity; ++i)
-			allCards.add(new Equipment(name, description, damage, attacks, distance, range, function));
+			deck.add(new Equipment(name, description, damage, attacks, distance, range, function));
 		
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
-	
+
+	/**
+	 * A function that helps to create X equals weapons and put on the array allCards.
+	 * @param quantity			How many of this card
+	 * @param name				Name of the card
+	 * @param description		Description of the card
+	 * @param damage			Damage this weapon causes if not blocked.
+	 * @param range				Enemy must be this close to you for you hit.
+	 * @param function			What the card is suppose to do when used
+	 */
 	public void weapon(int quantity, String name, String description, int damage, int range, FunctionWeapon function) {
 		for(int i=0; i < quantity; ++i)
-			allCards.add(new Weapon(name, description, damage, range, function));
+			deck.add(new Weapon(name, description, damage, range, function));
 		
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
-	
+
+	/**
+	 * A function that helps to create X equals events and put on the array allCards.
+	 * @param quantity			How many of this card
+	 * @param name				Name of the card
+	 * @param description		Description of the card
+	 * @param function			What the card is suppose to do when used
+	 */
 	public void event(int quantity, String name, String description, FunctionEvent function) {
 		for(int i=0; i < quantity; ++i)
-			allCards.add(new Event(name, description, function));
+			deck.add(new Event(name, description, function));
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
 

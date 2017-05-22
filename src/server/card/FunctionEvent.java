@@ -1,5 +1,6 @@
 package server.card;
 
+import server.Board;
 import server.player.Player;
 
 /**
@@ -8,5 +9,5 @@ import server.player.Player;
  * @version		%I%, %G%
  */
 public interface FunctionEvent {
-	public void useCard(Event card, Player player);
+	public void useCard(Event card, Player player, Board board);
 }

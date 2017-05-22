@@ -92,7 +92,7 @@ public class ServerOrClientFrame extends JFrame {
 			w.useCard(null);
 			*/
 			
-			new ConnectionReceiver(4, 1);
+			new ConnectionReceiver(4, 3);
 			
 		}
 		
