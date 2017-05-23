@@ -17,7 +17,7 @@ Game based on [Samurai Sword](https://boardgamegeek.com/boardgame/128667/samurai
 
 # Pre requirements #
 To play you will need:
-* [Java SE Runtime Environment 8 (JRE)](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html))
+* [Java SE Runtime Environment 8 (JRE)](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
 
 To develop you will need:
 * [Java SE Development Kit 8 (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
