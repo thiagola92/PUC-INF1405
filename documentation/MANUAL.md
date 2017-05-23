@@ -1,3 +1,5 @@
+![Image of a bot](../images/workingBot.png)
+
 ABOUT
 * Basic
 * Player
