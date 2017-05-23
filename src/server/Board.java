@@ -8,6 +8,7 @@ import server.card.Card;
 import server.player.Color;
 import server.player.ConnectionToClient;
 import server.player.Player;
+import server.player.State;
 
 /**
  * Here is where the game start.
@@ -22,28 +23,26 @@ import server.player.Player;
 public class Board {
 	
 	private int turnFromPlayer = 0;			// Number going from 0 to numberOfPlayers - 1
-	private int numberOfPlayers = 0;
 	private int attacksThisTurn = 0;
 	
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Card> discard = new ArrayList<Card>();
 	
-	private ArrayList<Player> player = new ArrayList<Player>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	
 	/**
 	 * Receive all clients made during ConnectionReceiver.
 	 * <br>This also give you the number of players because you know the size.
 	 * <br>
 	 * <br>It will prepare the game, so this include:
-	 * <li>Decide the order of players
-	 * <li>Add all cards to the deck
-	 * <li>Shuffle them
-	 * <li>Give everyone cards
-	 * <li>Decide everyone teams
+	 * <li>Decide the order of players</li>
+	 * <li>Add all cards to the deck</li>
+	 * <li>Shuffle them</li>
+	 * <li>Give everyone cards</li>
+	 * <li>Decide everyone teams</li>
 	 * @param clients		ArrayList of clients
 	 */
 	public Board(ArrayList<ConnectionToClient> clients) {
-		numberOfPlayers = clients.size();
 		
 		decideShiftOrder(clients);
 		new AllCards(deck);
@@ -51,8 +50,8 @@ public class Board {
 		
 		// Distributing cards
 		int cardsStart = 4;
-		for(int i=0; i < player.size(); ++i) {
-			player.get(i).receiveCards(pickFromDeck(cardsStart));
+		for(int i=0; i < players.size(); ++i) {
+			players.get(i).receiveCards(pickFromDeck(cardsStart));
 			if((i+1)%2 == 1)
 				++cardsStart;
 		}
@@ -66,7 +65,7 @@ public class Board {
 		 * So there is no reason to shuffle with others and distributing.
 		 */
 		ArrayList<Color> teams = new ArrayList<Color>();
-		for(int i = 1; i < player.size(); ++i) {
+		for(int i = 1; i < players.size(); ++i) {
 			if(i == 1)
 				teams.add(Color.BLUE);
 			if(i == 2)
@@ -81,24 +80,50 @@ public class Board {
 		}
 		
 		Collections.shuffle(teams);
-		player.get(0).setTeam(Color.YELLOW);
-		for(int i=1; i < player.size(); ++i)
-			player.get(i).setTeam(teams.remove(0));
+		players.get(0).setTeam(Color.YELLOW);
+		for(int i=1; i < players.size(); ++i)
+			players.get(i).setTeam(teams.remove(0));
 		
 	}
 	
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+	
+	public ArrayList<Player> getPlayersWithState(State state) {
+		ArrayList<Player> list = new ArrayList<Player>();
+		
+		for(Player p: players) {
+			if(p.getState() == state)
+				list.add(p);
+		}
+		
+		return list;
+	}
+
 	public int getAttacksThisTurn() {
 		return attacksThisTurn;
 	}
 	
+	public void resetAttacksThisTurn() {
+		attacksThisTurn = 0;
+	}
+	
+	public void increaseAttacksThisTurn() {
+		attacksThisTurn += 1;
+	}
+	
 	/**
 	 * Start the game.
-	 * <br>In others words, stay on the loop until the game end.
+	 * <br>Set the state of the first player to PLAYING.
+	 * <br>And repeat a loop until the game ends.
 	 */
 	public void startGame() {
+		players.get(turnFromPlayer).setState(State.PLAYING);
+		
 		while(true) {
 			System.out.format(">>Waiting command from player %d\n", turnFromPlayer);
-			player.get(turnFromPlayer).command();
+			players.get(turnFromPlayer).command();
 		}
 	}
 	
@@ -114,7 +139,7 @@ public class Board {
 		for(int i=0; i < clients.size(); ++i) {
 			connection = clients.get(i);
 			new_player = new Player(this, connection);
-			player.add(new_player);
+			players.add(new_player);
 		}
 		
 		System.out.println(">>Players shifted");
@@ -122,26 +147,25 @@ public class Board {
 	
 	/**
 	 * Shift the turn to the next player.
-	 * <br>This includes reseting the counter of attacks.
+	 * <br>This includes:
+	 * <li>Reseting the counter of attacks.</li>
+	 * <li>Making the player of the turn buy one card.</li>
+	 * <li>Changing the state of the player</li>
 	 */
 	public void nextTurn() {
+		players.get(turnFromPlayer).setState(State.WAITING_TURN);
 		
-		if(turnFromPlayer == numberOfPlayers - 1)
+		if(turnFromPlayer == players.size() - 1)
 			turnFromPlayer = 0;
 		else
 			turnFromPlayer += 1;
 
 		resetAttacksThisTurn();
+
+		players.get(turnFromPlayer).receiveCards(pickFromDeck(1));
+		players.get(turnFromPlayer).setState(State.PLAYING);
 		
 		System.out.format(">>Turn from player %d\n", turnFromPlayer);
-	}
-	
-	public void resetAttacksThisTurn() {
-		attacksThisTurn = 0;
-	}
-	
-	public void increaseAttacksThisTurn() {
-		attacksThisTurn += 1;
 	}
 	
 	/**
@@ -167,7 +191,7 @@ public class Board {
 			}
 		}
 
-		System.out.format(">>%d cards were picked from deck\n", quantity);
+		System.out.format(">>%d card(s) were picked from deck\n", quantity);
 		
 		return card;
 	}
@@ -199,7 +223,7 @@ public class Board {
 	
 	/**
 	 * Put every card from discard on deck and shuffle.
-	 * This will happen every time that the deck ends.
+	 * <br>This will happen every time that the deck ends.
 	 */
 	public void shuffleDiscardOnDeck() {
 		deck.addAll(discard);
@@ -216,5 +240,45 @@ public class Board {
 		discard.add(card);
 		
 		System.out.format(">>Card %s discarded\n", card.getName());
+	}
+	
+	public int distanceBetween(Player player1, Player player2) {
+		int player1_index = -1;
+		
+		int distanceRight = 0;
+		int distanceLeft = 0;
+		int distance = 0;
+		
+		// Finding one player
+		for(int i=0; i < players.size(); ++i) {
+			if(players.get(i) == player1) {
+				player1_index = i;
+				System.out.format(">> Found player1 on position %d\n", i);
+			}
+		}
+		
+		// Counting distance when looking to the right
+		for(int i=player1_index; players.get(i) != player2; ++i) {
+			if(i == players.size())
+				i = 0;
+			
+			if(players.get(i).getState() != State.DEAD)
+				++distanceRight;
+		}
+
+		// Counting distance when looking to the left
+		for(int i=player1_index; players.get(i) != player2; --i) {
+			if(i == 0)
+				i = players.size();
+			
+			if(players.get(i).getState() != State.DEAD)
+				++distanceLeft;
+		}
+		
+		distance = Math.min(distanceLeft, distanceRight);
+		distance = distance + player2.getDistance();
+		System.out.format(">>Distance between %s and %s is %d", player1.getName(), player2.getName(), distance);
+		
+		return distance;
 	}
 }

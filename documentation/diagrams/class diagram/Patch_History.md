@@ -10,6 +10,7 @@
 * [Version 010](#version-010)
 * [Version 011](#version-011)
 * [Version 012](#version-012)
+* [Version 013](#version-013)
 
 # Version 002 #
 
@@ -281,3 +282,8 @@ Created, same reason from FunctionEquipment.
   * Before you had to do player.pickFromDeck(X), now you have to do player.receiveCards(board.pickFromDeck(X))
   * What is the difference now? Before you couldn't take directly to the board, now you can. So i don't need a function that do what two functions could do together easly.
 * receiveCard renamed to receiveCards, now you send one array of cards and don't have to make a loop to give X cards anymore.
+
+# Version 013 #
+
+## Board ##
+* distanceBetween() created, check the distance between two players (doesn't count dead player).

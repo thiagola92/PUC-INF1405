@@ -40,19 +40,19 @@ public class AllCards {
 		// Weapons
 		
 		weapon(5, "weapon1", "NULL", 4, 1, (card, player, board) -> {
-			player.attackPlayer();
+			player.attackPlayer(card);
 		});
 		
 		weapon(5, "weapon2", "NULL", 3, 2, (card, player, board) -> {
-			player.attackPlayer();
+			player.attackPlayer(card);
 		});
 		
 		weapon(5, "weapon3", "NULL", 2, 3, (card, player, board) -> {
-			player.attackPlayer();
+			player.attackPlayer(card);
 		});
 		
 		weapon(5, "weapon4", "NULL", 1, 4, (card, player, board) -> {
-			player.attackPlayer();
+			player.attackPlayer(card);
 		});
 		
 		// Events

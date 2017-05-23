@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import server.Board;
 import server.card.Card;
 import server.card.Equipment;
+import server.card.Weapon;
 
 /**
  * You probably came here from Board, this class represent the Player.
@@ -21,7 +22,7 @@ public class Player {
 	
 	private Board board;
 	
-	private String name;
+	private String name = "NOME";
 	private int resets = 4;
 	private int lifes = 5;
 	private Color team;
@@ -30,7 +31,7 @@ public class Player {
 	private ConnectionToClient connection;
 	
 	private ArrayList<Card> hand = new ArrayList<Card>();
-	private ArrayList<Equipment> equipment = new ArrayList<Equipment>();
+	private ArrayList<Equipment> equipments = new ArrayList<Equipment>();
 	
 	/**
 	 * Create a class Player.
@@ -62,10 +63,25 @@ public class Player {
 	public State getState() {
 		return state;
 	}
+	
+	public int getDistance() {
+		int distance = 0;
+		
+		for(int i=0; i < equipments.size(); i++) {
+			distance += equipments.get(i).getDistance();
+		}
+		
+		return distance;
+	}
 
 	public void setTeam(Color team) {
 		this.team = team;
 		System.out.format(">>Player %s team is %s\n", name, team);
+	}
+	
+	public void setState(State state) {
+		this.state = state;
+		System.out.format(">>Player %s state changed to %s\n", name, state);
 	}
 
 	/**
@@ -75,7 +91,7 @@ public class Player {
 	 * @param card		Card to be equipped
 	 */
 	public void equipCard(Equipment card) {
-		equipment.add(card);
+		equipments.add(card);
 		System.out.format(">>Player %s received card %s\n", name, card.getName());
 	}
 	
@@ -100,6 +116,7 @@ public class Player {
 	/**
 	 * Search on hand and equipments the card that will be discard.
 	 * <br>Good side is that work as an unequipCard one time that you have know exactly the card to be removed.
+	 * <br>This happens because you are giving the exactly card.
 	 * @param card		Card to discard
 	 */
 	public void discardCard(Card card) {
@@ -111,9 +128,9 @@ public class Player {
 			}
 		}
 		
-		for(int i=0; i < equipment.size(); ++i) {
-			if(equipment.get(i) == card) {
-				card = equipment.remove(i);
+		for(int i=0; i < equipments.size(); ++i) {
+			if(equipments.get(i) == card) {
+				card = equipments.remove(i);
 				break;
 			}
 		}
@@ -134,7 +151,7 @@ public class Player {
 		System.out.format(">>Player %s tried to use card %s\n", this.name, name);
 		
 		for(int i=0; i < hand.size(); ++i) {
-			if(hand.get(i).getName() == name) {
+			if(hand.get(i).getName().compareTo(name) == 0) {
 				card = hand.get(i);
 				card.useCard(this, board);
 				break;
@@ -142,7 +159,28 @@ public class Player {
 		}
 	}
 	
-	public void attackPlayer() {
+	public void attackPlayer(Weapon weapon) {
+		ArrayList<Player> options = board.getPlayersWithState(State.WAITING_TURN);
+		String message = "OPTIONS";
+		
+		for(Player p: options) {
+			if(p != this)
+				message += ("," + p.getName());
+		}
+		
+		System.out.format(">>Options that this player can attack \n%s\n", message);
+		
+		connection.sendMessage(message);
+		String answer = connection.receiveMessage()[0];
+		System.out.format(">>Target chosen: %s\n", answer);
+		
+		for(Player p: options) {
+			if(p.getName().compareTo(answer) == 0) {
+				p.connection.sendMessage("TESTE");
+				break;
+			}
+		}
+		
 	}
 	
 	public void command() {
