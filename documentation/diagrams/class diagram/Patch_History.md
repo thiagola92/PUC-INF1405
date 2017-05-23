@@ -185,13 +185,13 @@ use_card renamed to discardCard.
 Now the __Player__ will be in charge to remove from hand/equip, this method shouldn't be interacting with variables of __Player__ directly.  
 
 ## New Things ##
-numberOfPlayers => Still don't know if i need this or i should get the size of the ArrayList with players.
-nextTurn() => Pass turn
-resetAttacksThisTurn() => attacksThisTurn go to 0, so you can attack again.
-increaseAttacksThisTurn() => attacksThisTurn +1, so you know how many times the turn player attacked.
-decideShiftOrder() => Should be called one time only, when the game start to decide the order.
-pickFromDeck() => Pick a card from the deck.
-pickFromDiscard() => Pick a card from the discard.
+numberOfPlayers => Still don't know if i need this or i should get the size of the ArrayList with players.  
+nextTurn() => Pass turn  
+resetAttacksThisTurn() => attacksThisTurn go to 0, so you can attack again.  
+increaseAttacksThisTurn() => attacksThisTurn +1, so you know how many times the turn player attacked.  
+decideShiftOrder() => Should be called one time only, when the game start to decide the order.  
+pickFromDeck() => Pick a card from the deck.  
+pickFromDiscard() => Pick a card from the discard.  
 
 # Version 009 #
 
