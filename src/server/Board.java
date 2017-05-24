@@ -105,12 +105,8 @@ public class Board {
 		return attacksThisTurn;
 	}
 	
-	public void resetAttacksThisTurn() {
-		attacksThisTurn = 0;
-	}
-	
-	public void increaseAttacksThisTurn() {
-		attacksThisTurn += 1;
+	public void setAttacksThisTurn(int attacksThisTurn) {
+		this.attacksThisTurn = attacksThisTurn;
 	}
 	
 	/**
@@ -148,9 +144,10 @@ public class Board {
 	/**
 	 * Shift the turn to the next player.
 	 * <br>This includes:
+	 * <li>Changing the state of the players</li>
 	 * <li>Reseting the counter of attacks.</li>
 	 * <li>Making the player of the turn buy one card.</li>
-	 * <li>Changing the state of the player</li>
+	 * <li>Revive the player if he is dead.
 	 */
 	public void nextTurn() {
 		players.get(turnFromPlayer).setState(State.WAITING_TURN);
@@ -160,8 +157,11 @@ public class Board {
 		else
 			turnFromPlayer += 1;
 
-		resetAttacksThisTurn();
+		setAttacksThisTurn(0);
 
+		if(players.get(turnFromPlayer).getState() == State.DEAD)
+			players.get(turnFromPlayer).setHealth(5);
+		
 		players.get(turnFromPlayer).receiveCards(pickFromDeck(1));
 		players.get(turnFromPlayer).setState(State.PLAYING);
 		
@@ -280,5 +280,9 @@ public class Board {
 		System.out.format(">>Distance between %s and %s is %d", player1.getName(), player2.getName(), distance);
 		
 		return distance;
+	}
+	
+	public void endGame() {
+		return;
 	}
 }

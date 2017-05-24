@@ -24,7 +24,7 @@ public class Player {
 	
 	private String name = "NOME";
 	private int resets = 4;
-	private int lifes = 5;
+	private int health = 5;
 	private Color team;
 	private State state = State.WAITING_TURN;
 	
@@ -55,8 +55,8 @@ public class Player {
 	}
 
 
-	public int getLifes() {
-		return lifes;
+	public int getHealth() {
+		return health;
 	}
 
 	public Color getTeam() {
@@ -76,15 +76,35 @@ public class Player {
 		
 		return distance;
 	}
+	
+	public void setHealth(int health) {
+		this.health = health;
+		
+		if(this.health <= 0) {
+			this.health = 0;
+			this.state = State.DEAD;
+			
+			setResets(getResets() - 1);
+		}
+	}
+	
+	public void setResets(int resets) {
+		this.resets = resets;
+		
+		if(this.resets <= 0) {
+			this.resets = 0;
+			board.endGame();
+		}
+	}
 
 	public void setTeam(Color team) {
 		this.team = team;
-		System.out.format(">>Player %s team is %s\n", name, team);
+		System.out.format(">>Player %s team is %s\n", name, this.team);
 	}
 	
 	public void setState(State state) {
 		this.state = state;
-		System.out.format(">>Player %s state changed to %s\n", name, state);
+		System.out.format(">>Player %s state changed to %s\n", name, this.state);
 	}
 
 	/**
@@ -162,28 +182,78 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * The player attacks another using one Weapon.
+	 * <br>
+	 * <br>Search all players alive (is not State.DEAD).
+	 * <br>Ask the client the target.
+	 * <br>Call blockPlayer() to know if the target is going to block.
+	 * <br>If he die after the attack (doesn't matter if blocked or not), you gain you reset.
+	 * @param weapon	Weapon used in the attack.
+	 */
 	public void attackPlayer(Weapon weapon) {
-		ArrayList<Player> options = board.getPlayersWithState(State.WAITING_TURN);
+		ArrayList<Player> playersThatCanBeAttacked = board.getPlayersWithState(State.WAITING_TURN);
 		String message = "OPTIONS";
 		
-		for(Player p: options) {
-			if(p != this)
-				message += ("," + p.getName());
+		for(Player player: playersThatCanBeAttacked) {
+			if(player != this)
+				message += ("," + player.getName());
 		}
 		
 		System.out.format(">>Options that this player can attack \n%s\n", message);
 		
 		connection.sendMessage(message);
 		String answer = connection.receiveMessage()[0];
-		System.out.format(">>Target chosen: %s\n", answer);
+		System.out.format(">>Chosen target : %s\n", answer);
 		
-		for(Player p: options) {
-			if(p.getName().compareTo(answer) == 0) {
-				p.connection.sendMessage("TESTE");
-				break;
+		for(Player player: playersThatCanBeAttacked) {
+			if(player.getName().compareTo(answer) == 0) {
+				
+				System.out.format(">>Target %s attacked\n", player.getName());
+				
+				player.blockPlayer(weapon);
+				discardCard(weapon);
+				
+				if(player.state == State.DEAD) {
+					setResets(getResets() + 1);
+					System.out.format(">>Player %s gain one reset\n", this.getName());
+				}
+				
+				return;
 			}
 		}
 		
+		System.out.println(">>Target not found.");
+	}
+	
+	public void blockPlayer(Weapon weapon) {
+		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
+		String message = "OPTIONS,RECEIVE";
+		
+		for(Card card: hand) {
+			if(card.getName().compareTo("BLOCK") == 0) {
+				message += ("," + card.getName());
+				cardsThatCanBlock.add(card);
+			}
+		}
+		
+		System.out.format(">>Options that the other player can do \n%s\n", message);
+		
+		connection.sendMessage(message);
+		String answer = connection.receiveMessage()[0];
+		System.out.format(">>Target chose: %s\n", answer);
+		
+		for(Card card: cardsThatCanBlock) {
+			if(card.getName().compareTo(answer) == 0) {
+				discardCard(card);
+				
+				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
+				return;
+			}
+		}
+		
+		setHealth(getHealth() - weapon.getDamage());
+		System.out.format(">>Player %s didn't block\n", this.getName());
 	}
 	
 	public void command() {
