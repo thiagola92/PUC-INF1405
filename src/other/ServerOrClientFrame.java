@@ -66,34 +66,7 @@ public class ServerOrClientFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			/*
-			// PRE JAVA 8
-			Equipment x = new Equipment("Thiago", "cOE", 10, 10, 10, 10, new Function() {
-
-				@Override
-				public void useCard(Player player) {
-					// TODO Auto-generated method stub
-					System.out.println("OH YEAH");
-				}
-				
-			});
-			x.useCard(null);
-			
-			// POS JAVA 8
-			Equipment y = new Equipment("Thiago", "Coe", 10, 10, 10, 10, (player) -> System.out.println("OMG"));
-			y.useCard(null);
-			
-			// POS JAVA 8 WITH MORE CODE
-			Equipment w = new Equipment("Thiago", "Coe", 10, 10, 10, 10, (player) -> {
-				System.out.println("YES YOU CAN");
-				System.out.println("REALLY");
-			});
-			w.useCard(null);
-			*/
-			
 			new ConnectionReceiver(4, 2);
-			
 		}
 		
 	}

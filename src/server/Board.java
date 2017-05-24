@@ -122,7 +122,7 @@ public class Board {
 		players.get(turnFromPlayer).setState(State.PLAYING);
 		
 		while(true) {
-			System.out.format(">>Waiting command from player %d\n", turnFromPlayer);
+			System.out.format(">>Waiting command from %s (player %d)\n", players.get(turnFromPlayer).getName(), turnFromPlayer);
 			players.get(turnFromPlayer).command();
 		}
 	}

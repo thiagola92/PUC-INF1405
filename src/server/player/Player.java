@@ -41,6 +41,9 @@ public class Player {
 	public Player(Board board, ConnectionToClient connection) {
 		this.board = board;
 		this.connection = connection;
+		
+		connection.sendMessage(">>Choose your nickname:");
+		name = connection.receiveMessage()[0];
 	}
 	
 	public String getName() {
