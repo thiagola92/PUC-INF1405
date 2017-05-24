@@ -21,6 +21,6 @@ To play you will need:
 
 To develop you will need:
 * [Java SE Development Kit 8 (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-  * __Note__: If you download this, you don't need to download the Java SE Runtime Environment 8.
+  * __Note__: If you install this, you don't need to install the Java SE Runtime Environment 8.
 * [Eclipse IDE for Java Developers](https://www.eclipse.org/)
 * Knowledge of [Java language](https://docs.oracle.com/javase/tutorial/)
