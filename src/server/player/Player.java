@@ -70,9 +70,8 @@ public class Player {
 	public int getDistance() {
 		int distance = 0;
 		
-		for(int i=0; i < equipments.size(); i++) {
-			distance += equipments.get(i).getDistance();
-		}
+		for(Equipment equip: equipments)
+			distance += equip.getDistance();
 		
 		return distance;
 	}
@@ -86,6 +85,8 @@ public class Player {
 			
 			setResets(getResets() - 1);
 		}
+		
+		System.out.format(">>Player %s health is %d\n", this.getName(), this.getHealth());
 	}
 	
 	public void setResets(int resets) {
@@ -95,6 +96,8 @@ public class Player {
 			this.resets = 0;
 			board.endGame();
 		}
+		
+		System.out.format(">>Player %s have %d resets\n", this.getName(), this.getResets());
 	}
 
 	public void setTeam(Color team) {
@@ -115,7 +118,7 @@ public class Player {
 	 */
 	public void equipCard(Equipment card) {
 		equipments.add(card);
-		System.out.format(">>Player %s received card %s\n", name, card.getName());
+		System.out.format(">>Player %s equiped card %s\n", name, card.getName());
 	}
 	
 	/**
@@ -166,15 +169,15 @@ public class Player {
 	 * The player use one card, search his hand for the card, if exist then use.
 	 * <br>Notice that the card will not be removed from the hand, this will be the cards job's.
 	 * <br>Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
-	 * @param name		Name of the card to search.
+	 * @param cardName		Name of the card to search.
 	 */
-	public void useCard(String name) {
+	public void useCard(String cardName) {
 		Card card;
 
-		System.out.format(">>Player %s tried to use card %s\n", this.name, name);
+		System.out.format(">>Player %s tried to use card %s\n", this.getName(), cardName);
 		
 		for(int i=0; i < hand.size(); ++i) {
-			if(hand.get(i).getName().compareTo(name) == 0) {
+			if(hand.get(i).getName().compareTo(cardName) == 0) {
 				card = hand.get(i);
 				card.useCard(this, board);
 				break;
