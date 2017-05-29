@@ -12,6 +12,7 @@
 * [Version 012](#version-012)
 * [Version 013](#version-013)
 * [Version 014](#version-014)
+* [Version 015](#version-015)
 
 # Version 002 #
 
@@ -308,3 +309,20 @@ So many mistakes or things that i forgot.
   * Created on version 013/012/011 and forgot to put on diagram.
 * distanceBetween() removed from diagram.
   * For 1 second was on __Player__ but i moved to __Board__ and forgot to edit the diagram.
+  
+# Version 015 #
+
+## HistoryEntry ##
+Created, so finally have attributes and methods.
+* append() add an action to the end.
+* read() return a string telling every action in order.
+
+## Action ##
+Better name than Play.
+* As i am using the objects as reference i don't need player_doing_id and player_target_id. The same goes for cards, i am using cards reference...
+* time, no need for this.
+* read(), read the action trying to discovery what happened.
+
+## State ##
+
+* ATTACKING and BLOCKING removed. (no need for them now at least)
