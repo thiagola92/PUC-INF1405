@@ -21,56 +21,53 @@ public class AllCards {
 		
 		// Equipments
 		
-		equipment(5, "equip1", "NULL", 1, 0, 0, 0, (card, player, board) -> {
+		equipment(5, "EQUIP1", "NULL", 1, 0, 0, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(5, "equip2", "NULL", 0, 1, 0, 0, (card, player, board) -> {
+		equipment(5, "EQUIP2", "NULL", 0, 1, 0, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(5, "equip3", "NULL", 0, 0, 1, 0, (card, player, board) -> {
+		equipment(5, "EQUIP3", "NULL", 0, 0, 1, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(5, "equip4", "NULL", 0, 0, 0, 1, (card, player, board) -> {
+		equipment(5, "EQUIP4", "NULL", 0, 0, 0, 1, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
 		// Weapons
 		
-		weapon(5, "weapon1", "NULL", 4, 1, (card, player, board) -> {
+		weapon(5, "WEAPON1", "NULL", 4, 1, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
-		weapon(5, "weapon2", "NULL", 3, 2, (card, player, board) -> {
+		weapon(5, "WEAPON2", "NULL", 3, 2, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
-		weapon(5, "weapon3", "NULL", 2, 3, (card, player, board) -> {
+		weapon(5, "WEAPON3", "NULL", 2, 3, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
-		weapon(5, "weapon4", "NULL", 1, 4, (card, player, board) -> {
+		weapon(5, "WEAPON4", "NULL", 1, 4, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
 		// Events
 		
-		event(5, "event1", "NULL", (card, player, board) -> {
+		event(5, "BUY CARD", "NULL", (card, player, board) -> {
 			player.receiveCards(board.pickFromDeck(1));;
 		});
 		
-		event(5, "event2", "NULL", (card, player, board) -> {
-			player.receiveCards(board.pickFromDeck(2));;
+		event(5, "BLOCK", "NULL", (card, player, board) -> {
 		});
 		
-		event(5, "event3", "NULL", (card, player, board) -> {
-			player.receiveCards(board.pickFromDeck(3));;
+		event(5, "BLOCK", "NULL", (card, player, board) -> {
 		});
 		
-		event(5, "event4", "NULL", (card, player, board) -> {
-			player.receiveCards(board.pickFromDeck(4));;
+		event(5, "BLOCK", "NULL", (card, player, board) -> {
 		});
 		
 		System.out.println(">>Created all cards in the game");

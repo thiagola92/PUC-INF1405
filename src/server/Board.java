@@ -17,10 +17,13 @@ import server.player.State;
  * <li>Deck</li>
  * <li>Discard</li>
  * <br>And this 3 shouldn't communicate between them without Board knowing.
+ * <br>Now HistoryEntry should be accessed by any player so they can register their actions.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class Board {
+public class Board implements Runnable {
+	
+	private boolean endGame = false;
 	
 	private int turnFromPlayer = 0;			// Number going from 0 to numberOfPlayers - 1
 	private int attacksThisTurn = 0;
@@ -29,6 +32,8 @@ public class Board {
 	private ArrayList<Card> discard = new ArrayList<Card>();
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
+	
+	public HistoryEntry history = new HistoryEntry();
 	
 	/**
 	 * Receive all clients made during ConnectionReceiver.
@@ -106,6 +111,7 @@ public class Board {
 	}
 	
 	public void setAttacksThisTurn(int attacksThisTurn) {
+		System.out.format(">>Attacks this turn: %d -> %d\n", this.attacksThisTurn, attacksThisTurn);
 		this.attacksThisTurn = attacksThisTurn;
 	}
 	
@@ -114,10 +120,10 @@ public class Board {
 	 * <br>Set the state of the first player to PLAYING.
 	 * <br>And repeat a loop until the game ends.
 	 */
-	public void startGame() {
+	public void run() {
 		players.get(turnFromPlayer).setState(State.PLAYING);
 		
-		while(true) {
+		while(!endGame) {
 			System.out.format(">>Waiting command from %s (player %d)\n", players.get(turnFromPlayer).getName(), turnFromPlayer);
 			players.get(turnFromPlayer).command();
 		}
@@ -283,6 +289,8 @@ public class Board {
 	}
 	
 	public void endGame() {
+		
+		endGame = true;
 		return;
 	}
 }

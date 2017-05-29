@@ -41,7 +41,7 @@ public class Player {
 	public Player(Board board, ConnectionToClient connection) {
 		this.board = board;
 		this.connection = connection;
-		
+
 		connection.sendMessage(">>Choose your nickname:");
 		name = connection.receiveMessage()[0];
 	}
@@ -67,6 +67,24 @@ public class Player {
 		return state;
 	}
 	
+	public int getDamage() {
+		int damage = 0;
+		
+		for(Equipment equip: equipments)
+			damage += equip.getDamage();
+		
+		return damage;
+	}
+	
+	public int getAttacks() {
+		int attacks = 0;
+		
+		for(Equipment equip: equipments)
+			attacks += equip.getAttacks();
+		
+		return attacks;
+	}
+
 	public int getDistance() {
 		int distance = 0;
 		
@@ -76,28 +94,42 @@ public class Player {
 		return distance;
 	}
 	
+	public int getRange() {
+		int range = 0;
+
+		for(Equipment equip: equipments)
+			range += equip.getRange();
+		
+		return range;
+	}
+	
 	public void setHealth(int health) {
+		int pre_health = this.health;
 		this.health = health;
 		
 		if(this.health <= 0) {
 			this.health = 0;
 			this.state = State.DEAD;
+
+			System.out.format(">>Player %s health: %d -> %d\n", this.getName(), pre_health, this.getHealth());
 			
 			setResets(getResets() - 1);
-		}
-		
-		System.out.format(">>Player %s health is %d\n", this.getName(), this.getHealth());
+		} else
+			System.out.format(">>Player %s health: %d -> %d\n", this.getName(), pre_health, this.getHealth());
 	}
 	
 	public void setResets(int resets) {
+		int pre_resets = this.resets;
 		this.resets = resets;
 		
 		if(this.resets <= 0) {
 			this.resets = 0;
+
+			System.out.format(">>Player %s resets: %d -> %d\n", this.getName(), pre_resets, this.getResets());
+			
 			board.endGame();
-		}
-		
-		System.out.format(">>Player %s have %d resets\n", this.getName(), this.getResets());
+		} else
+			System.out.format(">>Player %s resets: %d -> %d\n", this.getName(), pre_resets, this.getResets());
 	}
 
 	public void setTeam(Color team) {
@@ -195,11 +227,17 @@ public class Player {
 	 * @param weapon	Weapon used in the attack.
 	 */
 	public void attackPlayer(Weapon weapon) {
+		
+		if(board.getAttacksThisTurn() > getAttacks()) {
+			System.out.format(">>You can not attack more than %s time(s) this turn\n", board.getAttacksThisTurn());
+			return;
+		}
+		
 		ArrayList<Player> playersThatCanBeAttacked = board.getPlayersWithState(State.WAITING_TURN);
 		String message = "OPTIONS";
 		
 		for(Player player: playersThatCanBeAttacked) {
-			if(player != this)
+			if(board.distanceBetween(this, player) <= getRange())
 				message += ("," + player.getName());
 		}
 		
@@ -207,19 +245,21 @@ public class Player {
 		
 		connection.sendMessage(message);
 		String answer = connection.receiveMessage()[0];
-		System.out.format(">>Chosen target : %s\n", answer);
+		System.out.format(">>Chosen target: %s\n", answer);
 		
 		for(Player player: playersThatCanBeAttacked) {
 			if(player.getName().compareTo(answer) == 0) {
 				
 				System.out.format(">>Target %s attacked\n", player.getName());
 				
-				player.blockPlayer(weapon);
+				board.history.append(this, weapon, player);
+				board.setAttacksThisTurn(board.getAttacksThisTurn() + 1);
+				player.blockPlayer(this, weapon);
 				discardCard(weapon);
 				
 				if(player.state == State.DEAD) {
-					setResets(getResets() + 1);
 					System.out.format(">>Player %s gain one reset\n", this.getName());
+					setResets(getResets() + 1);
 				}
 				
 				return;
@@ -229,7 +269,7 @@ public class Player {
 		System.out.println(">>Target not found.");
 	}
 	
-	public void blockPlayer(Weapon weapon) {
+	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
 		String message = "OPTIONS,RECEIVE";
 		
@@ -248,15 +288,17 @@ public class Player {
 		
 		for(Card card: cardsThatCanBlock) {
 			if(card.getName().compareTo(answer) == 0) {
+				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
+				
+				board.history.append(this, card, null);
 				discardCard(card);
 				
-				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
 				return;
 			}
 		}
-		
-		setHealth(getHealth() - weapon.getDamage());
+
 		System.out.format(">>Player %s didn't block\n", this.getName());
+		setHealth(getHealth() - weapon.getDamage() - player.getDamage());
 	}
 	
 	public void command() {
@@ -271,9 +313,10 @@ public class Player {
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		}
 		
-		if(arguments[0].compareTo("NEXTTURN") == 0)
+		if(arguments[0].compareTo("NEXTTURN") == 0) {
+			board.history.append(this, null, null);
 			board.nextTurn();
-		else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
+		} else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
 			this.useCard(arguments[1]);
 		}
 	}

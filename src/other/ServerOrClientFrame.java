@@ -1,7 +1,6 @@
 package other;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -30,8 +29,24 @@ public class ServerOrClientFrame extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		client.addActionListener(new clientActionListener());
-		server.addActionListener(new serverActionListener());
+		client.addActionListener((ActionEvent e) -> {
+			ConnectionToServer connection = new ConnectionToServer(4, "127.0.0.1");
+			connection.start();
+			this.setVisible(false);
+			
+			// Temporary
+			while(true) {
+				@SuppressWarnings("resource")
+				Scanner scan = new Scanner(System.in);
+				String message = scan.nextLine();
+				connection.sendMessage(message);
+			}
+		});
+		
+		server.addActionListener((ActionEvent e) -> {
+			new ConnectionReceiver(4, 2);
+			this.setVisible(false);
+		});
 		
 		panel.add(client);
 		panel.add(server);
@@ -40,34 +55,4 @@ public class ServerOrClientFrame extends JFrame {
 		this.pack();	// this function organize the size from objects, let it be the last function called to be precise.
 	}
 
-	// Client
-	private class clientActionListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			ConnectionToServer connection = new ConnectionToServer(4, "127.0.0.1");
-			connection.start();
-
-			// Temporary
-			while(true) {
-				@SuppressWarnings("resource")
-				Scanner scan = new Scanner(System.in);
-				String message = scan.nextLine();
-				connection.sendMessage(message);
-			}
-			
-		}
-		
-	}
-
-	// Server
-	private class serverActionListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new ConnectionReceiver(4, 2);
-		}
-		
-	}
 }
