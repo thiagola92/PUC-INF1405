@@ -13,6 +13,7 @@
 * [Version 013](#version-013)
 * [Version 014](#version-014)
 * [Version 015](#version-015)
+* [Version 016](#version-016)
 
 # Version 002 #
 
@@ -326,3 +327,9 @@ Better name than Play.
 ## State ##
 
 * ATTACKING and BLOCKING removed. (no need for them now at least)
+
+# Version 016 #
+
+## Player ##
+* distanceBetween() renamend to distanceFromPlayer1ToPlayer2().
+  * "distanceBetween" could make people think that the distance from player1 to player2 is equal to distance from player2 to player1. Is not equal...

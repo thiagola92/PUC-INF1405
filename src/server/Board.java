@@ -248,7 +248,22 @@ public class Board implements Runnable {
 		System.out.format(">>Card %s discarded\n", card.getName());
 	}
 	
-	public int distanceBetween(Player player1, Player player2) {
+	/**
+	 * Calculate the distance that the second player(palyer2) is from the first player(player1).
+	 * <br>It will find the first player, and calculate the distance to the second when going right and when going left.
+	 * <br>And return the smaller.
+	 * <p>Notice:
+	 * <br>distanceFromPlayer1ToPlayer2(player1, player2) <b>NOT EQUAL TO</b> distanceFromPlayer1ToPlayer2(player2, player1).
+	 * <p>Example:
+	 * <br>player1 and player2 can be at 3 of distance from each other.
+	 * <p>player2 have one equipment that gives <b>+1 distance</b> and player1 doesn't have equipment.
+	 * <br>player1 is at 3 distance from player2
+	 * <br>player2 is at 4 distance from player1.
+	 * @param player1
+	 * @param player2
+	 * @return
+	 */
+	public int distanceFromPlayer1ToPlayer2(Player player1, Player player2) {
 		int player1_index = -1;
 		
 		int distanceRight = 0;
@@ -259,31 +274,39 @@ public class Board implements Runnable {
 		for(int i=0; i < players.size(); ++i) {
 			if(players.get(i) == player1) {
 				player1_index = i;
-				System.out.format(">> Found player1 on position %d\n", i);
+				System.out.format(">>Found player %s on position %d\n", player1.getName(), i);
+				
+				break;
 			}
 		}
 		
 		// Counting distance when looking to the right
-		for(int i=player1_index; players.get(i) != player2; ++i) {
-			if(i == players.size())
+		for(int i=player1_index; players.get(i) != player2;) {
+			if(i == players.size() - 1)
 				i = 0;
+			else
+				++i;
 			
 			if(players.get(i).getState() != State.DEAD)
 				++distanceRight;
 		}
+		System.out.format(">>Distance to player %s looking right is %d\n", player2.getName(), distanceRight);
 
 		// Counting distance when looking to the left
-		for(int i=player1_index; players.get(i) != player2; --i) {
+		for(int i=player1_index; players.get(i) != player2;) {
 			if(i == 0)
-				i = players.size();
+				i = players.size() - 1;
+			else
+				--i;
 			
 			if(players.get(i).getState() != State.DEAD)
 				++distanceLeft;
 		}
+		System.out.format(">>Distance to player %s looking left is %d\n", player2.getName(), distanceLeft);
 		
 		distance = Math.min(distanceLeft, distanceRight);
 		distance = distance + player2.getDistance();
-		System.out.format(">>Distance between %s and %s is %d", player1.getName(), player2.getName(), distance);
+		System.out.format(">>Distance from %s to %s is %d\n", player1.getName(), player2.getName(), distance);
 		
 		return distance;
 	}

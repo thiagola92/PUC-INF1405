@@ -103,6 +103,21 @@ public class Player {
 		return range;
 	}
 	
+	public String getPlayerInfo() {
+		return null;
+	}
+	
+	/**
+	 * Sets the player health to this amount(if is less than 0, it will set to 0).
+	 * <br>If his health is 0:
+	 * <li>State goes to DEAD</li>
+	 * <li>Lose one honor</li>
+	 * <p>Observation:
+	 * <br>Some people may think that this class is to subtract or increment health, but is not. You will set the health to the amount you want.
+	 * <br>If you want to increment you will have to do:
+	 * <p><code>setHealth(getHealth() + 1)</code>
+	 * @param health	The player health quantity
+	 */
 	public void setHealth(int health) {
 		int pre_health = this.health;
 		this.health = health;
@@ -118,6 +133,16 @@ public class Player {
 			System.out.format(">>Player %s health: %d -> %d\n", this.getName(), pre_health, this.getHealth());
 	}
 	
+	/**
+	 * Sets the player resets to this amount(if is less than 0, it will set to 0).
+	 * <br>If his resets is 0:
+	 * <li>It will call endGame() and end the game.</li>
+	 * <p>Observation:
+	 * <br>Some people may think that this class is to subtract or increment resets, but is not. You will set the resets to the amount you want.
+	 * <br>If you want to increment you will have to do:
+	 * <p><code>setResets(getResets() + 1)</code>
+	 * @param resets	The player resets quantity
+	 */
 	public void setResets(int resets) {
 		int pre_resets = this.resets;
 		this.resets = resets;
@@ -219,11 +244,12 @@ public class Player {
 	
 	/**
 	 * The player attacks another using one Weapon.
-	 * <br>
-	 * <br>Search all players alive (is not State.DEAD).
-	 * <br>Ask the client the target.
-	 * <br>Call blockPlayer() to know if the target is going to block.
-	 * <br>If he die after the attack (doesn't matter if blocked or not), you gain you reset.
+	 * <li>Check if the player can still attack.</li>
+	 * <li>Search all players alive (is not State.DEAD).</li>
+	 * <li>Get all players in range.</li>
+	 * <li>Ask the client the target.</li>
+	 * <li>Call blockPlayer() to know if the target is going to block.</li>
+	 * <li>If he die after the attack (doesn't matter if blocked or not), you gain you reset.</li>
 	 * @param weapon	Weapon used in the attack.
 	 */
 	public void attackPlayer(Weapon weapon) {
@@ -237,7 +263,7 @@ public class Player {
 		String message = "OPTIONS";
 		
 		for(Player player: playersThatCanBeAttacked) {
-			if(board.distanceBetween(this, player) <= getRange())
+			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange())
 				message += ("," + player.getName());
 		}
 		
@@ -269,6 +295,14 @@ public class Player {
 		System.out.println(">>Target not found.");
 	}
 	
+	/**
+	 * Check if the player will block the other player attack.
+	 * <li>Get all cards that can block</li>
+	 * <li>Ask player what he wants to do</li>
+	 * <li>Check if his answer is one card that can block</li>
+	 * @param player
+	 * @param weapon
+	 */
 	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
 		String message = "OPTIONS,RECEIVE";
@@ -301,6 +335,12 @@ public class Player {
 		setHealth(getHealth() - weapon.getDamage() - player.getDamage());
 	}
 	
+	/**
+	 * Get the player message and translate to one action/command.
+	 * <br>Right now the options are:
+	 * <li>NEXTTURN</li>
+	 * <li>USECARD</li>
+	 */
 	public void command() {
 		String[] arguments = connection.receiveMessage();
 		
