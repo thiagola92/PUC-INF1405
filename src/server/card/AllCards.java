@@ -58,7 +58,8 @@ public class AllCards {
 		// Events
 		
 		event(5, "BUY CARD", "NULL", (card, player, board) -> {
-			player.receiveCards(board.pickFromDeck(1));;
+			player.receiveCards(board.pickFromDeck(1));
+			player.discardCard(card);
 		});
 		
 		event(5, "BLOCK", "NULL", (card, player, board) -> {

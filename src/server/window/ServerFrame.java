@@ -1,37 +1,53 @@
 package server.window;
 
-import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
-import server.Board;
-
+/**
+ * Window to visualize what is happen in the game.
+ * <br>This window is composed from the following panels:
+ * <li>LogPanel</li>
+ * @author Thiago
+ * @version		%I%, %G%
+ */
 @SuppressWarnings("serial")
 public class ServerFrame extends JFrame {
 	
-	private JTextArea log = new JTextArea(20, 20);
-	private JScrollPane scroll = new JScrollPane(log);
-
-	private JButton updateHistory = new JButton("Update");
-	private JPanel panel = new JPanel();
+	private JPanel panel = new JPanel(new BorderLayout());
 	
-	public ServerFrame(Board board) {
+	private BoardPanel boardPanel = new BoardPanel();
+	private PlayersPanel playersPanel = new PlayersPanel();
+	private LogPanel logPanel = new LogPanel();
+	
+	public ServerFrame() {
 		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		updateHistory.addActionListener((ActionEvent e) -> {
-			log.setText(board.history.read());
-		});
+		//boardPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+		//playersPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
+		//logPanel.setBorder(BorderFactory.createLineBorder(Color.green));
 		
-		panel.add(scroll);
-		panel.add(updateHistory);
+		panel.add(boardPanel, BorderLayout.PAGE_START);
+		panel.add(playersPanel, BorderLayout.CENTER);
+		panel.add(logPanel, BorderLayout.PAGE_END);
 		
 		this.add(panel);
 		this.pack();
 	}
+
+	public BoardPanel getBoardPanel() {
+		return boardPanel;
+	}
+	
+	public PlayersPanel getPlayersPanel() {
+		return playersPanel;
+	}
+
+	public LogPanel getLogPanel() {
+		return logPanel;
+	}
+	
 }

@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
+import server.board.Board;
 import server.player.ConnectionToClient;
 import server.window.ServerFrame;
 
@@ -51,8 +52,11 @@ public class ConnectionReceiver {
 			System.out.println("IllegalBlockingModeException - if this socket has an associated channel, the channel is in non-blocking mode, and there is no connection ready to be accepted");
 		}
 		
-		Board game = new Board(clients);
-		new ServerFrame(game);
-		new Thread(game).start();;
+		Board board = new Board(clients);
+		ServerFrame serverFrame = new ServerFrame();
+		Manager manager = new Manager(board, serverFrame);
+		
+		new Thread(board).start();
+		new Thread(manager).start();
 	}
 }

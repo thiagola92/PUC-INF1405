@@ -1,6 +1,6 @@
 package server.card;
 
-import server.Board;
+import server.board.Board;
 import server.player.Player;
 
 /**

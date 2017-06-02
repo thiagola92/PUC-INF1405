@@ -1,7 +1,8 @@
-package server;
+package server.board;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 
 import server.card.AllCards;
 import server.card.Card;
@@ -32,8 +33,6 @@ public class Board implements Runnable {
 	private ArrayList<Card> discard = new ArrayList<Card>();
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
-	
-	public HistoryEntry history = new HistoryEntry();
 	
 	/**
 	 * Receive all clients made during ConnectionReceiver.
@@ -90,6 +89,25 @@ public class Board implements Runnable {
 			players.get(i).setTeam(teams.remove(0));
 		
 	}
+
+	/**
+	 * Compile all information about the board into one ArrayList.
+	 * <br>To get the information back you can memorize the order or use regex to identify the text before information.
+	 * <br>All information start after two dots (:).
+	 * @return		ArrayList with the informations about the board
+	 */
+	public ArrayList<String> getBoardInfo() {
+		ArrayList<String> boardInfo = new ArrayList<String>();
+
+		boardInfo.add("Game ended:" + this.endGame);
+		boardInfo.add("Number of players:" + this.getPlayers().size());
+		boardInfo.add("Cards on deck:" + this.deck.size());
+		boardInfo.add("Cards on discard:" + this.discard.size());
+		boardInfo.add("Attacks this turn:" + this.getAttacksThisTurn());
+		boardInfo.add("Turn from player:" + this.turnFromPlayer);
+		
+		return boardInfo;
+	}
 	
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -115,6 +133,10 @@ public class Board implements Runnable {
 		this.attacksThisTurn = attacksThisTurn;
 	}
 	
+	public void setEndGame() {
+		endGame = true;
+	}
+	
 	/**
 	 * Start the game.
 	 * <br>Set the state of the first player to PLAYING.
@@ -127,6 +149,8 @@ public class Board implements Runnable {
 			System.out.format(">>Waiting command from %s (player %d)\n", players.get(turnFromPlayer).getName(), turnFromPlayer);
 			players.get(turnFromPlayer).command();
 		}
+		
+		findTheWinner();
 	}
 	
 	/**
@@ -311,9 +335,20 @@ public class Board implements Runnable {
 		return distance;
 	}
 	
-	public void endGame() {
+	public void findTheWinner() {
+		Hashtable<Color, Integer> teams = new Hashtable<Color, Integer>();
 		
-		endGame = true;
-		return;
+		teams.put(Color.BLUE, 0);
+		teams.put(Color.YELLOW, 0);
+		teams.put(Color.RED, 0);
+		
+		for(Player player: players) {
+			Color playerTeam = player.getTeam();
+			teams.put(playerTeam, teams.get(playerTeam) + player.getResets());
+		}
+		
+		System.out.format(">>Team %s have %d points\n", Color.BLUE, teams.get(Color.BLUE));
+		System.out.format(">>Team %s have %d points\n", Color.YELLOW, teams.get(Color.YELLOW));
+		System.out.format(">>Team %s have %d points\n", Color.RED, teams.get(Color.RED));
 	}
 }

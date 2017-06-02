@@ -2,7 +2,7 @@ package server.player;
 
 import java.util.ArrayList;
 
-import server.Board;
+import server.board.Board;
 import server.card.Card;
 import server.card.Equipment;
 import server.card.Weapon;
@@ -102,9 +102,37 @@ public class Player {
 		
 		return range;
 	}
-	
-	public String getPlayerInfo() {
-		return null;
+
+	/**
+	 * Compile all information about the player into one ArrayList.
+	 * <br>To get the information back you can memorize the order or use regex to identify the text before information.
+	 * <br>All information start after two dots (:).
+	 * @return		ArrayList with the informations about the player
+	 */
+	public ArrayList<String> getPlayerInfo() {
+		ArrayList<String> playerInfo = new ArrayList<String>();
+
+		playerInfo.add("Player name:" + this.getName());
+		playerInfo.add("Resets:" + this.getResets());
+		playerInfo.add("Health:" + this.getHealth());
+		playerInfo.add("Team:" + this.getTeam());
+		playerInfo.add("State:" + this.getState());
+		playerInfo.add("Damage:" + this.getDamage());
+		playerInfo.add("Attacks:" + this.getAttacks());
+		playerInfo.add("Distance:" + this.getDistance());
+		playerInfo.add("Range:" + this.getRange());
+		
+		synchronized(hand) {
+			for(Card c: hand)
+				playerInfo.add("Card:" + c.getName());
+		}
+		
+		synchronized(equipments) {
+			for(Card c: equipments)
+				playerInfo.add("Equipment:" + c.getName());
+		}
+		
+		return playerInfo;
 	}
 	
 	/**
@@ -152,7 +180,7 @@ public class Player {
 
 			System.out.format(">>Player %s resets: %d -> %d\n", this.getName(), pre_resets, this.getResets());
 			
-			board.endGame();
+			board.setEndGame();
 		} else
 			System.out.format(">>Player %s resets: %d -> %d\n", this.getName(), pre_resets, this.getResets());
 	}
@@ -171,11 +199,13 @@ public class Player {
 	 * Add ONE cards to equipments.
 	 * <br>This cards must be an equipment.
 	 * <br>Cards don't have access to the equipments, they will only be able to change using methods.
-	 * @param card		Card to be equipped
+	 * @param equipment		Card to be equipped
 	 */
-	public void equipCard(Equipment card) {
-		equipments.add(card);
-		System.out.format(">>Player %s equiped card %s\n", name, card.getName());
+	public void equipCard(Equipment equipment) {
+		hand.remove(equipment);
+		equipments.add(equipment);
+		
+		System.out.format(">>Player %s equiped card %s\n", name, equipment.getName());
 	}
 	
 	/**
@@ -265,6 +295,8 @@ public class Player {
 		for(Player player: playersThatCanBeAttacked) {
 			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange())
 				message += ("," + player.getName());
+			else
+				playersThatCanBeAttacked.remove(player);
 		}
 		
 		System.out.format(">>Options that this player can attack \n%s\n", message);
@@ -278,7 +310,6 @@ public class Player {
 				
 				System.out.format(">>Target %s attacked\n", player.getName());
 				
-				board.history.append(this, weapon, player);
 				board.setAttacksThisTurn(board.getAttacksThisTurn() + 1);
 				player.blockPlayer(this, weapon);
 				discardCard(weapon);
@@ -324,7 +355,6 @@ public class Player {
 			if(card.getName().compareTo(answer) == 0) {
 				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
 				
-				board.history.append(this, card, null);
 				discardCard(card);
 				
 				return;
@@ -354,7 +384,6 @@ public class Player {
 		}
 		
 		if(arguments[0].compareTo("NEXTTURN") == 0) {
-			board.history.append(this, null, null);
 			board.nextTurn();
 		} else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
 			this.useCard(arguments[1]);

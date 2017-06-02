@@ -14,6 +14,7 @@
 * [Version 014](#version-014)
 * [Version 015](#version-015)
 * [Version 016](#version-016)
+* [Version 017](#version-017)
 
 # Version 002 #
 
@@ -333,3 +334,12 @@ Better name than Play.
 ## Player ##
 * distanceBetween() renamend to distanceFromPlayer1ToPlayer2().
   * "distanceBetween" could make people think that the distance from player1 to player2 is equal to distance from player2 to player1. Is not equal...
+  
+# Version 017 #
+The way i am storing the history is not the best, i am thinking about a new way... Until i decide i will remove.
+
+## HistoryEntry ##
+Removed
+
+## Action ##
+Removed
