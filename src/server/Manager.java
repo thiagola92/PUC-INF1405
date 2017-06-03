@@ -3,18 +3,36 @@ package server;
 import java.util.ArrayList;
 
 import server.board.Board;
+import server.player.ConnectionToClient;
 import server.window.ServerFrame;
 
+/**
+ * This class was created so visual things didn't interact with the game.
+ * <br>If you want to edit windows/frames/panels go the <b>serverFrame</b>.
+ * <br>If you want to edit the game go to <b>board</b>.
+ * @author Thiago
+ * @version		%I%, %G%
+ */
 public class Manager implements Runnable {
 
 	private Board board;
 	private ServerFrame serverFrame;
 	
-	public Manager(Board board, ServerFrame serverFrame) {
-		this.board = board;
-		this.serverFrame = serverFrame;
+	/**
+	 * Create the board and window.
+	 * @param clients	To create the board you need clients, connections.
+	 */
+	public Manager(ArrayList<ConnectionToClient> clients) {
+		this.board = new Board(clients);
+		this.serverFrame = new ServerFrame();
+		
+		new Thread(board).start();
 	}
 
+	/**
+	 * It will get information about player and board and insert to the right panel.
+	 * <br>This will be repeat until closed.
+	 */
 	@Override
 	public void run() {
 		

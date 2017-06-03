@@ -18,7 +18,6 @@ import server.player.State;
  * <li>Deck</li>
  * <li>Discard</li>
  * <br>And this 3 shouldn't communicate between them without Board knowing.
- * <br>Now HistoryEntry should be accessed by any player so they can register their actions.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */

@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Panel that show the board informations.
+ * @author Thiago
+ * @version		%I%, %G%
+ */
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 	

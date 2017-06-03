@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 /**
  * Window to visualize what is happen in the game.
  * <br>This window is composed from the following panels:
+ * <li>BoardPanel</li>
+ * <li>PlayersPanel</li>
  * <li>LogPanel</li>
  * @author Thiago
  * @version		%I%, %G%

@@ -11,7 +11,7 @@ import server.window.ServerFrame;
 
 /**
  * This class will receive every connection/player that is trying to play.
- * <br>After this it will create Board and start the game.
+ * <br>After this it will create Manager and pass the clients.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
@@ -52,11 +52,8 @@ public class ConnectionReceiver {
 			System.out.println("IllegalBlockingModeException - if this socket has an associated channel, the channel is in non-blocking mode, and there is no connection ready to be accepted");
 		}
 		
-		Board board = new Board(clients);
-		ServerFrame serverFrame = new ServerFrame();
-		Manager manager = new Manager(board, serverFrame);
+		Manager manager = new Manager(clients);
 		
-		new Thread(board).start();
 		new Thread(manager).start();
 	}
 }

@@ -15,6 +15,7 @@
 * [Version 015](#version-015)
 * [Version 016](#version-016)
 * [Version 017](#version-017)
+* [Version 018](#version-018)
 
 # Version 002 #
 
@@ -343,3 +344,20 @@ Removed
 
 ## Action ##
 Removed
+
+# Version 018 #
+
+## Manager ##
+Class created to divide visual from game.
+
+## ServerFrame ##
+The complete window with the state of the game.
+
+## LogPanel ##
+Part of the window with the log
+
+## PlayersPanel ##
+Part of the window with the players information.
+
+## BoardPanel ##
+Part of the window with the board information.
