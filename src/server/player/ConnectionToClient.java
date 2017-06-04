@@ -61,7 +61,7 @@ public class ConnectionToClient{
 		try {
 			
 			message = entrada.nextLine();
-			arguments = message.split("[,]");
+			arguments = message.split("[" + Player.SEPARATOR + "]");
 			
 		} catch(NoSuchElementException e) {
 			System.out.println("NoSuchElementException - if no line was found.");

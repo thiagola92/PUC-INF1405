@@ -5,9 +5,7 @@ import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-import server.board.Board;
 import server.player.ConnectionToClient;
-import server.window.ServerFrame;
 
 /**
  * This class will receive every connection/player that is trying to play.

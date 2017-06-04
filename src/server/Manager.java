@@ -49,7 +49,7 @@ public class Manager implements Runnable {
 			serverFrame.getBoardPanel().updateBoardInfo(boardInfo);
 			
 			for(int i=0; i < board.getPlayers().size(); ++i) {
-				playerInfo = board.getPlayers().get(i).getPlayerInfo();
+				playerInfo = board.getPlayers().get(i).getPlayerInfo(false);
 				serverFrame.getPlayersPanel().updatePlayerInfo(playerInfo, i);
 			}
 			

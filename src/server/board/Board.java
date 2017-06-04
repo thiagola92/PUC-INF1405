@@ -98,12 +98,12 @@ public class Board implements Runnable {
 	public ArrayList<String> getBoardInfo() {
 		ArrayList<String> boardInfo = new ArrayList<String>();
 
-		boardInfo.add("Game ended:" + this.endGame);
-		boardInfo.add("Number of players:" + this.getPlayers().size());
-		boardInfo.add("Cards on deck:" + this.deck.size());
-		boardInfo.add("Cards on discard:" + this.discard.size());
-		boardInfo.add("Attacks this turn:" + this.getAttacksThisTurn());
-		boardInfo.add("Turn from player:" + this.turnFromPlayer);
+		boardInfo.add("Game ended" + Player.SEPARATOR + this.endGame);
+		boardInfo.add("Number of players" + Player.SEPARATOR + this.getPlayers().size());
+		boardInfo.add("Cards on deck" + Player.SEPARATOR + this.deck.size());
+		boardInfo.add("Cards on discard" + Player.SEPARATOR + this.discard.size());
+		boardInfo.add("Attacks this turn" + Player.SEPARATOR + this.getAttacksThisTurn());
+		boardInfo.add("Turn from player" + Player.SEPARATOR + this.turnFromPlayer);
 		
 		return boardInfo;
 	}
@@ -147,6 +147,7 @@ public class Board implements Runnable {
 		while(!endGame) {
 			System.out.format(">>Waiting command from %s (player %d)\n", players.get(turnFromPlayer).getName(), turnFromPlayer);
 			players.get(turnFromPlayer).command();
+			this.updatePlayers();
 		}
 		
 		findTheWinner();
@@ -336,6 +337,31 @@ public class Board implements Runnable {
 		return distance;
 	}
 	
+	public void updatePlayers() {
+		
+		for(Player player: players) {
+			ArrayList<String> information = player.getPlayerInfo(false);
+			
+			information.add("BOARD");
+			information.addAll(this.getBoardInfo());
+			
+			for(Player p: players) {
+				if(player != p) {
+					information.add("OTHERPLAYER");
+					information.addAll(p.getPlayerInfo(true));
+				}
+			}
+			
+			player.updatePlayer(information);
+			
+		}
+		
+	}
+	
+	/**
+	 * This function is called to discovery the team that have more points.
+	 * <br>For now doesn't return nothing, just prints the points.
+	 */
 	public void findTheWinner() {
 		Hashtable<Color, Integer> teams = new Hashtable<Color, Integer>();
 		

@@ -35,6 +35,8 @@ public class Player {
 	
 	private static ArrayList<Action> history = new ArrayList<Action>();
 	
+	public static final String SEPARATOR = "|";
+	
 	/**
 	 * Create a class Player.
 	 * @param board			Class Board that will run the game.
@@ -109,29 +111,40 @@ public class Player {
 	 * Compile all information about the player into one ArrayList.
 	 * <br>To get the information back you can memorize the order or use regex to identify the text before information.
 	 * <br>All information start after two dots (:).
-	 * @return		ArrayList with the informations about the player
+	 * <p>The attribute anonymous will tell the method if he should put one the ArrayList private things like "cards on hand" or "team".
+	 * @param anonymous 	If you want to see all information or just public information
+	 * @return				ArrayList with the informations about the player
 	 */
-	public ArrayList<String> getPlayerInfo() {
+	public ArrayList<String> getPlayerInfo(boolean anonymous) {
 		ArrayList<String> playerInfo = new ArrayList<String>();
 
-		playerInfo.add("Player name:" + this.getName());
-		playerInfo.add("Resets:" + this.getResets());
-		playerInfo.add("Health:" + this.getHealth());
-		playerInfo.add("Team:" + this.getTeam());
-		playerInfo.add("State:" + this.getState());
-		playerInfo.add("Damage:" + this.getDamage());
-		playerInfo.add("Attacks:" + this.getAttacks());
-		playerInfo.add("Distance:" + this.getDistance());
-		playerInfo.add("Range:" + this.getRange());
+		playerInfo.add("Player name" + Player.SEPARATOR + this.getName());
+		
+		playerInfo.add("Resets" + Player.SEPARATOR + this.getResets());
+		playerInfo.add("Health" + Player.SEPARATOR + this.getHealth());
+		
+		if(anonymous == false) {
+			playerInfo.add("Team" + Player.SEPARATOR + this.getTeam());
+			playerInfo.add("State" + Player.SEPARATOR + this.getState());
+		}
+		
+		playerInfo.add("Damage" + Player.SEPARATOR + this.getDamage());
+		playerInfo.add("Attacks" + Player.SEPARATOR + this.getAttacks());
+		playerInfo.add("Distance" + Player.SEPARATOR + this.getDistance());
+		playerInfo.add("Range" + Player.SEPARATOR + this.getRange());
+		
+		playerInfo.add("Number of cards holding" + Player.SEPARATOR + this.hand.size());
 		
 		synchronized(hand) {
-			for(Card c: hand)
-				playerInfo.add("Card:" + c.getName());
+			if(anonymous == false) {
+				for(Card c: hand)
+					playerInfo.add("Card" + Player.SEPARATOR + c.getName());
+			}
 		}
 		
 		synchronized(equipments) {
 			for(Card c: equipments)
-				playerInfo.add("Equipment:" + c.getName());
+				playerInfo.add("Equipment" + Player.SEPARATOR + c.getName());
 		}
 		
 		return playerInfo;
@@ -302,7 +315,7 @@ public class Player {
 		
 		for(Player player: playersThatCanBeAttacked) {
 			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange())
-				message += ("," + player.getName());
+				message += (Player.SEPARATOR + player.getName());
 			else
 				playersThatCanBeAttacked.remove(player);
 		}
@@ -362,11 +375,11 @@ public class Player {
 	 */
 	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
-		String message = "OPTIONS,RECEIVE";
+		String message = "OPTIONS" + Player.SEPARATOR + "RECEIVE";
 		
 		for(Card card: hand) {
 			if(card.getName().compareTo("BLOCK") == 0) {
-				message += ("," + card.getName());
+				message += (Player.SEPARATOR + card.getName());
 				cardsThatCanBlock.add(card);
 			}
 		}
@@ -415,6 +428,15 @@ public class Player {
 		} else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
 			this.useCard(arguments[1]);
 		}
+	}
+	
+	public void updatePlayer(ArrayList<String> everythingThatHeNeedsToKnow) {
+		String message = "UPDATE";
+		
+		for(String s: everythingThatHeNeedsToKnow)
+			message += Player.SEPARATOR + s;
+		
+		connection.sendMessage(message);
 	}
 	
 }
