@@ -33,6 +33,8 @@ public class Player {
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private ArrayList<Equipment> equipments = new ArrayList<Equipment>();
 	
+	private static ArrayList<Action> history = new ArrayList<Action>();
+	
 	/**
 	 * Create a class Player.
 	 * @param board			Class Board that will run the game.
@@ -133,6 +135,10 @@ public class Player {
 		}
 		
 		return playerInfo;
+	}
+	
+	public ArrayList<Action> getLogInfo() {
+		return history;
 	}
 	
 	/**
@@ -259,13 +265,15 @@ public class Player {
 	 * @param cardName		Name of the card to search.
 	 */
 	public void useCard(String cardName) {
-		Card card;
 
 		System.out.format(">>Player %s tried to use card %s\n", this.getName(), cardName);
-		
-		for(int i=0; i < hand.size(); ++i) {
-			if(hand.get(i).getName().compareTo(cardName) == 0) {
-				card = hand.get(i);
+	
+		for(Card card: hand) {
+			if(card.getName().compareTo(cardName) == 0) {
+				Action action = new Action(this);
+				action.setCard(card);
+				history.add(action);
+				
 				card.useCard(this, board);
 				break;
 			}
@@ -310,8 +318,13 @@ public class Player {
 				
 				System.out.format(">>Target %s attacked\n", player.getName());
 				
+				Action action = history.get(history.size() - 1);
+				action.setTarget(player);
+				
 				board.setAttacksThisTurn(board.getAttacksThisTurn() + 1);
+				
 				player.blockPlayer(this, weapon);
+				
 				discardCard(weapon);
 				
 				if(player.state == State.DEAD) {
@@ -324,6 +337,19 @@ public class Player {
 		}
 		
 		System.out.println(">>Target not found.");
+		
+		/*
+		 * This remove seen a little lost. I will explain...
+		 * When you call "useCard()" you add to the history one Action saying that you used that card.
+		 * When you call "attackPlayer()" sometimes you can't attack the other player, so you can't use this card.
+		 * In others words you didn't make the action of attacking. Now i need to remove this action.
+		 * 
+		 * The perfect way should be add to history only if the action was made.
+		 * I thought about making "useCard()" and "attackPlayer()" return true or false if the card was used but this would also means to add every card one return.
+		 * 
+		 * I didn't decide yet the best way... sorry the long comment.
+		 */
+		history.remove(history.size() - 1);
 	}
 	
 	/**
@@ -355,6 +381,10 @@ public class Player {
 			if(card.getName().compareTo(answer) == 0) {
 				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
 				
+				Action action = new Action(this);
+				action.setCard(card);
+				history.add(action);
+				
 				discardCard(card);
 				
 				return;
@@ -374,16 +404,13 @@ public class Player {
 	public void command() {
 		String[] arguments = connection.receiveMessage();
 		
-		if(arguments == null) {
-			System.out.format(">>#ERROR - null arguments\n");
-			return;
-		}
-		
 		for(int i=0; i < arguments.length; ++i) {
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		}
 		
 		if(arguments[0].compareTo("NEXTTURN") == 0) {
+			history.add(new Action(this));
+			
 			board.nextTurn();
 		} else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
 			this.useCard(arguments[1]);

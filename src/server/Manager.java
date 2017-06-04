@@ -3,6 +3,7 @@ package server;
 import java.util.ArrayList;
 
 import server.board.Board;
+import server.player.Action;
 import server.player.ConnectionToClient;
 import server.window.ServerFrame;
 
@@ -38,6 +39,7 @@ public class Manager implements Runnable {
 		
 		ArrayList<String> boardInfo;
 		ArrayList<String> playerInfo;
+		ArrayList<Action> logInfo;
 		
 		serverFrame.getPlayersPanel().setPlayers(board.getPlayers().size());
 		
@@ -50,6 +52,9 @@ public class Manager implements Runnable {
 				playerInfo = board.getPlayers().get(i).getPlayerInfo();
 				serverFrame.getPlayersPanel().updatePlayerInfo(playerInfo, i);
 			}
+			
+			logInfo = board.getPlayers().get(0).getLogInfo();
+			serverFrame.getLogPanel().updateLogInfo(logInfo);
 			
 			if(firstPack) {
 				serverFrame.pack();

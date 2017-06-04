@@ -213,6 +213,7 @@ public class Board implements Runnable {
 		
 		if(deck.size() < quantity) {
 			shuffleDiscardOnDeck();
+			card = pickFromDeck(quantity);
 		} else {
 			for(int i=0; i < quantity; ++i) {
 				card[i] = deck.remove(deck.size() - 1);
@@ -257,6 +258,7 @@ public class Board implements Runnable {
 	public void shuffleDiscardOnDeck() {
 		deck.addAll(discard);
 		Collections.shuffle(deck);
+		discard = new ArrayList<Card>();
 		System.out.println(">>Shuffling the discard on deck");
 	}
 	
