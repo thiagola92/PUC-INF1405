@@ -1,6 +1,7 @@
 package other;
 
 import java.awt.event.ActionEvent;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,8 +30,23 @@ public class ServerOrClientFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		client.addActionListener((ActionEvent e) -> {
-			new Translator(4, "127.0.0.1");
+			Translator t = new Translator(4, "127.0.0.1");
+			
+			//temporary
+			(new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					while(true) {
+						Scanner scan = new Scanner(System.in);
+						String message = scan.nextLine();
+						t.answer(message);
+					}
+				}
+			})).start();
+			
 			this.setVisible(false);
+			
 		});
 		
 		server.addActionListener((ActionEvent e) -> {

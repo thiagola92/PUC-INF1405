@@ -408,6 +408,15 @@ public class Player {
 		setHealth(getHealth() - weapon.getDamage() - player.getDamage());
 	}
 	
+	public void updatePlayer(ArrayList<String> publicInfo) {
+		String message = "UPDATE";
+		
+		for(String s: publicInfo)
+			message += Player.SEPARATOR + s;
+		
+		connection.sendMessage(message);
+	}
+	
 	/**
 	 * Get the player message and translate to one action/command.
 	 * <br>Right now the options are:
@@ -417,26 +426,19 @@ public class Player {
 	public void command() {
 		String[] arguments = connection.receiveMessage();
 		
-		for(int i=0; i < arguments.length; ++i) {
+		for(int i=0; i < arguments.length; ++i)
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
-		}
 		
 		if(arguments[0].compareTo("NEXTTURN") == 0) {
-			history.add(new Action(this));
 			
+			history.add(new Action(this));
 			board.nextTurn();
+			
 		} else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
+			
 			this.useCard(arguments[1]);
+			
 		}
-	}
-	
-	public void updatePlayer(ArrayList<String> publicInfo) {
-		String message = "UPDATE";
-		
-		for(String s: publicInfo)
-			message += Player.SEPARATOR + s;
-		
-		connection.sendMessage(message);
 	}
 	
 }

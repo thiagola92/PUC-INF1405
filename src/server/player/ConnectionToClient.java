@@ -18,7 +18,7 @@ import java.util.Scanner;
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class ConnectionToClient{
+public class ConnectionToClient {
 	
 	private Socket client;
 	private Scanner entrada;

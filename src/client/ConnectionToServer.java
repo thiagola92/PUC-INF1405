@@ -15,7 +15,7 @@ import server.player.Player;
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class ConnectionToServer implements Runnable {
+public class ConnectionToServer {
 	
 	private Socket server;
 	private Scanner entrada;
@@ -79,16 +79,6 @@ public class ConnectionToServer implements Runnable {
 		}
 		
 		return arguments;
-	}
-
-	// Continue to listen the server
-	public void run() {
-		while(true) {
-			String[] message = receiveMessage();
-			for(String argument: message)
-				System.out.format("%s|", argument);
-			System.out.format("\n");
-		}
 	}
 
 }

@@ -3,18 +3,21 @@ package client;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
+
+import client.window.ClientFrame;
 
 public class Translator implements Runnable{
 
 	private ConnectionToServer connection;
+	private ClientFrame clientFrame;
 	
 	public Translator(int port, String ip) {
+		
+		this.clientFrame = new ClientFrame();
 		
 		try {
 			
 			connection = new ConnectionToServer(new Socket(ip, port));
-			new Thread(connection).start();
 			
 		} catch(UnknownHostException e) {
 			System.out.println("UnknownHostException - if the IP address of the host could not be determined.");
@@ -32,13 +35,26 @@ public class Translator implements Runnable{
 	@Override
 	public void run() {
 		
-		while(true) {
-			@SuppressWarnings("resource")
-			Scanner scan = new Scanner(System.in);
-			String message = scan.nextLine();
-			connection.sendMessage(message);
-		}
+		while(true)
+			this.command();
 		
+	}
+	
+	public void answer(String message) {
+		connection.sendMessage(message);
+	}
+	
+	public void command() {
+		String[] arguments = connection.receiveMessage();
+
+		for(int i=0; i < arguments.length; ++i)
+			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
+		
+		if(arguments[0].compareTo("OPTIONS") == 0) {
+			clientFrame.options(arguments);
+		} else if(arguments[0].compareTo("UPDATE") == 0) {
+			
+		}
 	}
 }
 

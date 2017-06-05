@@ -28,18 +28,18 @@ public class LogPanel extends JPanel {
 	public void updateLogInfo(ArrayList<Action> logInfo) {
 		String event = "";
 		
-		synchronized(logInfo) {
-			for(Action action: logInfo) {
+		for(Action action: logInfo) {
+			synchronized(action) {
 				event += action.getPlayer().getName();
 	
 				if(action.getCard() != null) {
-					event += " USED " + action.getCard().getName();
+					event += " used " + action.getCard().getName();
 					
 					if(action.getTarget() != null)
-						event += " IN " + action.getTarget().getName();
+						event += " in " + action.getTarget().getName();
 					
 				} else {
-					event += " PASS THE TURN";
+					event += "has passed the turn";
 				}
 				
 				event += "\n";
