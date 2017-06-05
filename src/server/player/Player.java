@@ -430,10 +430,10 @@ public class Player {
 		}
 	}
 	
-	public void updatePlayer(ArrayList<String> everythingThatHeNeedsToKnow) {
+	public void updatePlayer(ArrayList<String> publicInfo) {
 		String message = "UPDATE";
 		
-		for(String s: everythingThatHeNeedsToKnow)
+		for(String s: publicInfo)
 			message += Player.SEPARATOR + s;
 		
 		connection.sendMessage(message);

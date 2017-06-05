@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  * <li>BoardPanel</li>
  * <li>PlayersPanel</li>
  * <li>LogPanel</li>
- * @author Thiago
+ * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
 @SuppressWarnings("serial")

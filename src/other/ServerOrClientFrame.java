@@ -1,13 +1,12 @@
 package other;
 
 import java.awt.event.ActionEvent;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import client.ConnectionToServer;
+import client.Translator;
 import server.ConnectionReceiver;
 
 /**
@@ -30,17 +29,8 @@ public class ServerOrClientFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		client.addActionListener((ActionEvent e) -> {
-			ConnectionToServer connection = new ConnectionToServer(4, "127.0.0.1");
-			connection.start();
+			new Translator(4, "127.0.0.1");
 			this.setVisible(false);
-			
-			// Temporary
-			while(true) {
-				@SuppressWarnings("resource")
-				Scanner scan = new Scanner(System.in);
-				String message = scan.nextLine();
-				connection.sendMessage(message);
-			}
 		});
 		
 		server.addActionListener((ActionEvent e) -> {

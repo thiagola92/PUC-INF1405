@@ -10,7 +10,7 @@ import server.player.Action;
 
 /**
  * Panel that show the players actions.
- * @author Thiago
+ * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
 @SuppressWarnings("serial")

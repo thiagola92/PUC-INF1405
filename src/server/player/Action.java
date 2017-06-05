@@ -8,7 +8,7 @@ import server.card.Card;
  * <br>The class player have a static attribute
  * <br><code>ArrayList<Action> history</code>
  * <br>So you can register every action of the players.
- * @author Thiago
+ * @author Thiago Lages de Alencar
  *
  */
 public class Action {

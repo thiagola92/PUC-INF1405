@@ -16,6 +16,7 @@
 * [Version 016](#version-016)
 * [Version 017](#version-017)
 * [Version 018](#version-018)
+* [Version 019](#version-019)
 
 # Version 002 #
 
@@ -361,3 +362,20 @@ Part of the window with the players information.
 
 ## BoardPanel ##
 Part of the window with the board information.
+
+# Version 019 #
+
+## Board ##
+* endGame() was renamed to findTheWinner().
+  * Forgot to update this.
+* updatePlayers() created.
+  * Send to all clients the state of the game.
+  
+## Player ##
+* updatePlayer() created.
+  * Send to the client the state of the game.
+  
+## Action ##
+Look who is back!
+
+No need for __HistoryEntry__ for now.

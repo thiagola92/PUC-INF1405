@@ -50,8 +50,6 @@ public class ConnectionReceiver {
 			System.out.println("IllegalBlockingModeException - if this socket has an associated channel, the channel is in non-blocking mode, and there is no connection ready to be accepted");
 		}
 		
-		Manager manager = new Manager(clients);
-		
-		new Thread(manager).start();
+		new Manager(clients);
 	}
 }

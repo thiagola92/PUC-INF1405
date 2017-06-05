@@ -7,13 +7,15 @@ import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import server.player.Player;
+
 /**
  * This class take care of sending and receiving messages from the server.
  * <br>Extends from Thread so can always be waiting from the server update.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class ConnectionToServer extends Thread {
+public class ConnectionToServer implements Runnable {
 	
 	private Socket server;
 	private Scanner entrada;
@@ -24,11 +26,11 @@ public class ConnectionToServer extends Thread {
 	 * @param port		Port to connect
 	 * @param ip		IP to connect
 	 */
-	public ConnectionToServer(int port, String ip) {
+	public ConnectionToServer(Socket socket) {
+		this.server = socket;
 		
 		try {
 			
-			server = new Socket(ip, port);
 			System.out.println(">>Connected to the server");
 
 			entrada = new Scanner(server.getInputStream());
@@ -61,12 +63,14 @@ public class ConnectionToServer extends Thread {
 	 * <br>Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
 	 * @return
 	 */
-	public String receiveMessage() {
+	public String[] receiveMessage() {
+		String[] arguments = null;
 		String message = null;
 		
 		try {
 			
 			message = entrada.nextLine();
+			arguments = message.split("[" + Player.SEPARATOR + "]");
 			
 		} catch(NoSuchElementException e) {
 			System.out.println("NoSuchElementException - if no line was found.");
@@ -74,17 +78,16 @@ public class ConnectionToServer extends Thread {
 			System.out.println("IllegalStateException - if this scanner is closed.");
 		}
 		
-		return message;
+		return arguments;
 	}
 
-	/**
-	 * The action that the connection need to be doing all the time, right now the only thing that i can think is waiting for server message.
-	 */
+	// Continue to listen the server
 	public void run() {
-		// Temporary
 		while(true) {
-			String message = receiveMessage();
-			System.out.println(message);
+			String[] message = receiveMessage();
+			for(String argument: message)
+				System.out.format("%s|", argument);
+			System.out.format("\n");
 		}
 	}
 

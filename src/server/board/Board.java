@@ -337,6 +337,12 @@ public class Board implements Runnable {
 		return distance;
 	}
 	
+	/**
+	 * When i say update i mean, send to the clients a string telling about the game.
+	 * This method does nothing to the class Player, just get the information that will send the client.
+	 * 
+	 * This method can be improved! Right now i am getting more than one time the same information.
+	 */
 	public void updatePlayers() {
 		
 		for(Player player: players) {

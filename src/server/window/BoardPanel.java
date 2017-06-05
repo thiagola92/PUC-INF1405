@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 /**
  * Panel that show the board informations.
- * @author Thiago
+ * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
 @SuppressWarnings("serial")
