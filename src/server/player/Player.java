@@ -46,7 +46,7 @@ public class Player {
 		this.board = board;
 		this.connection = connection;
 
-		connection.sendMessage(">>Choose your nickname:");
+		connection.sendMessage("ASKTEXT" + Player.SEPARATOR + "Submit your nickname");
 		name = connection.receiveMessage()[0];
 	}
 	
@@ -311,7 +311,7 @@ public class Player {
 		}
 		
 		ArrayList<Player> playersThatCanBeAttacked = board.getPlayersWithState(State.WAITING_TURN);
-		String message = "OPTIONS";
+		String message = "OPTIONS" + Player.SEPARATOR + "Chose one player to attack";
 		
 		for(Player player: playersThatCanBeAttacked) {
 			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange())
@@ -375,7 +375,7 @@ public class Player {
 	 */
 	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
-		String message = "OPTIONS" + Player.SEPARATOR + "RECEIVE";
+		String message = "OPTIONS" + Player.SEPARATOR + "Chose a block card (or don't)";
 		
 		for(Card card: hand) {
 			if(card.getName().compareTo("BLOCK") == 0) {

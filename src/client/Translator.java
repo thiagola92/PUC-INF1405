@@ -50,8 +50,16 @@ public class Translator implements Runnable{
 		for(int i=0; i < arguments.length; ++i)
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		
-		if(arguments[0].compareTo("OPTIONS") == 0) {
-			clientFrame.options(arguments);
+		if(arguments[0].compareTo("ASKTEXT") == 0) {
+
+			String answer = clientFrame.askText(arguments);
+			connection.sendMessage(answer);
+			
+		} else if(arguments[0].compareTo("OPTIONS") == 0) {
+			
+			String answer = clientFrame.options(arguments);
+			connection.sendMessage(answer);
+			
 		} else if(arguments[0].compareTo("UPDATE") == 0) {
 			
 		}

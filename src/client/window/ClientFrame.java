@@ -14,10 +14,26 @@ public class ClientFrame extends JFrame {
 		this.pack();
 	}
 	
-	public String options(String[] arguments) {
-		String X = (String) JOptionPane.showInputDialog(this, "Options", "", JOptionPane.PLAIN_MESSAGE, null, arguments, arguments[0]);
-		System.out.println(X);
+	public String askText(String[] arguments) {
+		String answer = (String) JOptionPane.showInputDialog(this, arguments[1], "", JOptionPane.PLAIN_MESSAGE, null, null, null);
+		System.out.println(answer);
 		
-		return X;
+		return answer;
+	}
+	
+	public String options(String[] arguments) {
+		String[] options = null;
+		
+		if(arguments.length <= 2)
+			return null;
+		
+		options = new String[arguments.length - 2];
+		for(int i=2; i < arguments.length; ++i)
+			options[i-2] = arguments[i];
+		
+		String answer = (String) JOptionPane.showInputDialog(this, arguments[1], "", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		System.out.println(answer);
+		
+		return answer;
 	}
 }
