@@ -11,7 +11,7 @@ import server.window.ServerFrame;
  * This class was created so visual things didn't interact with the game.
  * <br>If you want to edit windows/frames/panels go the <b>serverFrame</b>.
  * <br>If you want to edit the game go to <b>board</b>.
- * @author Thiago
+ * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
 public class Manager implements Runnable {
@@ -28,6 +28,7 @@ public class Manager implements Runnable {
 		this.serverFrame = new ServerFrame();
 		
 		new Thread(board).start();
+		new Thread(this).start();
 	}
 
 	/**
