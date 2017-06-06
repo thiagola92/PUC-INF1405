@@ -1,15 +1,33 @@
 package client.window;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class ClientFrame extends JFrame {
+	
+	private JPanel panel = new JPanel(new BorderLayout());
+
+	private BoardPanel boardPanel = new BoardPanel();
+	private OtherPanel otherPanel = new OtherPanel();
+	private PlayerPanel playerPanel = new PlayerPanel();
 
 	public ClientFrame() {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		boardPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+		otherPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
+		playerPanel.setBorder(BorderFactory.createLineBorder(Color.green));
+		
+		panel.add(boardPanel, BorderLayout.PAGE_START);
+		panel.add(otherPanel, BorderLayout.CENTER);
+		panel.add(playerPanel, BorderLayout.PAGE_END);
 		
 		this.pack();
 	}

@@ -29,21 +29,19 @@ public class LogPanel extends JPanel {
 		String event = "";
 		
 		for(Action action: logInfo) {
-			synchronized(action) {
-				event += action.getPlayer().getName();
-	
-				if(action.getCard() != null) {
-					event += " used " + action.getCard().getName();
-					
-					if(action.getTarget() != null)
-						event += " in " + action.getTarget().getName();
-					
-				} else {
-					event += "has passed the turn";
-				}
+			event += action.getPlayer().getName();
+
+			if(action.getCard() != null) {
+				event += " used " + action.getCard().getName();
 				
-				event += "\n";
+				if(action.getTarget() != null)
+					event += " in " + action.getTarget().getName();
+				
+			} else {
+				event += "has passed the turn";
 			}
+			
+			event += "\n";
 		}
 		
 		logArea.setText(event);

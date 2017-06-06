@@ -115,7 +115,7 @@ public class Player {
 	 * @param anonymous 	If you want to see all information or just public information
 	 * @return				ArrayList with the informations about the player
 	 */
-	public ArrayList<String> getPlayerInfo(boolean anonymous) {
+	public synchronized ArrayList<String> getPlayerInfo(boolean anonymous) {
 		ArrayList<String> playerInfo = new ArrayList<String>();
 
 		playerInfo.add("Player name" + Player.SEPARATOR + this.getName());
@@ -135,17 +135,13 @@ public class Player {
 		
 		playerInfo.add("Number of cards holding" + Player.SEPARATOR + this.hand.size());
 		
-		synchronized(hand) {
-			if(anonymous == false) {
-				for(Card c: hand)
-					playerInfo.add("Card" + Player.SEPARATOR + c.getName());
-			}
+		if(anonymous == false) {
+			for(Card c: hand)
+				playerInfo.add("Card" + Player.SEPARATOR + c.getName());
 		}
 		
-		synchronized(equipments) {
-			for(Card c: equipments)
-				playerInfo.add("Equipment" + Player.SEPARATOR + c.getName());
-		}
+		for(Card c: equipments)
+			playerInfo.add("Equipment" + Player.SEPARATOR + c.getName());
 		
 		return playerInfo;
 	}
