@@ -322,7 +322,7 @@ Created, so finally have attributes and methods.
 * read() return a string telling every action in order.
 
 ## Action ##
-Better name than Play.
+Better name than __Play__.
 * As i am using the objects as reference i don't need player_doing_id and player_target_id. The same goes for cards, i am using cards reference...
 * time, no need for this.
 * read(), read the action trying to discovery what happened.
