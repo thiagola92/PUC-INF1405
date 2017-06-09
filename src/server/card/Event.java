@@ -13,21 +13,15 @@ import server.player.Player;
 public class Event implements Card {
 
 	private String name;
-	private String description;
 	private FunctionEvent function;
 	
-	public Event(String name, String description, FunctionEvent function) {
+	public Event(String name, FunctionEvent function) {
 		this.name = name;
-		this.description = description;
 		this.function = function;
 	}
 	
 	public String getName() {
 		return name;
-	}
-
-	public String getDescription() {
-		return description;
 	}
 
 	public void useCard(Player player, Board board) {

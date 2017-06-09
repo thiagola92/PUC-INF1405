@@ -13,7 +13,7 @@ public class Translator implements Runnable{
 	
 	public Translator(int port, String ip) {
 		
-		this.clientFrame = new ClientFrame();
+		this.clientFrame = new ClientFrame(this);
 		
 		try {
 			

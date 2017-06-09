@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.Translator;
+import lang.Language;
 import server.ConnectionReceiver;
 
 /**
@@ -20,8 +21,8 @@ import server.ConnectionReceiver;
 @SuppressWarnings("serial")
 public class ServerOrClientFrame extends JFrame {
 	
-	private JButton client = new JButton("Player");
-	private JButton server = new JButton("Server");
+	private JButton client = new JButton(Language.player);
+	private JButton server = new JButton(Language.server);
 	private JPanel panel = new JPanel();		// Default is FlowLayout
 
 	public ServerOrClientFrame() {

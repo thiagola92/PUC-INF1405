@@ -2,6 +2,7 @@ package server.player;
 
 import java.util.ArrayList;
 
+import lang.Language;
 import server.board.Board;
 import server.card.Card;
 import server.card.Equipment;
@@ -46,7 +47,7 @@ public class Player {
 		this.board = board;
 		this.connection = connection;
 
-		connection.sendMessage("ASKTEXT" + Player.SEPARATOR + "Submit your nickname");
+		connection.sendMessage("ASKTEXT" + Player.SEPARATOR + Language.submit_your_nickname);
 		name = connection.receiveMessage()[0];
 	}
 	
@@ -73,9 +74,11 @@ public class Player {
 	
 	public int getDamage() {
 		int damage = 0;
-		
+
+		synchronized(equipments) {
 		for(Equipment equip: equipments)
 			damage += equip.getDamage();
+		}
 		
 		return damage;
 	}
@@ -83,17 +86,21 @@ public class Player {
 	public int getAttacks() {
 		int attacks = 0;
 		
-		for(Equipment equip: equipments)
-			attacks += equip.getAttacks();
+		synchronized(equipments) {
+			for(Equipment equip: equipments)
+				attacks += equip.getAttacks();
+		}
 		
 		return attacks;
 	}
 
 	public int getDistance() {
 		int distance = 0;
-		
-		for(Equipment equip: equipments)
-			distance += equip.getDistance();
+
+		synchronized(equipments) {
+			for(Equipment equip: equipments)
+				distance += equip.getDistance();
+		}
 		
 		return distance;
 	}
@@ -101,8 +108,10 @@ public class Player {
 	public int getRange() {
 		int range = 0;
 
-		for(Equipment equip: equipments)
-			range += equip.getRange();
+		synchronized(equipments) {
+			for(Equipment equip: equipments)
+				range += equip.getRange();
+		}
 		
 		return range;
 	}
@@ -115,33 +124,37 @@ public class Player {
 	 * @param anonymous 	If you want to see all information or just public information
 	 * @return				ArrayList with the informations about the player
 	 */
-	public synchronized ArrayList<String> getPlayerInfo(boolean anonymous) {
+	public ArrayList<String> getPlayerInfo(boolean anonymous) {
 		ArrayList<String> playerInfo = new ArrayList<String>();
 
-		playerInfo.add("Player name" + Player.SEPARATOR + this.getName());
+		playerInfo.add(Language.player_name + Player.SEPARATOR + this.getName());
 		
-		playerInfo.add("Resets" + Player.SEPARATOR + this.getResets());
-		playerInfo.add("Health" + Player.SEPARATOR + this.getHealth());
-		
-		if(anonymous == false) {
-			playerInfo.add("Team" + Player.SEPARATOR + this.getTeam());
-			playerInfo.add("State" + Player.SEPARATOR + this.getState());
-		}
-		
-		playerInfo.add("Damage" + Player.SEPARATOR + this.getDamage());
-		playerInfo.add("Attacks" + Player.SEPARATOR + this.getAttacks());
-		playerInfo.add("Distance" + Player.SEPARATOR + this.getDistance());
-		playerInfo.add("Range" + Player.SEPARATOR + this.getRange());
-		
-		playerInfo.add("Number of cards holding" + Player.SEPARATOR + this.hand.size());
+		playerInfo.add(Language.resets + Player.SEPARATOR + this.getResets());
+		playerInfo.add(Language.health + Player.SEPARATOR + this.getHealth());
 		
 		if(anonymous == false) {
-			for(Card c: hand)
-				playerInfo.add("Card" + Player.SEPARATOR + c.getName());
+			playerInfo.add(Language.team + Player.SEPARATOR + this.getTeam());
+			playerInfo.add(Language.state + Player.SEPARATOR + this.getState());
 		}
 		
-		for(Card c: equipments)
-			playerInfo.add("Equipment" + Player.SEPARATOR + c.getName());
+		playerInfo.add(Language.damage + Player.SEPARATOR + this.getDamage());
+		playerInfo.add(Language.attacks + Player.SEPARATOR + this.getAttacks());
+		playerInfo.add(Language.distance + Player.SEPARATOR + this.getDistance());
+		playerInfo.add(Language.range + Player.SEPARATOR + this.getRange());
+		
+		playerInfo.add(Language.number_of_cards_holding + Player.SEPARATOR + this.hand.size());
+		
+		if(anonymous == false) {
+			synchronized(hand) {
+				for(Card c: hand)
+					playerInfo.add(Language.card + Player.SEPARATOR + c.getName());
+			}
+		}
+		
+		synchronized(equipments) {
+			for(Card c: equipments)
+				playerInfo.add(Language.equipment + Player.SEPARATOR + c.getName());
+		}
 		
 		return playerInfo;
 	}
@@ -307,7 +320,7 @@ public class Player {
 		}
 		
 		ArrayList<Player> playersThatCanBeAttacked = board.getPlayersWithState(State.WAITING_TURN);
-		String message = "OPTIONS" + Player.SEPARATOR + "Chose one player to attack";
+		String message = "OPTIONS" + Player.SEPARATOR + Language.chose_one_player_to_attack;
 		
 		for(Player player: playersThatCanBeAttacked) {
 			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange())
@@ -371,10 +384,10 @@ public class Player {
 	 */
 	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
-		String message = "OPTIONS" + Player.SEPARATOR + "Chose a block card (or don't)";
+		String message = "OPTIONS" + Player.SEPARATOR + Language.chose_a_block_card;
 		
 		for(Card card: hand) {
-			if(card.getName().compareTo("BLOCK") == 0) {
+			if(card.getName().compareTo("Block") == 0) {
 				message += (Player.SEPARATOR + card.getName());
 				cardsThatCanBlock.add(card);
 			}

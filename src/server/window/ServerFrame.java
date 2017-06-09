@@ -29,7 +29,6 @@ public class ServerFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//boardPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-		//playersPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 		//logPanel.setBorder(BorderFactory.createLineBorder(Color.green));
 		
 		panel.add(boardPanel, BorderLayout.PAGE_START);

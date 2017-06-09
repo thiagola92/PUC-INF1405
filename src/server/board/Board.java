@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 
+import lang.Language;
 import server.card.AllCards;
 import server.card.Card;
 import server.player.Color;
@@ -59,6 +60,8 @@ public class Board implements Runnable {
 				++cardsStart;
 		}
 		
+		players.get(0).receiveCards(pickFromDeck(1));
+		
 		/* 
 		 * Deciding how many of each teams have.
 		 * After this shuffling so can distribute the teams randomly.
@@ -98,12 +101,12 @@ public class Board implements Runnable {
 	public ArrayList<String> getBoardInfo() {
 		ArrayList<String> boardInfo = new ArrayList<String>();
 
-		boardInfo.add("Game ended" + Player.SEPARATOR + this.endGame);
-		boardInfo.add("Number of players" + Player.SEPARATOR + this.getPlayers().size());
-		boardInfo.add("Cards on deck" + Player.SEPARATOR + this.deck.size());
-		boardInfo.add("Cards on discard" + Player.SEPARATOR + this.discard.size());
-		boardInfo.add("Attacks this turn" + Player.SEPARATOR + this.getAttacksThisTurn());
-		boardInfo.add("Turn from player" + Player.SEPARATOR + this.turnFromPlayer);
+		boardInfo.add(Language.game_ended + Player.SEPARATOR + this.endGame);
+		boardInfo.add(Language.number_of_players + Player.SEPARATOR + this.getPlayers().size());
+		boardInfo.add(Language.cards_on_deck + Player.SEPARATOR + this.deck.size());
+		boardInfo.add(Language.cards_on_discard + Player.SEPARATOR + this.discard.size());
+		boardInfo.add(Language.attacks_this_turn + Player.SEPARATOR + this.getAttacksThisTurn());
+		boardInfo.add(Language.turn_from_player + Player.SEPARATOR + this.turnFromPlayer);
 		
 		return boardInfo;
 	}

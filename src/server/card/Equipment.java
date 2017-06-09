@@ -13,7 +13,6 @@ import server.player.Player;
 public class Equipment implements Card {
 
 	private String name;
-	private String description;
 	private int damage;
 	private int attacks;
 	private int distance;
@@ -30,12 +29,11 @@ public class Equipment implements Card {
 	 * @param range				How much increase the range from the attacks of this player
 	 * @param function			What the card is suppose to do when used
 	 */
-	public Equipment(String name, String description,
+	public Equipment(String name,
 			int damage, int attacks, int distance, int range,
 			FunctionEquipment function) {
 		
 		this.name = name;
-		this.description = description;
 		this.damage = damage;
 		this.attacks = attacks;
 		this.distance = distance;
@@ -45,10 +43,6 @@ public class Equipment implements Card {
 
 	public String getName() {
 		return name;
-	}
-
-	public String getDescription() {
-		return description;
 	}
 
 	public int getDamage() {

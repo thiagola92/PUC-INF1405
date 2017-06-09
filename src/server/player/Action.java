@@ -27,23 +27,23 @@ public class Action {
 		this.player = player;
 	}
 
-	public synchronized Player getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 	
-	public synchronized Card getCard() {
+	public Card getCard() {
 		return card;
 	}
 
-	public synchronized Player getTarget() {
+	public Player getTarget() {
 		return target;
 	}
 	
-	public synchronized void setCard(Card card) {
+	public void setCard(Card card) {
 		this.card = card;
 	}
 	
-	public synchronized void setTarget(Player target) {
+	public void setTarget(Player target) {
 		this.target = target;
 	}
 	

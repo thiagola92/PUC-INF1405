@@ -6,7 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import server.card.Card;
 import server.player.Action;
+import server.player.Player;
 
 /**
  * Panel that show the players actions.
@@ -29,19 +31,21 @@ public class LogPanel extends JPanel {
 		String event = "";
 		
 		for(Action action: logInfo) {
-			event += action.getPlayer().getName();
-
-			if(action.getCard() != null) {
-				event += " used " + action.getCard().getName();
+			synchronized(logInfo) {
+				Player player = action.getPlayer();
+				Card card = action.getCard();
+				Player target = action.getTarget();
 				
-				if(action.getTarget() != null)
-					event += " in " + action.getTarget().getName();
+				if(player != null && card != null && target != null) {
+					event += player.getName() + " used " + card.getName() + " on " + target.getName();
+				} else if(player != null && card != null && target == null) {
+					event += player.getName() + " used " + card.getName();
+				} else if(player != null && card == null && target == null) {
+					event += player.getName() + " passed the turn";
+				}
 				
-			} else {
-				event += "has passed the turn";
+				event += "\n";
 			}
-			
-			event += "\n";
 		}
 		
 		logArea.setText(event);

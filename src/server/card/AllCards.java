@@ -21,54 +21,54 @@ public class AllCards {
 		
 		// Equipments
 		
-		equipment(5, "EQUIP1", "NULL", 1, 0, 0, 0, (card, player, board) -> {
+		equipment(5, "Equip1", 1, 0, 0, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(5, "EQUIP2", "NULL", 0, 1, 0, 0, (card, player, board) -> {
+		equipment(5, "Equip2", 0, 1, 0, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(5, "EQUIP3", "NULL", 0, 0, 1, 0, (card, player, board) -> {
+		equipment(5, "Equip3", 0, 0, 1, 0, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
-		equipment(5, "EQUIP4", "NULL", 0, 0, 0, 1, (card, player, board) -> {
+		equipment(5, "Equip4", 0, 0, 0, 1, (card, player, board) -> {
 			player.equipCard(card);
 		});
 		
 		// Weapons
 		
-		weapon(5, "WEAPON1", "NULL", 4, 1, (card, player, board) -> {
+		weapon(5, "Weapon1", 4, 1, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
-		weapon(5, "WEAPON2", "NULL", 3, 2, (card, player, board) -> {
+		weapon(5, "Weapon2", 3, 2, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
-		weapon(5, "WEAPON3", "NULL", 2, 3, (card, player, board) -> {
+		weapon(5, "Weapon3", 2, 3, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
-		weapon(5, "WEAPON4", "NULL", 1, 4, (card, player, board) -> {
+		weapon(5, "Weapon4", 1, 4, (card, player, board) -> {
 			player.attackPlayer(card);
 		});
 		
 		// Events
 		
-		event(5, "BUY CARD", "NULL", (card, player, board) -> {
-			player.receiveCards(board.pickFromDeck(1));
+		event(5, "Buy card", (card, player, board) -> {
+			player.receiveCards(board.pickFromDeck(2));
 			player.discardCard(card);
 		});
 		
-		event(5, "BLOCK", "NULL", (card, player, board) -> {
+		event(5, "Block", (card, player, board) -> {
 		});
 		
-		event(5, "BLOCK", "NULL", (card, player, board) -> {
+		event(5, "Block", (card, player, board) -> {
 		});
 		
-		event(5, "BLOCK", "NULL", (card, player, board) -> {
+		event(5, "Block", (card, player, board) -> {
 		});
 		
 		System.out.println(">>Created all cards in the game");
@@ -85,9 +85,9 @@ public class AllCards {
 	 * @param range				How much increase the range from the attacks of this player
 	 * @param function			What the card is suppose to do when used
 	 */
-	public void equipment(int quantity, String name, String description, int damage, int attacks, int distance, int range, FunctionEquipment function) {
+	public void equipment(int quantity, String name, int damage, int attacks, int distance, int range, FunctionEquipment function) {
 		for(int i=0; i < quantity; ++i)
-			deck.add(new Equipment(name, description, damage, attacks, distance, range, function));
+			deck.add(new Equipment(name, damage, attacks, distance, range, function));
 		
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
@@ -101,9 +101,9 @@ public class AllCards {
 	 * @param range				Enemy must be this close to you for you hit.
 	 * @param function			What the card is suppose to do when used
 	 */
-	public void weapon(int quantity, String name, String description, int damage, int range, FunctionWeapon function) {
+	public void weapon(int quantity, String name, int damage, int range, FunctionWeapon function) {
 		for(int i=0; i < quantity; ++i)
-			deck.add(new Weapon(name, description, damage, range, function));
+			deck.add(new Weapon(name, damage, range, function));
 		
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
@@ -115,9 +115,9 @@ public class AllCards {
 	 * @param description		Description of the card
 	 * @param function			What the card is suppose to do when used
 	 */
-	public void event(int quantity, String name, String description, FunctionEvent function) {
+	public void event(int quantity, String name, FunctionEvent function) {
 		for(int i=0; i < quantity; ++i)
-			deck.add(new Event(name, description, function));
+			deck.add(new Event(name, function));
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
 
