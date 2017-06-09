@@ -1,12 +1,19 @@
 package lang;
 
 public class Language {
+	////////////////////////////////////////////////////////////////////CLIENT OR SERVER
 	//ServerOrClient
 	public static String player = "Player";
 	public static String server = "Server";
 	
+	////////////////////////////////////////////////////////////////////CLIENT
+	//Asking nickname
 	public static String submit_your_nickname = "Submit your nickname";
 	
+	//Use card
+	public static String use_card = "Use card";
+	
+	////////////////////////////////////////////////////////////////////SERVER
 	//Board
 	public static String game_ended = "Game ended";
 	public static String number_of_players = "Number of players";
@@ -26,7 +33,7 @@ public class Language {
 	public static String distance = "Distance";
 	public static String range = "Range";
 	public static String number_of_cards_holding = "Number of cards holding";
-	public static String card = "Cards";
+	public static String cards = "Cards";
 	public static String equipment = "Equipment";
 	
 	//Attacking
@@ -34,4 +41,18 @@ public class Language {
 	
 	//Blocking
 	public static String chose_a_block_card = "Chose a block card (or don't)";
+	
+	////////////////////////////////////////////////////////////////////FORBIDDEN WORDS
+	// From client and server
+	public static final String SEPARATOR = "|";
+	
+	// From server to client
+	public static final String ASKTEXT = "ASKTEXT";
+	public static final String OPTIONS = "OPTIONS";
+	public static final String UPDATE = "UPDATE";
+	public static final String BOARD = "BOARD";
+	public static final String OTHERPLAYER = "OTHERPLAYER";
+	
+	// From the client to server
+	public static final String USECARD = "USECARD";
 }

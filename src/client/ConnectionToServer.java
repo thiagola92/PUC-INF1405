@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import server.player.Player;
+import lang.Language;
 
 /**
  * This class take care of sending and receiving messages from the server.
@@ -70,7 +70,7 @@ public class ConnectionToServer {
 		try {
 			
 			message = entrada.nextLine();
-			arguments = message.split("[" + Player.SEPARATOR + "]");
+			arguments = message.split("[" + Language.SEPARATOR + "]");
 			
 		} catch(NoSuchElementException e) {
 			System.out.println("NoSuchElementException - if no line was found.");

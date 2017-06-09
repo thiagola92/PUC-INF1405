@@ -101,12 +101,12 @@ public class Board implements Runnable {
 	public ArrayList<String> getBoardInfo() {
 		ArrayList<String> boardInfo = new ArrayList<String>();
 
-		boardInfo.add(Language.game_ended + Player.SEPARATOR + this.endGame);
-		boardInfo.add(Language.number_of_players + Player.SEPARATOR + this.getPlayers().size());
-		boardInfo.add(Language.cards_on_deck + Player.SEPARATOR + this.deck.size());
-		boardInfo.add(Language.cards_on_discard + Player.SEPARATOR + this.discard.size());
-		boardInfo.add(Language.attacks_this_turn + Player.SEPARATOR + this.getAttacksThisTurn());
-		boardInfo.add(Language.turn_from_player + Player.SEPARATOR + this.turnFromPlayer);
+		boardInfo.add(Language.game_ended + Language.SEPARATOR + this.endGame);
+		boardInfo.add(Language.number_of_players + Language.SEPARATOR + this.getPlayers().size());
+		boardInfo.add(Language.cards_on_deck + Language.SEPARATOR + this.deck.size());
+		boardInfo.add(Language.cards_on_discard + Language.SEPARATOR + this.discard.size());
+		boardInfo.add(Language.attacks_this_turn + Language.SEPARATOR + this.getAttacksThisTurn());
+		boardInfo.add(Language.turn_from_player + Language.SEPARATOR + this.turnFromPlayer);
 		
 		return boardInfo;
 	}
@@ -148,9 +148,9 @@ public class Board implements Runnable {
 		players.get(turnFromPlayer).setState(State.PLAYING);
 		
 		while(!endGame) {
+			this.updatePlayers();
 			System.out.format(">>Waiting command from %s (player %d)\n", players.get(turnFromPlayer).getName(), turnFromPlayer);
 			players.get(turnFromPlayer).command();
-			this.updatePlayers();
 		}
 		
 		findTheWinner();
@@ -351,12 +351,12 @@ public class Board implements Runnable {
 		for(Player player: players) {
 			ArrayList<String> information = player.getPlayerInfo(false);
 			
-			information.add("BOARD");
+			information.add(Language.BOARD);
 			information.addAll(this.getBoardInfo());
 			
 			for(Player p: players) {
 				if(player != p) {
-					information.add("OTHERPLAYER");
+					information.add(Language.OTHERPLAYER);
 					information.addAll(p.getPlayerInfo(true));
 				}
 			}

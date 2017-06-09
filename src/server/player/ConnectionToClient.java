@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import lang.Language;
+
 /**
  * This class take care of sending and receiving messages from the client.
  * <br>If you already saw ConnectionToServer you may be asking yourself why this class doesn't extend from Thread.
@@ -61,7 +63,7 @@ public class ConnectionToClient {
 		try {
 			
 			message = entrada.nextLine();
-			arguments = message.split("[" + Player.SEPARATOR + "]");
+			arguments = message.split("[" + Language.SEPARATOR + "]");
 			
 		} catch(NoSuchElementException e) {
 			System.out.println("NoSuchElementException - if no line was found.");

@@ -1,9 +1,7 @@
 package client.window;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,8 +16,6 @@ public class CardsPanel extends JPanel {
 
 	public CardsPanel() {
 		
-		this.setBorder(BorderFactory.createLineBorder(Color.blue));
-		
 		//	System.out.println(System.getProperty("user.dir"));			Get the directory of the application 
 		
 		for(int i=0; i < 7; ++i) {
@@ -27,11 +23,6 @@ public class CardsPanel extends JPanel {
 			
 			this.add(cardsImages.get(i));
 		}
-		
-		ArrayList<String> a = new ArrayList<String>();
-		a.add("template");
-		a.add("template");
-		updateCardsPanel(a);
 		
 	}
 	

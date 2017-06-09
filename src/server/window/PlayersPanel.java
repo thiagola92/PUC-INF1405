@@ -50,7 +50,7 @@ public class PlayersPanel extends JPanel {
 		String label = "<html>";
 
 		for(String info: playerInfo) 
-			label += info + " <br/> ";
+			label += info + "<br/>";
 		
 		label += "</html>";
 

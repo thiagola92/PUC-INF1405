@@ -3,8 +3,10 @@ package client;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import client.window.ClientFrame;
+import lang.Language;
 
 public class Translator implements Runnable{
 
@@ -40,29 +42,80 @@ public class Translator implements Runnable{
 		
 	}
 	
+	/**
+	 * I don't want any window communicating with the player directly, so here is one function that can be used to check if what is sending is okay.
+	 * @param message			Message that will be send
+	 */
 	public void answer(String message) {
 		connection.sendMessage(message);
 	}
 	
+	/**
+	 * Wait a message from the server. Depending with what the message start it will do something.
+	 * <br>Starting with ASKTEXT: Pop-up that will ask the user to insert some text
+	 * <br>Starting with OPTIONS: Pop-up that will ask the user to chose one of the options
+	 * <br>Starting with UPDATE: It will update all the information that the user see
+	 * <p> It will send all the arguments received to the chose made.
+	 */
 	public void command() {
 		String[] arguments = connection.receiveMessage();
 
 		for(int i=0; i < arguments.length; ++i)
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		
-		if(arguments[0].compareTo("ASKTEXT") == 0) {
+		if(arguments[0].compareTo(Language.ASKTEXT) == 0) {
 
 			String answer = clientFrame.askText(arguments);
 			connection.sendMessage(answer);
 			
-		} else if(arguments[0].compareTo("OPTIONS") == 0) {
+		} else if(arguments[0].compareTo(Language.OPTIONS) == 0) {
 			
 			String answer = clientFrame.options(arguments);
 			connection.sendMessage(answer);
 			
-		} else if(arguments[0].compareTo("UPDATE") == 0) {
+		} else if(arguments[0].compareTo(Language.UPDATE) == 0) {
+			
+			update(arguments);
 			
 		}
+	}
+
+	/**
+	 * Update the client window.
+	 * <br>Here we will receive a string like "UPDATE|....|BOARD|....|OTHERPLAYER|.....|OTHERPLAYER|....|OTHERPLAYER|...."
+	 * <br>And separate in 3 parts.
+	 * <li>The information about the player, that is between UPDATE and BOARD</li>
+	 * <li>The information about the board, that is between BOARD and OTHERPLAYER</li>
+	 * <li>The information about the others player, that is everything after the first OTHERPLAYER</li>
+	 * @param arguments			Every information about the game
+	 */
+	public void update(String[] arguments) {
+		ArrayList<String> playerInfo = new ArrayList<String>();
+		ArrayList<String> boardInfo = new ArrayList<String>();
+		ArrayList<String> otherPlayerInfo = new ArrayList<String>();
+
+		//Position in the array arguments, starting from the second because the first is "UPDATE"
+		int pos = 1;
+		
+		for(; pos < arguments.length; ++pos) {
+			if(arguments[pos].compareTo(Language.BOARD) == 0)
+				break;
+			
+			playerInfo.add(arguments[pos]);
+		}
+
+		for(; pos < arguments.length; ++pos) {
+			if(arguments[pos].compareTo(Language.OTHERPLAYER) == 0)
+				break;
+			
+			boardInfo.add(arguments[pos]);
+		}
+
+		for(; pos < arguments.length; ++pos) {
+			otherPlayerInfo.add(arguments[pos]);
+		}
+		
+		clientFrame.getPlayerPanel().updateStatus(playerInfo);
 	}
 }
 

@@ -36,8 +36,6 @@ public class Player {
 	
 	private static ArrayList<Action> history = new ArrayList<Action>();
 	
-	public static final String SEPARATOR = "|";
-	
 	/**
 	 * Create a class Player.
 	 * @param board			Class Board that will run the game.
@@ -47,7 +45,7 @@ public class Player {
 		this.board = board;
 		this.connection = connection;
 
-		connection.sendMessage("ASKTEXT" + Player.SEPARATOR + Language.submit_your_nickname);
+		connection.sendMessage(Language.ASKTEXT + Language.SEPARATOR + Language.submit_your_nickname);
 		name = connection.receiveMessage()[0];
 	}
 	
@@ -127,33 +125,33 @@ public class Player {
 	public ArrayList<String> getPlayerInfo(boolean anonymous) {
 		ArrayList<String> playerInfo = new ArrayList<String>();
 
-		playerInfo.add(Language.player_name + Player.SEPARATOR + this.getName());
+		playerInfo.add(Language.player_name + Language.SEPARATOR + this.getName());
 		
-		playerInfo.add(Language.resets + Player.SEPARATOR + this.getResets());
-		playerInfo.add(Language.health + Player.SEPARATOR + this.getHealth());
+		playerInfo.add(Language.resets + Language.SEPARATOR + this.getResets());
+		playerInfo.add(Language.health + Language.SEPARATOR + this.getHealth());
 		
 		if(anonymous == false) {
-			playerInfo.add(Language.team + Player.SEPARATOR + this.getTeam());
-			playerInfo.add(Language.state + Player.SEPARATOR + this.getState());
+			playerInfo.add(Language.team + Language.SEPARATOR + this.getTeam());
+			playerInfo.add(Language.state + Language.SEPARATOR + this.getState());
 		}
 		
-		playerInfo.add(Language.damage + Player.SEPARATOR + this.getDamage());
-		playerInfo.add(Language.attacks + Player.SEPARATOR + this.getAttacks());
-		playerInfo.add(Language.distance + Player.SEPARATOR + this.getDistance());
-		playerInfo.add(Language.range + Player.SEPARATOR + this.getRange());
+		playerInfo.add(Language.damage + Language.SEPARATOR + this.getDamage());
+		playerInfo.add(Language.attacks + Language.SEPARATOR + this.getAttacks());
+		playerInfo.add(Language.distance + Language.SEPARATOR + this.getDistance());
+		playerInfo.add(Language.range + Language.SEPARATOR + this.getRange());
 		
-		playerInfo.add(Language.number_of_cards_holding + Player.SEPARATOR + this.hand.size());
+		playerInfo.add(Language.number_of_cards_holding + Language.SEPARATOR + this.hand.size());
 		
 		if(anonymous == false) {
 			synchronized(hand) {
 				for(Card c: hand)
-					playerInfo.add(Language.card + Player.SEPARATOR + c.getName());
+					playerInfo.add(Language.cards + Language.SEPARATOR + c.getName());
 			}
 		}
 		
 		synchronized(equipments) {
 			for(Card c: equipments)
-				playerInfo.add(Language.equipment + Player.SEPARATOR + c.getName());
+				playerInfo.add(Language.equipment + Language.SEPARATOR + c.getName());
 		}
 		
 		return playerInfo;
@@ -320,11 +318,11 @@ public class Player {
 		}
 		
 		ArrayList<Player> playersThatCanBeAttacked = board.getPlayersWithState(State.WAITING_TURN);
-		String message = "OPTIONS" + Player.SEPARATOR + Language.chose_one_player_to_attack;
+		String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_one_player_to_attack;
 		
 		for(Player player: playersThatCanBeAttacked) {
 			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange())
-				message += (Player.SEPARATOR + player.getName());
+				message += (Language.SEPARATOR + player.getName());
 			else
 				playersThatCanBeAttacked.remove(player);
 		}
@@ -384,11 +382,11 @@ public class Player {
 	 */
 	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
-		String message = "OPTIONS" + Player.SEPARATOR + Language.chose_a_block_card;
+		String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_a_block_card;
 		
 		for(Card card: hand) {
 			if(card.getName().compareTo("Block") == 0) {
-				message += (Player.SEPARATOR + card.getName());
+				message += (Language.SEPARATOR + card.getName());
 				cardsThatCanBlock.add(card);
 			}
 		}
@@ -418,10 +416,10 @@ public class Player {
 	}
 	
 	public void updatePlayer(ArrayList<String> publicInfo) {
-		String message = "UPDATE";
+		String message = Language.UPDATE;
 		
 		for(String s: publicInfo)
-			message += Player.SEPARATOR + s;
+			message += Language.SEPARATOR + s;
 		
 		connection.sendMessage(message);
 	}
@@ -443,7 +441,7 @@ public class Player {
 			history.add(new Action(this));
 			board.nextTurn();
 			
-		} else if(arguments[0].compareTo("USECARD") == 0 && arguments.length == 2) {
+		} else if(arguments[0].compareTo(Language.USECARD) == 0 && arguments.length == 2) {
 			
 			this.useCard(arguments[1]);
 			

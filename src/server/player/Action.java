@@ -20,7 +20,7 @@ public class Action {
 	/**
 	 * Add a new action to the history.
 	 * @param player		The player responsible for the action.
-	 * @param card			The card that this player used, if no card were used put null.
+	 * @param cards			The card that this player used, if no card were used put null.
 	 * @param target		The target of the card, if no target were selected put null.
 	 */
 	public Action(Player player) {
