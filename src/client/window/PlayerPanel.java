@@ -11,6 +11,15 @@ import javax.swing.JPanel;
 
 import lang.Language;
 
+/**
+ * When you divide the ClientFrame in 3 parts, this is the bottom part where all the information about the player is AND where the player can interact with the server.
+ * <br>The information about the player is also divided in 3 parts.
+ * <li>General informations</li>
+ * <li>Cards on hand</li>
+ * <li>Cards equipped</li>
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 @SuppressWarnings("serial")
 public class PlayerPanel extends JPanel {
 	
@@ -33,14 +42,6 @@ public class PlayerPanel extends JPanel {
 		handAndEquipPanel.add(equipmentsPanel, BorderLayout.PAGE_START);
 		handAndEquipPanel.add(handPanel, BorderLayout.PAGE_END);
 		
-		ArrayList<String> cards = new ArrayList<String>();
-		cards.add("Weapon2");
-		cards.add("Weapon3");
-		equipmentsPanel.updateCardsPanel(cards);
-		cards.add("Block");
-		cards.add("Buy card");
-		handPanel.updateCardsPanel(cards);
-		
 		this.add(statusLabel, BorderLayout.PAGE_START);
 		this.add(handAndEquipPanel, BorderLayout.CENTER);
 		this.add(useCard, BorderLayout.PAGE_END);
@@ -53,6 +54,7 @@ public class PlayerPanel extends JPanel {
 	 * <li>General informations about the player, everything before the first "Cards"</li>
 	 * <li>Cards from the player, everything after the first "Cards"</li>
 	 * <li>Equipments from the player, everything after the first "Equipment"</li>
+	 * <br>Notice that the hand and equipment cards doesn't have the text "Cards" and "Equipments" before the name of the cards anymore.
 	 * @param playerStatus
 	 */
 	public void updateStatus(ArrayList<String> playerStatus) {
@@ -75,5 +77,7 @@ public class PlayerPanel extends JPanel {
 		}
 		
 		statusLabel.setText(status);
+		handPanel.updateCardsPanel(hand);
+		equipmentsPanel.updateCardsPanel(equip);
 	}
 }

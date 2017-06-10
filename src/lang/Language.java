@@ -1,5 +1,11 @@
 package lang;
 
+/**
+ * Every text that can be translated or shouldn't be translated should be here.
+ * <br>The idea is to put all this text together for easy management.
+ * @author Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 public class Language {
 	////////////////////////////////////////////////////////////////////CLIENT OR SERVER
 	//ServerOrClient

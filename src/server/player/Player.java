@@ -345,8 +345,6 @@ public class Player {
 				
 				player.blockPlayer(this, weapon);
 				
-				discardCard(weapon);
-				
 				if(player.state == State.DEAD) {
 					System.out.format(">>Player %s gain one reset\n", this.getName());
 					setResets(getResets() + 1);
@@ -401,11 +399,7 @@ public class Player {
 			if(card.getName().compareTo(answer) == 0) {
 				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
 				
-				Action action = new Action(this);
-				action.setCard(card);
-				history.add(action);
-				
-				discardCard(card);
+				useCard(card.getName());
 				
 				return;
 			}

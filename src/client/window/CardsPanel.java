@@ -19,7 +19,9 @@ public class CardsPanel extends JPanel {
 		//	System.out.println(System.getProperty("user.dir"));			Get the directory of the application 
 		
 		for(int i=0; i < 7; ++i) {
-			cardsImages.add(new JLabel("", null, JLabel.CENTER));
+			ImageIcon image = new ImageIcon(location + "TEMPLATE" + format);
+			JLabel label = new JLabel("", image, JLabel.CENTER);
+			cardsImages.add(label);
 			
 			this.add(cardsImages.get(i));
 		}
@@ -29,13 +31,12 @@ public class CardsPanel extends JPanel {
 	public void updateCardsPanel(ArrayList<String> cards) {
 		
 		for(int i = 0; i < cardsImages.size(); ++i) {
-			JLabel label = cardsImages.get(i);
 			ImageIcon image = null;
 			
-			if(cards != null && i < cards.size())
+			if(i < cards.size())
 				image = new ImageIcon(location + cards.get(i) + format);
 			
-			label.setIcon(image);
+			cardsImages.get(i).setIcon(image);
 		}
 	}
 }
