@@ -28,7 +28,7 @@ public class ClientFrame extends JFrame {
 		
 		this.boardPanel = new BoardPanel();
 		this.otherPlayerPanel = new OtherPlayerPanel();
-		this.playerPanel = new PlayerPanel();
+		this.playerPanel = new PlayerPanel(translator);
 		
 		//temporary
 		boardPanel.setBorder(BorderFactory.createLineBorder(Color.red));

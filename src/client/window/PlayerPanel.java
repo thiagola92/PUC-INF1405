@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client.Translator;
 import lang.Language;
 
 /**
@@ -26,19 +27,19 @@ public class PlayerPanel extends JPanel {
 	private JLabel statusLabel;
 	
 	private JPanel handAndEquipPanel;
-	private CardsPanel handPanel;
-	private CardsPanel equipmentsPanel;
+	private HandPanel handPanel;
+	private EquipmentPanel equipmentsPanel;
 	
 	private JButton useCard;
 
-	public PlayerPanel() {
+	public PlayerPanel(Translator translator) {
 		this.setLayout(new BorderLayout());
 		
 		this.statusLabel = new JLabel("");
 		
 		this.handAndEquipPanel = new JPanel(new BorderLayout());
-		this.handPanel = new CardsPanel();
-		this.equipmentsPanel = new CardsPanel();
+		this.handPanel = new HandPanel(translator);
+		this.equipmentsPanel = new EquipmentPanel();
 		
 		this.useCard = new JButton(Language.use_card);
 		
@@ -88,4 +89,5 @@ public class PlayerPanel extends JPanel {
 		handPanel.updateCardsPanel(hand);
 		equipmentsPanel.updateCardsPanel(equip);
 	}
+	
 }
