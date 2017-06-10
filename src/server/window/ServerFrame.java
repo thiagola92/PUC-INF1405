@@ -17,19 +17,21 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class ServerFrame extends JFrame {
 	
-	private JPanel panel = new JPanel(new BorderLayout());
+	private JPanel panel;
 	
-	private BoardPanel boardPanel = new BoardPanel();
-	private PlayersPanel playersPanel = new PlayersPanel();
-	private LogPanel logPanel = new LogPanel();
+	private BoardPanel boardPanel;
+	private PlayersPanel playersPanel;
+	private LogPanel logPanel;
 	
 	public ServerFrame() {
-		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		//boardPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-		//logPanel.setBorder(BorderFactory.createLineBorder(Color.green));
+		panel = new JPanel(new BorderLayout());
+		
+		boardPanel = new BoardPanel();
+		playersPanel = new PlayersPanel();
+		logPanel = new LogPanel();
 		
 		panel.add(boardPanel, BorderLayout.PAGE_START);
 		panel.add(playersPanel, BorderLayout.CENTER);

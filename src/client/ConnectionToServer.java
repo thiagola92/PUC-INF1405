@@ -33,8 +33,8 @@ public class ConnectionToServer {
 			
 			System.out.println(">>Connected to the server");
 
-			entrada = new Scanner(server.getInputStream());
-	        saida = new PrintStream(server.getOutputStream());
+			this.entrada = new Scanner(server.getInputStream());
+			this.saida = new PrintStream(server.getOutputStream());
 			
 		} catch(UnknownHostException e) {
 			System.out.println("UnknownHostException - if the IP address of the host could not be determined.");

@@ -16,12 +16,15 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class PlayersPanel extends JPanel {
 	
-	private JPanel playersPanel = new JPanel(new GridBagLayout());
-	private GridBagConstraints constraints = new GridBagConstraints();
-	private ArrayList<JLabel> playersLabel = new ArrayList<JLabel>();
+	private JPanel playersPanel;
+	private GridBagConstraints constraints;
+	private ArrayList<JLabel> playersLabel;
 	
 	public PlayersPanel() {
-		//playersPanel.setBorder(BorderFactory.createLineBorder(Color.PINK));
+		playersPanel = new JPanel(new GridBagLayout());
+		constraints = new GridBagConstraints();
+		playersLabel = new ArrayList<JLabel>();
+		
 		this.setLayout(new BorderLayout());
 		this.add(playersPanel);
 	}

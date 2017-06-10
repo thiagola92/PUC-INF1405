@@ -18,10 +18,13 @@ import server.player.Player;
 @SuppressWarnings("serial")
 public class LogPanel extends JPanel {
 	
-	private JTextArea logArea = new JTextArea(20, 20);
-	private JScrollPane logScroll = new JScrollPane(logArea);
+	private JTextArea logArea;
+	private JScrollPane logScroll;
 	
 	public LogPanel() {
+		this.logArea = new JTextArea(20, 20);
+		this.logScroll = new JScrollPane(logArea);
+		
 		logArea.setEditable(false);
 		
 		this.add(logScroll);

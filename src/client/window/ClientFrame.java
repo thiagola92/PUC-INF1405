@@ -14,19 +14,26 @@ import client.Translator;
 @SuppressWarnings("serial")
 public class ClientFrame extends JFrame {
 	
-	private JPanel panel = new JPanel(new BorderLayout());
+	private JPanel panel;
 
-	private BoardPanel boardPanel = new BoardPanel();
-	private OtherPlayerPanel otherPlayerPanel = new OtherPlayerPanel();
-	private PlayerPanel playerPanel = new PlayerPanel();
+	private BoardPanel boardPanel;
+	private OtherPlayerPanel otherPlayerPanel;
+	private PlayerPanel playerPanel;
 
 	public ClientFrame(Translator translator) {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		this.panel = new JPanel(new BorderLayout());
+		
+		this.boardPanel = new BoardPanel();
+		this.otherPlayerPanel = new OtherPlayerPanel();
+		this.playerPanel = new PlayerPanel();
+		
 		//temporary
 		boardPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-		playerPanel.setBorder(BorderFactory.createLineBorder(Color.green));
+		otherPlayerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+		playerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 		
 		panel.add(new JScrollPane(boardPanel), BorderLayout.PAGE_START);
 		panel.add(new JScrollPane(otherPlayerPanel), BorderLayout.CENTER);

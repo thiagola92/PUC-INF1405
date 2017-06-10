@@ -21,15 +21,19 @@ import server.ConnectionReceiver;
 @SuppressWarnings("serial")
 public class ServerOrClientFrame extends JFrame {
 	
-	private JButton client = new JButton(Language.player);
-	private JButton server = new JButton(Language.server);
-	private JPanel panel = new JPanel();		// Default is FlowLayout
+	private JButton client;
+	private JButton server;
+	private JPanel panel;		
 
 	public ServerOrClientFrame() {
 		this.setVisible(true);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+		
+		this.client = new JButton(Language.player);
+		this.server = new JButton(Language.server);
+		this.panel = new JPanel();					// Default is FlowLayout
+		
 		client.addActionListener((ActionEvent e) -> {
 			Translator t = new Translator(4, "127.0.0.1");
 			

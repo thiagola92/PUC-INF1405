@@ -15,7 +15,7 @@ import server.player.ConnectionToClient;
  */
 public class ConnectionReceiver {
 	
-	private ArrayList<ConnectionToClient> clients = new ArrayList<ConnectionToClient>();
+	private ArrayList<ConnectionToClient> clients;
 	
 	/**
 	 * Create a ServerSocket that will wait N connections, making an ArrayList with them.
@@ -24,6 +24,7 @@ public class ConnectionReceiver {
 	 * @param howManyWait	How many players it will wait until start the game.
 	 */
 	public ConnectionReceiver(int port, int howManyWait) {
+		this.clients = new ArrayList<ConnectionToClient>();
 		
 		try {
 			ServerSocket serversocket = new ServerSocket(port);

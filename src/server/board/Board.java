@@ -26,13 +26,13 @@ public class Board implements Runnable {
 	
 	private boolean endGame = false;
 	
-	private int turnFromPlayer = 0;			// Number going from 0 to numberOfPlayers - 1
-	private int attacksThisTurn = 0;
+	private int turnFromPlayer;			// Number going from 0 to numberOfPlayers - 1
+	private int attacksThisTurn;
 	
-	private ArrayList<Card> deck = new ArrayList<Card>();
-	private ArrayList<Card> discard = new ArrayList<Card>();
+	private ArrayList<Card> deck;
+	private ArrayList<Card> discard;
 	
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Player> players;
 	
 	/**
 	 * Receive all clients made during ConnectionReceiver.
@@ -47,7 +47,18 @@ public class Board implements Runnable {
 	 * @param clients		ArrayList of clients
 	 */
 	public Board(ArrayList<ConnectionToClient> clients) {
+		this.endGame = false;
 		
+		this.turnFromPlayer = 0;
+		this.attacksThisTurn = 0;
+		
+		this.deck = new ArrayList<Card>();
+		this.discard = new ArrayList<Card>();
+		
+		this.players = new ArrayList<Player>();
+		
+		
+		// I NEED TO ORGANIZE THIS CODE IN THE CONSTRUCTOR
 		decideShiftOrder(clients);
 		new AllCards(deck);
 		Collections.shuffle(deck);

@@ -23,21 +23,29 @@ import lang.Language;
 @SuppressWarnings("serial")
 public class PlayerPanel extends JPanel {
 	
-	private JLabel statusLabel = new JLabel("test");
+	private JLabel statusLabel;
 	
-	private JPanel handAndEquipPanel = new JPanel(new BorderLayout());
-	private CardsPanel handPanel = new CardsPanel();
-	private CardsPanel equipmentsPanel = new CardsPanel();
+	private JPanel handAndEquipPanel;
+	private CardsPanel handPanel;
+	private CardsPanel equipmentsPanel;
 	
-	private JButton useCard = new JButton(Language.use_card);
+	private JButton useCard;
 
 	public PlayerPanel() {
-		
 		this.setLayout(new BorderLayout());
 		
+		this.statusLabel = new JLabel("");
+		
+		this.handAndEquipPanel = new JPanel(new BorderLayout());
+		this.handPanel = new CardsPanel();
+		this.equipmentsPanel = new CardsPanel();
+		
+		this.useCard = new JButton(Language.use_card);
+		
 		//temporary
+		handAndEquipPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 		equipmentsPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
-		handPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
+		handPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
 		handAndEquipPanel.add(equipmentsPanel, BorderLayout.PAGE_START);
 		handAndEquipPanel.add(handPanel, BorderLayout.PAGE_END);

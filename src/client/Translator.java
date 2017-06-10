@@ -8,6 +8,25 @@ import java.util.ArrayList;
 import client.window.ClientFrame;
 import lang.Language;
 
+/**
+ * This class receive translate everything that the server send to the window/visual things.
+ * <br>Also translate everything that the client do for the server.
+ * <br>This class was created so visual things were not interacting with the server.
+ * <p>This class will find the words in CAPS LOCK and translate what they mean.
+ * <br>ASKTEXT
+ * <br>OPTIONS
+ * <br>UPDATE
+ * <br>BOARD
+ * <br>OTHERPLAYER
+ * <br>Unfortunately it will not pass brute values to the other method, for example, others methods can still receive "|Damage|3|".
+ * <br>Good side is that you will only remove this type of label when needed so you can still <code>println</code> the code to see what is receiving.
+ * <p>
+ * <b>IMPORTANT</b>: Most documentation i will say "text|text|text|text".
+ * <br>This means one ArrayList where each position have one text.
+ * <br>The server send you a message like "text|text|text|text" but is already translated to arguments so there is no necessity to remove the Language.<code>SEPARATOR</code>
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 public class Translator implements Runnable{
 
 	private ConnectionToServer connection;
@@ -19,7 +38,7 @@ public class Translator implements Runnable{
 		
 		try {
 			
-			connection = new ConnectionToServer(new Socket(ip, port));
+			this.connection = new ConnectionToServer(new Socket(ip, port));
 			
 		} catch(UnknownHostException e) {
 			System.out.println("UnknownHostException - if the IP address of the host could not be determined.");

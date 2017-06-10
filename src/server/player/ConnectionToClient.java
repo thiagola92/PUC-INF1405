@@ -27,12 +27,12 @@ public class ConnectionToClient {
 	private PrintStream saida;
 	
 	public ConnectionToClient(Socket socket) {
-		client = socket;
+		this.client = socket;
 		
         try {
         	
-			entrada = new Scanner(client.getInputStream());
-	        saida = new PrintStream(client.getOutputStream());
+        	this.entrada = new Scanner(client.getInputStream());
+        	this.saida = new PrintStream(client.getOutputStream());
 	        
 		} catch(IOException e) {
 			System.out.println("IOException - if an I/O error occurs when creating the input stream, the socket is closed, the socket is not connected, or the socket input has been shutdown using shutdownInput().");

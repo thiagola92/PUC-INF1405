@@ -13,9 +13,11 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 	
-	private JLabel boardLabel = new JLabel("test");
+	private JLabel boardLabel;
 	
 	public BoardPanel() {
+		this.boardLabel = new JLabel("");
+		
 		this.add(boardLabel);
 	}
 	

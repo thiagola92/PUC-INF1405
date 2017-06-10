@@ -23,18 +23,18 @@ public class Player {
 	
 	private Board board;
 	
-	private String name = "NOME";
-	private int resets = 4;
-	private int health = 5;
-	private Color team;
-	private State state = State.WAITING_TURN;
-	
 	private ConnectionToClient connection;
 	
-	private ArrayList<Card> hand = new ArrayList<Card>();
-	private ArrayList<Equipment> equipments = new ArrayList<Equipment>();
+	private String name;
+	private int resets;
+	private int health;
+	private Color team;
+	private State state;
 	
-	private static ArrayList<Action> history = new ArrayList<Action>();
+	private ArrayList<Card> hand;
+	private ArrayList<Equipment> equipments;
+	
+	private static ArrayList<Action> history;
 	
 	/**
 	 * Create a class Player.
@@ -44,7 +44,17 @@ public class Player {
 	public Player(Board board, ConnectionToClient connection) {
 		this.board = board;
 		this.connection = connection;
+		
+		this.name = "";
+		this.resets = 4;
+		this.health = 5;
+		this.state = State.WAITING_TURN;
 
+		this.hand = new ArrayList<Card>();
+		this.equipments = new ArrayList<Equipment>();
+		
+		this.history = new ArrayList<Action>();
+		
 		connection.sendMessage(Language.ASKTEXT + Language.SEPARATOR + Language.submit_your_nickname);
 		name = connection.receiveMessage()[0];
 	}

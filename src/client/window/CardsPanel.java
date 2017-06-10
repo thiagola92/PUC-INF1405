@@ -9,15 +9,18 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class CardsPanel extends JPanel {
 	
-	private String location = "./src/cards/";
-	private String format = ".png";
+	private String location;
+	private String format;
 	
-	private ArrayList<JLabel> cardsImages = new ArrayList<JLabel>();
+	private ArrayList<JLabel> cardsImages;
 
 	public CardsPanel() {
+		this.location = "./src/cards/";
+		this.format = ".png";
+		
+		this.cardsImages = new ArrayList<JLabel>();
 		
 		//	System.out.println(System.getProperty("user.dir"));			Get the directory of the application 
-		
 		for(int i=0; i < 7; ++i) {
 			ImageIcon image = new ImageIcon(location + "TEMPLATE" + format);
 			JLabel label = new JLabel("", image, JLabel.CENTER);
