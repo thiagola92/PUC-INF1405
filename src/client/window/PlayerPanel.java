@@ -1,10 +1,8 @@
 package client.window;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +22,9 @@ import lang.Language;
 @SuppressWarnings("serial")
 public class PlayerPanel extends JPanel {
 	
+	private JPanel panel;
 	private JLabel statusLabel;
+	private JButton nextTurn;
 	
 	private JPanel handAndEquipPanel;
 	private HandPanel handPanel;
@@ -35,7 +35,13 @@ public class PlayerPanel extends JPanel {
 	public PlayerPanel(Translator translator) {
 		this.setLayout(new BorderLayout());
 		
+		this.panel = new JPanel(new BorderLayout());
+		
 		this.statusLabel = new JLabel("");
+		this.statusLabel.setHorizontalTextPosition(JLabel.LEFT);
+		
+		this.nextTurn = new JButton("Next turn");
+		this.nextTurn.addMouseListener(new NextTurnListener(translator));
 		
 		this.handAndEquipPanel = new JPanel(new BorderLayout());
 		this.handPanel = new HandPanel(translator);
@@ -43,16 +49,14 @@ public class PlayerPanel extends JPanel {
 		
 		this.useCard = new JButton(Language.use_card);
 		this.useCard.addMouseListener(new UseCardListener(translator));
-		
-		//temporary
-		handAndEquipPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
-		equipmentsPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
-		handPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
 		handAndEquipPanel.add(equipmentsPanel, BorderLayout.PAGE_START);
 		handAndEquipPanel.add(handPanel, BorderLayout.PAGE_END);
 		
-		this.add(statusLabel, BorderLayout.PAGE_START);
+		this.panel.add(statusLabel, BorderLayout.LINE_START);
+		this.panel.add(nextTurn, BorderLayout.LINE_END);
+		
+		this.add(panel, BorderLayout.PAGE_START);
 		this.add(handAndEquipPanel, BorderLayout.CENTER);
 		this.add(useCard, BorderLayout.PAGE_END);
 	}

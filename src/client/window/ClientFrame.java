@@ -35,11 +35,11 @@ public class ClientFrame extends JFrame {
 		otherPlayerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 		playerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 		
-		panel.add(new JScrollPane(boardPanel), BorderLayout.PAGE_START);
-		panel.add(new JScrollPane(otherPlayerPanel), BorderLayout.CENTER);
-		panel.add(new JScrollPane(playerPanel), BorderLayout.PAGE_END);
+		panel.add(boardPanel, BorderLayout.PAGE_START);
+		panel.add(otherPlayerPanel, BorderLayout.CENTER);
+		panel.add(playerPanel, BorderLayout.PAGE_END);
 		
-		this.add(panel);
+		this.add(new JScrollPane(panel));
 		
 		this.pack();
 	}

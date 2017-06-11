@@ -142,12 +142,15 @@ public class Translator implements Runnable{
 	
 	/**
 	 * Tell server that you want to use one card.
-	 * <br>Not much happen, just sending a message to the server with the card to be used. 
+	 * <br>The card used is the one selected in <code>cardSelected</code>.
 	 */
 	public void useCard() {
 		connection.sendMessage(Language.USECARD + Language.SEPARATOR + cardSelected);
 	}
 	
+	/**
+	 * Send to the server the message "NEXTTURN".
+	 */
 	public void nextTurn() {
 		connection.sendMessage(Language.NEXTTURN);
 	}
