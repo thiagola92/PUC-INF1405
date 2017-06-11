@@ -26,7 +26,7 @@ public class ClientFrame extends JFrame {
 		
 		this.panel = new JPanel(new BorderLayout());
 		
-		this.boardPanel = new BoardPanel();
+		this.boardPanel = new BoardPanel(translator);
 		this.otherPlayerPanel = new OtherPlayerPanel();
 		this.playerPanel = new PlayerPanel(translator);
 		

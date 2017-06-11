@@ -19,6 +19,9 @@ public class Language {
 	//Use card
 	public static String use_card = "Use card";
 	
+	//Cards image
+	public static String TRANSPARENT = "TRANSPARENT";
+	
 	////////////////////////////////////////////////////////////////////SERVER
 	//Board
 	public static String game_ended = "Game ended";
@@ -60,5 +63,6 @@ public class Language {
 	public static final String OTHERPLAYER = "OTHERPLAYER";
 	
 	// From the client to server
+	public static final String NEXTTURN = "NEXTTURN";
 	public static final String USECARD = "USECARD";
 }

@@ -6,6 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import lang.Language;
+
 @SuppressWarnings("serial")
 public class CardsPanel extends JPanel {
 	
@@ -23,7 +25,7 @@ public class CardsPanel extends JPanel {
 		
 		//	System.out.println(System.getProperty("user.dir"));			Get the directory of the application 
 		for(int i=0; i < 7; ++i) {
-			ImageIcon image = new ImageIcon(location + "TEMPLATE" + format);
+			ImageIcon image = new ImageIcon(location + Language.TRANSPARENT + format);
 			JLabel label = new JLabel("", image, JLabel.CENTER);
 			cardsImages.add(label);
 			
@@ -48,7 +50,7 @@ public class CardsPanel extends JPanel {
 		this.cardsName = cards;
 		
 		for(int i = 0; i < cardsImages.size(); ++i) {
-			ImageIcon image = null;
+			ImageIcon image = new ImageIcon(location + Language.TRANSPARENT + format);
 			
 			if(i < cards.size())
 				image = new ImageIcon(location + cards.get(i) + format);

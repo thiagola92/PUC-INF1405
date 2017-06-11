@@ -41,22 +41,18 @@ public class AllCards {
 		
 		weapon(5, "Weapon1", 4, 1, (card, player, board) -> {
 			player.attackPlayer(card);
-			player.discardCard(card);
 		});
 		
 		weapon(5, "Weapon2", 3, 2, (card, player, board) -> {
 			player.attackPlayer(card);
-			player.discardCard(card);
 		});
 		
 		weapon(5, "Weapon3", 2, 3, (card, player, board) -> {
 			player.attackPlayer(card);
-			player.discardCard(card);
 		});
 		
 		weapon(5, "Weapon4", 1, 4, (card, player, board) -> {
 			player.attackPlayer(card);
-			player.discardCard(card);
 		});
 		
 		// Events
@@ -67,15 +63,12 @@ public class AllCards {
 		});
 		
 		event(5, "Block", (card, player, board) -> {
-			player.discardCard(card);
 		});
 		
 		event(5, "Block", (card, player, board) -> {
-			player.discardCard(card);
 		});
 		
 		event(5, "Block", (card, player, board) -> {
-			player.discardCard(card);
 		});
 		
 		System.out.println(">>Created all cards in the game");

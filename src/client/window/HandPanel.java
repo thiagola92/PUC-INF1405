@@ -51,7 +51,8 @@ public class HandPanel extends CardsPanel {
 		synchronized(cardsImages) {
 			for(int i=0; i < cardsImages.size(); ++i) {
 				
-				if(cardsImages.get(i) == selectThisImage) {
+				// If this is the label that you clicked AND if this label is not an invisible label
+				if(cardsImages.get(i) == selectThisImage && i < super.getCardsName().size()) {
 					cardsImages.get(i).setBorder(BorderFactory.createLineBorder(Color.RED));
 					
 					translator.cardSelected(super.getCardsName().get(i));

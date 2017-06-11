@@ -64,14 +64,6 @@ public class Translator implements Runnable{
 	}
 	
 	/**
-	 * I don't want any window communicating with the player directly, so here is one function that can be used to check if what is sending is okay.
-	 * @param message			Message that will be send
-	 */
-	public void answer(String message) {
-		connection.sendMessage(message);
-	}
-	
-	/**
 	 * Wait a message from the server. Depending with what the message start it will do something.
 	 * <br>Starting with ASKTEXT: Pop-up that will ask the user to insert some text
 	 * <br>Starting with OPTIONS: Pop-up that will ask the user to chose one of the options
@@ -153,7 +145,16 @@ public class Translator implements Runnable{
 	 * <br>Not much happen, just sending a message to the server with the card to be used. 
 	 */
 	public void useCard() {
-		answer(Language.USECARD + Language.SEPARATOR + cardSelected);
+		connection.sendMessage(Language.USECARD + Language.SEPARATOR + cardSelected);
+	}
+	
+	public void nextTurn() {
+		connection.sendMessage(Language.NEXTTURN);
+	}
+	
+	//DELETE AFTER THE GAME IS COMPLETED
+	public void answer(String message) {
+		connection.sendMessage(message);
 	}
 }
 

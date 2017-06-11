@@ -53,7 +53,7 @@ public class Player {
 		this.hand = new ArrayList<Card>();
 		this.equipments = new ArrayList<Equipment>();
 		
-		this.history = new ArrayList<Action>();
+		Player.history = new ArrayList<Action>();
 		
 		connection.sendMessage(Language.ASKTEXT + Language.SEPARATOR + Language.submit_your_nickname);
 		name = connection.receiveMessage()[0];
@@ -324,16 +324,21 @@ public class Player {
 		
 		if(board.getAttacksThisTurn() > getAttacks()) {
 			System.out.format(">>You can not attack more than %s time(s) this turn\n", board.getAttacksThisTurn());
+			
+			history.remove(history.size() - 1);				// read the end of the method
 			return;
 		}
 		
 		ArrayList<Player> playersThatCanBeAttacked = board.getPlayersWithState(State.WAITING_TURN);
 		String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_one_player_to_attack;
 		
-		for(Player player: playersThatCanBeAttacked) {
-			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange())
+		for(int i=0; i < playersThatCanBeAttacked.size();) {
+			Player player = playersThatCanBeAttacked.get(i);
+			
+			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange()) {
 				message += (Language.SEPARATOR + player.getName());
-			else
+				++i;
+			} else
 				playersThatCanBeAttacked.remove(player);
 		}
 		
@@ -354,6 +359,8 @@ public class Player {
 				board.setAttacksThisTurn(board.getAttacksThisTurn() + 1);
 				
 				player.blockPlayer(this, weapon);
+				
+				discardCard(weapon);
 				
 				if(player.state == State.DEAD) {
 					System.out.format(">>Player %s gain one reset\n", this.getName());
@@ -408,8 +415,12 @@ public class Player {
 		for(Card card: cardsThatCanBlock) {
 			if(card.getName().compareTo(answer) == 0) {
 				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
+
+				Action action = new Action(this);
+				action.setCard(card);
+				history.add(action);
 				
-				useCard(card.getName());
+				discardCard(card);
 				
 				return;
 			}
@@ -440,7 +451,7 @@ public class Player {
 		for(int i=0; i < arguments.length; ++i)
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		
-		if(arguments[0].compareTo("NEXTTURN") == 0) {
+		if(arguments[0].compareTo(Language.NEXTTURN) == 0) {
 			
 			history.add(new Action(this));
 			board.nextTurn();
