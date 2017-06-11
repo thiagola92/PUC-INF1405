@@ -42,6 +42,7 @@ public class PlayerPanel extends JPanel {
 		this.equipmentsPanel = new EquipmentPanel();
 		
 		this.useCard = new JButton(Language.use_card);
+		this.useCard.addMouseListener(new useCardListener(translator));
 		
 		//temporary
 		handAndEquipPanel.setBorder(BorderFactory.createLineBorder(Color.blue));

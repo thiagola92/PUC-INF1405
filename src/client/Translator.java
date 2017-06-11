@@ -32,6 +32,8 @@ public class Translator implements Runnable{
 	private ConnectionToServer connection;
 	private ClientFrame clientFrame;
 	
+	private String cardSelected;
+	
 	public Translator(int port, String ip) {
 		
 		this.clientFrame = new ClientFrame(this);
@@ -135,6 +137,23 @@ public class Translator implements Runnable{
 		}
 		
 		clientFrame.getPlayerPanel().updateStatus(playerInfo);
+	}
+	
+	/**
+	 * When you click on one card you need to save the card clicked in someplace.
+	 * <br>I don't want to save inside one window/visual/panel, so i am letting here in the translator.
+	 * @param name			Name of the card selected by the player
+	 */
+	public void cardSelected(String name) {
+		this.cardSelected = name;
+	}
+	
+	/**
+	 * Tell server that you want to use one card.
+	 * <br>Not much happen, just sending a message to the server with the card to be used. 
+	 */
+	public void useCard() {
+		answer(Language.USECARD + Language.SEPARATOR + cardSelected);
 	}
 }
 
