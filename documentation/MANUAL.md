@@ -6,7 +6,6 @@ ABOUT
   * Health
   * Reset
 * Cards type
-  * General
   * Weapon
   * Equipment
   * Event
