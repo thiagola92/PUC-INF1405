@@ -51,14 +51,14 @@ public class PlayerPanel extends JPanel {
 		this.useCard = new JButton(Language.use_card);
 		this.useCard.addMouseListener(new UseCardListener(translator));
 
-		handAndEquipPanel.add(equipmentsPanel, BorderLayout.PAGE_START);
-		handAndEquipPanel.add(handPanel, BorderLayout.PAGE_END);
+		handAndEquipPanel.add(new JScrollPane(equipmentsPanel), BorderLayout.PAGE_START);
+		handAndEquipPanel.add(new JScrollPane(handPanel), BorderLayout.PAGE_END);
 		
 		this.statusPanel.add(statusLabel, BorderLayout.LINE_START);
 		this.statusPanel.add(nextTurn, BorderLayout.LINE_END);
 		
 		this.add(new JScrollPane(statusPanel), BorderLayout.PAGE_START);
-		this.add(new JScrollPane(handAndEquipPanel), BorderLayout.CENTER);
+		this.add(handAndEquipPanel, BorderLayout.CENTER);
 		this.add(useCard, BorderLayout.PAGE_END);
 	}
 	

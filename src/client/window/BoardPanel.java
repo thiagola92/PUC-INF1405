@@ -5,12 +5,17 @@ import javax.swing.JPanel;
 
 import client.Translator;
 
+/**
+ * The panel that show every information from the board.
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 	
 	private JLabel boardLabel;
 	
-	public BoardPanel(Translator translator) {
+	public BoardPanel() {
 		this.boardLabel = new JLabel("");
 		
 		this.add(boardLabel);

@@ -11,7 +11,6 @@ import lang.Language;
 
 /**
  * This class take care of sending and receiving messages from the server.
- * <br>Extends from Thread so can always be waiting from the server update.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
@@ -60,8 +59,9 @@ public class ConnectionToServer {
 
 	/**
 	 * Receive a string from server.
-	 * <br>Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
-	 * @return
+	 * <br>It will separate the string into minor strings, using the Language.SEPARATOR to know when to separate.
+	 * <p>Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
+	 * @return			One array of string
 	 */
 	public String[] receiveMessage() {
 		String[] arguments = null;

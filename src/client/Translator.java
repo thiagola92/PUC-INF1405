@@ -132,8 +132,8 @@ public class Translator implements Runnable{
 	}
 	
 	/**
-	 * When you click on one card you need to save the card clicked in someplace.
-	 * <br>I don't want to save inside one window/visual/panel, so i am letting here in the translator.
+	 * When you select one card you need to save the name of the card clicked in someplace.
+	 * <br>You save so when you click 'use card' you send the server a message telling that you want to use the card selected (card saved).
 	 * @param name			Name of the card selected by the player
 	 */
 	public void cardSelected(String name) {
@@ -141,15 +141,19 @@ public class Translator implements Runnable{
 	}
 	
 	/**
-	 * Tell server that you want to use one card.
-	 * <br>The card used is the one selected in <code>cardSelected</code>.
+	 * Tell server that you want to use the card selected.
+	 * <br>So send a message like "USECARD|card name".
+	 * <br>If you never selected a card, it will send "USECARD|".
+	 * <br>But if already selected one card(sometime in the game) it will send the last selected.
 	 */
 	public void useCard() {
 		connection.sendMessage(Language.USECARD + Language.SEPARATOR + cardSelected);
 	}
 	
 	/**
-	 * Send to the server the message "NEXTTURN".
+	 * Send to the server the message to pass the turn.
+	 * <br>So send the message "NEXTTURN".
+	 * <br>This message doesn't have extra parameters and doesn't need separator.
 	 */
 	public void nextTurn() {
 		connection.sendMessage(Language.NEXTTURN);

@@ -11,6 +11,19 @@ import javax.swing.JPanel;
 import client.Translator;
 import client.window.playerpanel.PlayerPanel;
 
+/**
+ * The window that the player will see during the game.
+ * <br>This window is separate in 3 parts:
+ * <li>boardPanel: Where the information about the board is displayed.</li>
+ * <li>otherPlayerPanel: Where the information about one of the others player is displayed.</li>
+ * <li>playerPanel: Where the information about the player is displayed and where the player interact with the game.</li>
+ * <br>
+ * <br>Not only this but this window also send questions to the player, like:
+ * <li>Ask for an answer (string).</li>
+ * <li>Ask to chose one option.</li>
+ * @author		Thiago Lages de Alencar
+ * @version		%I%, %G%
+ */
 @SuppressWarnings("serial")
 public class ClientFrame extends JFrame {
 	
@@ -26,7 +39,7 @@ public class ClientFrame extends JFrame {
 		
 		this.panel = new JPanel(new BorderLayout());
 		
-		this.boardPanel = new BoardPanel(translator);
+		this.boardPanel = new BoardPanel();
 		this.otherPlayerPanel = new OtherPlayerPanel();
 		this.playerPanel = new PlayerPanel(translator);
 		
@@ -57,7 +70,8 @@ public class ClientFrame extends JFrame {
 	}
 	
 	/**
-	 * Bring a pop-up asking the player to insert some text.
+	 * Bring a pop-up asking the player to insert some text(string).
+	 * <br>The pop-up will include a description so the player know what he have to answer.
 	 * @param arguments			The text that will appear with the pop-up (normally a description of what the player have to do)
 	 * @return					The answer of the player
 	 */
