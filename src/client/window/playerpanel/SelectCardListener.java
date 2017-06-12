@@ -1,4 +1,4 @@
-package client.window;
+package client.window.playerpanel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,8 +10,12 @@ public class SelectCardListener implements MouseListener {
 	private HandPanel handPanel;
 	private JLabel image;
 	
-	public SelectCardListener(HandPanel handPanel, JLabel image) {
-		this.image = image;
+	/**
+	 * The Panel where the JLabel is.
+	 * <br>With the panel i can call the method that afect all JLabels.
+	 * @param handPanel
+	 */
+	public SelectCardListener(HandPanel handPanel) {
 		this.handPanel = handPanel;
 	}
 
@@ -29,7 +33,8 @@ public class SelectCardListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		handPanel.selectCard(image);
+		JLabel jLabel = (JLabel)arg0.getSource();
+		handPanel.selectCard(jLabel);
 	}
 
 	@Override

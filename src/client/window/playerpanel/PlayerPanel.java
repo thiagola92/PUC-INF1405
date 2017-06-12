@@ -1,4 +1,4 @@
-package client.window;
+package client.window.playerpanel;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import client.Translator;
 import lang.Language;
@@ -22,7 +23,7 @@ import lang.Language;
 @SuppressWarnings("serial")
 public class PlayerPanel extends JPanel {
 	
-	private JPanel panel;
+	private JPanel statusPanel;
 	private JLabel statusLabel;
 	private JButton nextTurn;
 	
@@ -35,7 +36,7 @@ public class PlayerPanel extends JPanel {
 	public PlayerPanel(Translator translator) {
 		this.setLayout(new BorderLayout());
 		
-		this.panel = new JPanel(new BorderLayout());
+		this.statusPanel = new JPanel(new BorderLayout());
 		
 		this.statusLabel = new JLabel("");
 		this.statusLabel.setHorizontalTextPosition(JLabel.LEFT);
@@ -53,11 +54,11 @@ public class PlayerPanel extends JPanel {
 		handAndEquipPanel.add(equipmentsPanel, BorderLayout.PAGE_START);
 		handAndEquipPanel.add(handPanel, BorderLayout.PAGE_END);
 		
-		this.panel.add(statusLabel, BorderLayout.LINE_START);
-		this.panel.add(nextTurn, BorderLayout.LINE_END);
+		this.statusPanel.add(statusLabel, BorderLayout.LINE_START);
+		this.statusPanel.add(nextTurn, BorderLayout.LINE_END);
 		
-		this.add(panel, BorderLayout.PAGE_START);
-		this.add(handAndEquipPanel, BorderLayout.CENTER);
+		this.add(new JScrollPane(statusPanel), BorderLayout.PAGE_START);
+		this.add(new JScrollPane(handAndEquipPanel), BorderLayout.CENTER);
 		this.add(useCard, BorderLayout.PAGE_END);
 	}
 	

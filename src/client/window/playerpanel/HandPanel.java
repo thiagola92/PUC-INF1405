@@ -1,4 +1,4 @@
-package client.window;
+package client.window.playerpanel;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -21,12 +21,16 @@ public class HandPanel extends CardsPanel {
 		listenToClick();
 	}
 	
+	/**
+	 * Configure every JLabel to listen to mouse actions on them.
+	 * <br>It pass the JLabel and the HandPanel so the click can use the method <code>clearSelection()</code> and <code>selectCard(JLabel)</code>.
+	 */
 	public void listenToClick() {
 		ArrayList<JLabel> cardsImages = super.getCardsImages();
 		
 		synchronized(cardsImages) {
 			for(JLabel image: cardsImages) {
-				image.addMouseListener(new SelectCardListener(this, image));
+				image.addMouseListener(new SelectCardListener(this));
 			}
 		}
 	}

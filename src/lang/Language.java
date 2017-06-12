@@ -20,6 +20,7 @@ public class Language {
 	public static String use_card = "Use card";
 	
 	//Cards image
+	public static String TEMPLATE = "TEMPLATE";
 	public static String TRANSPARENT = "TRANSPARENT";
 	
 	////////////////////////////////////////////////////////////////////SERVER
@@ -44,6 +45,9 @@ public class Language {
 	public static String number_of_cards_holding = "Number of cards holding";
 	public static String cards = "Cards";
 	public static String equipment = "Equipment";
+	
+	//Hand size
+	public static String chose_one_card_to_discard = "Chose one card to discard";
 	
 	//Attacking
 	public static String chose_one_player_to_attack = "Chose one player to attack";

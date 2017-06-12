@@ -7,9 +7,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import client.Translator;
+import client.window.playerpanel.PlayerPanel;
 
 @SuppressWarnings("serial")
 public class ClientFrame extends JFrame {
@@ -39,7 +39,7 @@ public class ClientFrame extends JFrame {
 		panel.add(otherPlayerPanel, BorderLayout.CENTER);
 		panel.add(playerPanel, BorderLayout.PAGE_END);
 		
-		this.add(new JScrollPane(panel));
+		this.add(panel);
 		
 		this.pack();
 	}

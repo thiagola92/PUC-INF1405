@@ -1,4 +1,4 @@
-package client.window;
+package client.window.playerpanel;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class CardsPanel extends JPanel {
 		
 		//	System.out.println(System.getProperty("user.dir"));			Get the directory of the application 
 		for(int i=0; i < 7; ++i) {
-			ImageIcon image = new ImageIcon(location + Language.TRANSPARENT + format);
+			ImageIcon image = new ImageIcon(location + Language.TEMPLATE + format);
 			JLabel label = new JLabel("", image, JLabel.CENTER);
 			cardsImages.add(label);
 			

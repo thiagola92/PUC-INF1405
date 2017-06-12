@@ -1,4 +1,4 @@
-package client.window;
+package client.window.playerpanel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

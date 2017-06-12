@@ -31,6 +31,8 @@ public class Player {
 	private Color team;
 	private State state;
 	
+	private int handSize;
+	
 	private ArrayList<Card> hand;
 	private ArrayList<Equipment> equipments;
 	
@@ -49,6 +51,8 @@ public class Player {
 		this.resets = 4;
 		this.health = 5;
 		this.state = State.WAITING_TURN;
+		
+		this.handSize = 7;
 
 		this.hand = new ArrayList<Card>();
 		this.equipments = new ArrayList<Equipment>();
@@ -78,6 +82,10 @@ public class Player {
 
 	public State getState() {
 		return state;
+	}
+	
+	public int getHandSize() {
+		return handSize;
 	}
 	
 	public int getDamage() {
@@ -311,6 +319,30 @@ public class Player {
 	}
 	
 	/**
+	 * Limit cards on the hand of the player.
+	 */
+	public void limitCards() {
+		while(hand.size() > getHandSize()) {
+			System.out.format(">>You have %d cards on hand when the max is %d\n", hand.size(), getHandSize());
+			
+			String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_one_card_to_discard;
+			
+			for(Card card: hand)
+				message += Language.SEPARATOR + card.getName();
+			
+			connection.sendMessage(message);
+			String answer = connection.receiveMessage()[0];
+
+			for(Card card: hand) {
+				if(card.getName().compareTo(answer) == 0) {
+					discardCard(card);
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
 	 * The player attacks another using one Weapon.
 	 * <li>Check if the player can still attack.</li>
 	 * <li>Search all players alive (is not State.DEAD).</li>
@@ -336,7 +368,7 @@ public class Player {
 			Player player = playersThatCanBeAttacked.get(i);
 			
 			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange()) {
-				message += (Language.SEPARATOR + player.getName());
+				message += Language.SEPARATOR + player.getName();
 				++i;
 			} else
 				playersThatCanBeAttacked.remove(player);
@@ -453,6 +485,7 @@ public class Player {
 		
 		if(arguments[0].compareTo(Language.NEXTTURN) == 0) {
 			
+			limitCards();
 			history.add(new Action(this));
 			board.nextTurn();
 			
