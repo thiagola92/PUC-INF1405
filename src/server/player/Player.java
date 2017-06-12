@@ -319,24 +319,27 @@ public class Player {
 	}
 	
 	/**
-	 * Limit cards on the hand of the player.
+	 * Ask the player to discard until the hand size be less than the max.
 	 */
 	public void limitCards() {
-		while(hand.size() > getHandSize()) {
-			System.out.format(">>You have %d cards on hand when the max is %d\n", hand.size(), getHandSize());
-			
-			String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_one_card_to_discard;
-			
-			for(Card card: hand)
-				message += Language.SEPARATOR + card.getName();
-			
-			connection.sendMessage(message);
-			String answer = connection.receiveMessage()[0];
-
-			for(Card card: hand) {
-				if(card.getName().compareTo(answer) == 0) {
-					discardCard(card);
-					break;
+		
+		synchronized(hand) {
+			while(hand.size() > getHandSize()) {
+				System.out.format(">>You have %d cards on hand when the max is %d\n", hand.size(), getHandSize());
+				
+				String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_one_card_to_discard;
+				
+				for(Card card: hand)
+					message += Language.SEPARATOR + card.getName();
+				
+				connection.sendMessage(message);
+				String answer = connection.receiveMessage()[0];
+	
+				for(Card card: hand) {
+					if(card.getName().compareTo(answer) == 0) {
+						discardCard(card);
+						break;
+					}
 				}
 			}
 		}
@@ -438,7 +441,7 @@ public class Player {
 			}
 		}
 		
-		System.out.format(">>Options that the other player can do \n%s\n", message);
+		System.out.format(">>Options that the other player can chose \n%s\n", message);
 		
 		connection.sendMessage(message);
 		String answer = connection.receiveMessage()[0];

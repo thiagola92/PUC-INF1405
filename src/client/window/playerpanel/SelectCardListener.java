@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 public class SelectCardListener implements MouseListener {
 	
 	private HandPanel handPanel;
-	private JLabel image;
 	
 	/**
 	 * The Panel where the JLabel is.

@@ -53,7 +53,7 @@ public class Language {
 	public static String chose_one_player_to_attack = "Chose one player to attack";
 	
 	//Blocking
-	public static String chose_a_block_card = "Chose a block card (or don't)";
+	public static String chose_a_block_card = "Chose a card to block (or don't)";
 	
 	////////////////////////////////////////////////////////////////////FORBIDDEN WORDS
 	// From client and server

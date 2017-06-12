@@ -17,6 +17,7 @@
 * [Version 017](#version-017)
 * [Version 018](#version-018)
 * [Version 019](#version-019)
+* [Version 020](#version-020)
 
 # Version 002 #
 
@@ -379,3 +380,8 @@ Part of the window with the board information.
 Look who is back!
 
 No need for __HistoryEntry__ for now.
+
+# Version 020 #
+
+## Player ##
+* limitCards() created to the max size of cards on hand doesn't make the game crazy.
