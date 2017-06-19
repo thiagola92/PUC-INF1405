@@ -321,7 +321,7 @@ public class Player {
 	/**
 	 * Ask the player to discard until the hand size be less than the max.
 	 */
-	public void limitCards() {
+	private void limitCards() {
 		
 		synchronized(hand) {
 			while(hand.size() > getHandSize()) {

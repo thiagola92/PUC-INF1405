@@ -55,7 +55,7 @@ public class ServerOrClientFrame extends JFrame {
 		});
 		
 		server.addActionListener((ActionEvent e) -> {
-			new ConnectionReceiver(4, 2);
+			new ConnectionReceiver(4, 3);
 			this.setVisible(false);
 		});
 		

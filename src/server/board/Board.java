@@ -230,6 +230,11 @@ public class Board implements Runnable {
 		if(deck.size() < quantity) {
 			shuffleDiscardOnDeck();
 			card = pickFromDeck(quantity);
+			
+			//Every time the deck ends, everyone lose 1 Reset
+			for(Player player: players)
+				player.setResets(player.getResets() - 1);
+			
 		} else {
 			for(int i=0; i < quantity; ++i) {
 				card[i] = deck.remove(deck.size() - 1);

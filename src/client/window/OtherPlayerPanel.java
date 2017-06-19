@@ -1,6 +1,8 @@
 package client.window;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -21,13 +23,14 @@ public class OtherPlayerPanel extends JPanel {
 
 	private JLabel boardLabel;
 	
-	private JButton nextPlayerButton;
-	private JButton backPlayerButton;
+	private JButton nextButton;
+	private JButton backButton;
 
 	private JLabel otherPlayerLabel;
 	private ArrayList<String> otherPlayerStatus;
+	private ArrayList<Object> otherPlayerEquips;
 	
-	private EquipmentPanel otherPlayerEquipment;
+	private EquipmentPanel otherPlayerEquipmentPanel;
 	
 	private int lookingPlayer = 0;
 	
@@ -35,20 +38,24 @@ public class OtherPlayerPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 
 		this.boardLabel = new JLabel("---");
-		this.nextPlayerButton = new JButton("Next");
-		this.backPlayerButton = new JButton("Back");
+		this.nextButton = new JButton("Next");
+		this.backButton = new JButton("Back");
 		this.otherPlayerLabel = new JLabel("");
 		this.otherPlayerStatus = new ArrayList<String>();
-		this.otherPlayerEquipment = new EquipmentPanel();
+		this.otherPlayerEquips = new ArrayList<Object>();
+		this.otherPlayerEquipmentPanel = new EquipmentPanel();
+		
+		this.nextButton.addMouseListener(new NextListener(this));
+		this.backButton.addMouseListener(new BackListener(this));
 		
 		otherPlayerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		otherPlayerLabel.setText("<html>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br></html>");
 
 		this.add(boardLabel, BorderLayout.PAGE_START);
-		this.add(backPlayerButton, BorderLayout.LINE_START);
-		this.add(nextPlayerButton, BorderLayout.LINE_END);
+		this.add(backButton, BorderLayout.LINE_START);
+		this.add(nextButton, BorderLayout.LINE_END);
 		this.add(otherPlayerLabel, BorderLayout.CENTER);
-		this.add(otherPlayerEquipment, BorderLayout.PAGE_END);
+		this.add(otherPlayerEquipmentPanel, BorderLayout.PAGE_END);
 	}
 	
 	private void createPlayersInfo(ArrayList<String> otherPlayerInfo) {
@@ -56,8 +63,28 @@ public class OtherPlayerPanel extends JPanel {
 			return;
 		
 		for(String s: otherPlayerInfo) {
-			if(s.compareTo(Language.OTHERPLAYER) == 0)
+			if(s.compareTo(Language.OTHERPLAYER) == 0) {
 				otherPlayerStatus.add("");
+				otherPlayerEquips.add(new ArrayList<String>());
+			}
+		}
+	}
+	
+	public void nextPlayer() {
+		if(lookingPlayer+1 < otherPlayerStatus.size()) {
+			++lookingPlayer;
+			
+			otherPlayerLabel.setText(otherPlayerStatus.get(lookingPlayer));
+			otherPlayerEquipmentPanel.updateCardsPanel((ArrayList<String>)otherPlayerEquips.get(lookingPlayer));
+		}
+	}
+	
+	public void backPlayer() {
+		if(lookingPlayer-1 > -1) {
+			--lookingPlayer;
+			
+			otherPlayerLabel.setText(otherPlayerStatus.get(lookingPlayer));
+			otherPlayerEquipmentPanel.updateCardsPanel((ArrayList<String>)otherPlayerEquips.get(lookingPlayer));
 		}
 	}
 	
@@ -80,7 +107,9 @@ public class OtherPlayerPanel extends JPanel {
 		boardLabel.setText(board);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void updateOtherPlayer(ArrayList<String> otherPlayerInfo) {
+		ArrayList<String> equip = new ArrayList<String>();
 		String info = "<html>";
 		int player = 0;
 		
@@ -93,9 +122,18 @@ public class OtherPlayerPanel extends JPanel {
 				info += "</html>";
 				
 				otherPlayerStatus.set(player, info);
+				otherPlayerEquips.set(player, equip);
 				
 				++player;
+				
 				info = "<html>";
+				equip = new ArrayList<String>();
+				
+				//How this position didn't have any information to get from i+1, we will take one walk back because the next position does have some information.
+				--i;
+				
+			} else if(otherPlayerInfo.get(i).compareTo(Language.equipment) == 0) {
+				equip.add(otherPlayerInfo.get(i+1));
 				
 			} else {
 				info += otherPlayerInfo.get(i) + ": <font color=\"red\">";
@@ -107,7 +145,10 @@ public class OtherPlayerPanel extends JPanel {
 		info += "</html>";
 		
 		otherPlayerStatus.set(player, info);
+		otherPlayerEquips.set(player, equip);
+		
 		otherPlayerLabel.setText(otherPlayerStatus.get(lookingPlayer));
+		otherPlayerEquipmentPanel.updateCardsPanel((ArrayList<String>)otherPlayerEquips.get(lookingPlayer));
 	}
 
 }
