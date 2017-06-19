@@ -2,13 +2,16 @@ package client.window;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import client.Translator;
+import lang.Language;
 
 /**
  * The window that the player will see during the game.
@@ -28,7 +31,7 @@ public class ClientFrame extends JFrame {
 	
 	private JPanel panel;
 
-	private BoardPanel boardPanel;
+	private JLabel boardLabel;
 	private OtherPlayerPanel otherPlayerPanel;
 	private PlayerPanel playerPanel;
 
@@ -38,26 +41,22 @@ public class ClientFrame extends JFrame {
 		
 		this.panel = new JPanel(new BorderLayout());
 		
-		this.boardPanel = new BoardPanel();
+		this.boardLabel = new JLabel("test");
 		this.otherPlayerPanel = new OtherPlayerPanel();
 		this.playerPanel = new PlayerPanel(translator);
 		
 		//temporary
-		boardPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+		boardLabel.setBorder(BorderFactory.createLineBorder(Color.red));
 		otherPlayerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 		playerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 		
-		panel.add(boardPanel, BorderLayout.PAGE_START);
+		panel.add(boardLabel, BorderLayout.PAGE_START);
 		panel.add(otherPlayerPanel, BorderLayout.CENTER);
 		panel.add(playerPanel, BorderLayout.PAGE_END);
 		
 		this.add(panel);
 		
 		this.pack();
-	}
-	
-	public BoardPanel getBoardPanel() {
-		return boardPanel;
 	}
 	
 	public OtherPlayerPanel getOtherPlayerPanel() {
@@ -110,6 +109,24 @@ public class ClientFrame extends JFrame {
 		System.out.println(answer);
 		
 		return answer;
+	}
+	
+	/**
+	 * Update the board information.
+	 * <br>It will receive an array like "BOARD|Game ended|false|Number of players|2|...."
+	 * <br>And get the information that the player needs to know.
+	 * @param boardInfo		The array with information about the board
+	 */
+	public void updateBoard(ArrayList<String> boardInfo) {
+		String board = "";
+
+		//Starting from the second because the first is "BOARD" and doesn't give us any information
+		for(int i = 1; i < boardInfo.size(); i=i+2) {
+			board += boardInfo.get(i) + ": ";
+			board += boardInfo.get(i+1) + Language.SEPARATOR;
+		}
+		
+		boardLabel.setText(board);
 	}
 	
 }

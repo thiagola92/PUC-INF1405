@@ -117,7 +117,7 @@ public class Board implements Runnable {
 		boardInfo.add(Language.cards_on_deck + Language.SEPARATOR + this.deck.size());
 		boardInfo.add(Language.cards_on_discard + Language.SEPARATOR + this.discard.size());
 		boardInfo.add(Language.attacks_this_turn + Language.SEPARATOR + this.getAttacksThisTurn());
-		boardInfo.add(Language.turn_from_player + Language.SEPARATOR + this.turnFromPlayer);
+		boardInfo.add(Language.turn_from_player + Language.SEPARATOR + players.get(this.turnFromPlayer).getName());
 		
 		return boardInfo;
 	}
