@@ -41,7 +41,7 @@ public class PlayerPanel extends JPanel {
 		
 		this.statusPanel = new JPanel(new BorderLayout());
 		
-		this.statusLabel = new JLabel("");
+		this.statusLabel = new JLabel("---");
 		this.statusLabel.setHorizontalTextPosition(JLabel.LEFT);
 		
 		this.nextTurn = new JButton("Next turn");
@@ -76,7 +76,7 @@ public class PlayerPanel extends JPanel {
 	 * @param playerStatus
 	 */
 	public void updateStatus(ArrayList<String> playerStatus) {
-		String status = "";
+		String status = "<html>";
 		ArrayList<String> equip = new ArrayList<String>();
 		ArrayList<String> hand = new ArrayList<String>();
 		
@@ -89,10 +89,11 @@ public class PlayerPanel extends JPanel {
 				equip.add(playerStatus.get(i+1));
 				
 			} else {
-				status += playerStatus.get(i) + ": ";
-				status += playerStatus.get(i+1) + Language.SEPARATOR;
+				status += playerStatus.get(i) + ": <font color=\"red\">";
+				status += playerStatus.get(i+1) + "</font>" + Language.SEPARATOR;
 			}
 		}
+		status+="</html>";
 		
 		statusLabel.setText(status);
 		handPanel.updateCardsPanel(hand);

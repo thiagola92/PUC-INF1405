@@ -1,23 +1,17 @@
 package client.window;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import client.Translator;
-import lang.Language;
 
 /**
  * The window that the player will see during the game.
- * <br>This window is separate in 3 parts:
- * <li>boardPanel: Where the information about the board is displayed.</li>
- * <li>otherPlayerPanel: Where the information about one of the others player is displayed.</li>
+ * <br>This window is separate in 2 parts:
+ * <li>otherPlayerPanel: Where the information about one of the others player is displayed <b>AND</b> the information about the board.</li>
  * <li>playerPanel: Where the information about the player is displayed and where the player interact with the game.</li>
  * <br>
  * <br>Not only this but this window also send questions to the player, like:
@@ -31,7 +25,6 @@ public class ClientFrame extends JFrame {
 	
 	private JPanel panel;
 
-	private JLabel boardLabel;
 	private OtherPlayerPanel otherPlayerPanel;
 	private PlayerPanel playerPanel;
 
@@ -41,16 +34,13 @@ public class ClientFrame extends JFrame {
 		
 		this.panel = new JPanel(new BorderLayout());
 		
-		this.boardLabel = new JLabel("test");
 		this.otherPlayerPanel = new OtherPlayerPanel();
 		this.playerPanel = new PlayerPanel(translator);
 		
 		//temporary
-		boardLabel.setBorder(BorderFactory.createLineBorder(Color.red));
-		otherPlayerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-		playerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+		//otherPlayerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
+		//playerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 		
-		panel.add(boardLabel, BorderLayout.PAGE_START);
 		panel.add(otherPlayerPanel, BorderLayout.CENTER);
 		panel.add(playerPanel, BorderLayout.PAGE_END);
 		
@@ -109,24 +99,6 @@ public class ClientFrame extends JFrame {
 		System.out.println(answer);
 		
 		return answer;
-	}
-	
-	/**
-	 * Update the board information.
-	 * <br>It will receive an array like "BOARD|Game ended|false|Number of players|2|...."
-	 * <br>And get the information that the player needs to know.
-	 * @param boardInfo		The array with information about the board
-	 */
-	public void updateBoard(ArrayList<String> boardInfo) {
-		String board = "";
-
-		//Starting from the second because the first is "BOARD" and doesn't give us any information
-		for(int i = 1; i < boardInfo.size(); i=i+2) {
-			board += boardInfo.get(i) + ": ";
-			board += boardInfo.get(i+1) + Language.SEPARATOR;
-		}
-		
-		boardLabel.setText(board);
 	}
 	
 }

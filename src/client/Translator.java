@@ -129,7 +129,8 @@ public class Translator implements Runnable{
 		}
 		
 		clientFrame.getPlayerPanel().updateStatus(playerInfo);
-		clientFrame.updateBoard(boardInfo);
+		clientFrame.getOtherPlayerPanel().updateBoard(boardInfo);
+		clientFrame.getOtherPlayerPanel().updateOtherPlayer(otherPlayerInfo);
 	}
 	
 	/**
