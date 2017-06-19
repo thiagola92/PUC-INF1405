@@ -3,8 +3,6 @@ package client.window;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import client.Translator;
-
 /**
  * The panel that show every information from the board.
  * @author		Thiago Lages de Alencar

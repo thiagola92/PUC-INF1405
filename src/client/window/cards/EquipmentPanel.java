@@ -1,4 +1,4 @@
-package client.window.playerpanel;
+package client.window.cards;
 
 /**
  * Until now this class have no purpose.

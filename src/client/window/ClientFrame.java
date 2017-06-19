@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import client.Translator;
-import client.window.playerpanel.PlayerPanel;
 
 /**
  * The window that the player will see during the game.

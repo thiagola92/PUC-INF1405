@@ -1,4 +1,4 @@
-package client.window.playerpanel;
+package client.window;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import client.Translator;
+import client.window.cards.EquipmentPanel;
+import client.window.cards.HandPanel;
+import client.window.cards.UseCardListener;
 import lang.Language;
 
 /**

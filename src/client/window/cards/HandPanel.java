@@ -1,4 +1,4 @@
-package client.window.playerpanel;
+package client.window.cards;
 
 import java.awt.Color;
 import java.util.ArrayList;
