@@ -163,7 +163,8 @@ public class Board implements Runnable {
 			System.out.format(">>Waiting command from %s (player %d)\n", players.get(turnFromPlayer).getName(), turnFromPlayer);
 			players.get(turnFromPlayer).command();
 		}
-		
+
+		this.updatePlayers();
 		findTheWinner();
 	}
 	
