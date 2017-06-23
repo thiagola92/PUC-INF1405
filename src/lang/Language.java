@@ -39,7 +39,7 @@ public class Language {
 	public static String team = "Team";
 	public static String state = "State";
 	public static String damage = "Damage";
-	public static String attacks = "Attacks";
+	public static String attacks = "Attacks extra";
 	public static String distance = "Distance";
 	public static String range = "Range";
 	public static String number_of_cards_holding = "Number of cards holding";

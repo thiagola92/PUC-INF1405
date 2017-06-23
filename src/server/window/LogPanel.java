@@ -33,6 +33,7 @@ public class LogPanel extends JPanel {
 	public void updateLogInfo(ArrayList<Action> logInfo) {
 		String event = "";
 		
+		/*
 		for(Action action: logInfo) {
 			synchronized(logInfo) {
 				Player player = action.getPlayer();
@@ -49,7 +50,11 @@ public class LogPanel extends JPanel {
 				
 				event += "\n";
 			}
-		}
+		}*/
+		
+		if(Player.historic != null)
+			event = String.join("\n", Player.historic);
+		
 		
 		logArea.setText(event);
 	}

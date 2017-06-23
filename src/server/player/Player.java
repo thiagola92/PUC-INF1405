@@ -37,6 +37,7 @@ public class Player {
 	private ArrayList<Equipment> equipments;
 	
 	private static ArrayList<Action> history;
+	public static ArrayList<String> historic;
 	
 	/**
 	 * Create a class Player.
@@ -58,6 +59,8 @@ public class Player {
 		this.equipments = new ArrayList<Equipment>();
 		
 		Player.history = new ArrayList<Action>();
+		if(Player.historic == null)
+			Player.historic = new ArrayList<String>();
 		
 		connection.sendMessage(Language.ASKTEXT + Language.SEPARATOR + Language.submit_your_nickname);
 		name = connection.receiveMessage()[0];
@@ -483,8 +486,14 @@ public class Player {
 	public void command() {
 		String[] arguments = connection.receiveMessage();
 		
-		for(int i=0; i < arguments.length; ++i)
+		String historicMessage = this.getName();
+		
+		for(int i=0; i < arguments.length; ++i) {
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
+			historicMessage += "|" + arguments[i];
+		}
+		
+		historic.add(historicMessage);
 		
 		if(arguments[0].compareTo(Language.NEXTTURN) == 0) {
 			
