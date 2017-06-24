@@ -100,5 +100,9 @@ public class ClientFrame extends JFrame {
 		
 		return answer;
 	}
+
+	public void talking(boolean b) {
+		playerPanel.talking(b);
+	}
 	
 }

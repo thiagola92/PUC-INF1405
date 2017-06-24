@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.Hashtable;
 
 import lang.Language;
-import server.card.AllCards;
+import server.card.CreateDeck;
 import server.card.Card;
 import server.player.Color;
-import server.player.ConnectionToClient;
+import server.player.Connection;
 import server.player.Player;
 import server.player.State;
 
@@ -23,7 +23,7 @@ import server.player.State;
  * @version		%I%, %G%
  */
 public class Board implements Runnable {
-	
+
 	private boolean endGame = false;
 	
 	private int turnFromPlayer;			// Number going from 0 to numberOfPlayers - 1
@@ -46,7 +46,7 @@ public class Board implements Runnable {
 	 * <li>Decide everyone teams</li>
 	 * @param clients		ArrayList of clients
 	 */
-	public Board(ArrayList<ConnectionToClient> clients) {
+	public Board(ArrayList<Connection> clients) {
 		this.endGame = false;
 		
 		this.turnFromPlayer = 0;
@@ -58,48 +58,11 @@ public class Board implements Runnable {
 		this.players = new ArrayList<Player>();
 		
 		
-		// I NEED TO ORGANIZE THIS CODE IN THE CONSTRUCTOR
-		decideShiftOrder(clients);
-		new AllCards(deck);
+		shiftOrder(clients);
+		new CreateDeck(deck);
 		Collections.shuffle(deck);
-		
-		// Distributing cards
-		int cardsStart = 4;
-		for(int i=0; i < players.size(); ++i) {
-			players.get(i).receiveCards(pickFromDeck(cardsStart));
-			if((i+1)%2 == 1)
-				++cardsStart;
-		}
-		
-		players.get(0).receiveCards(pickFromDeck(1));
-		
-		/* 
-		 * Deciding how many of each teams have.
-		 * After this shuffling so can distribute the teams randomly.
-		 * 
-		 * Notice that starts from 1, not 0.
-		 * The reason is, the players are already shuffle and the first to play HAVE TO BE yellow.
-		 * So there is no reason to shuffle with others and distributing.
-		 */
-		ArrayList<Color> teams = new ArrayList<Color>();
-		for(int i = 1; i < players.size(); ++i) {
-			if(i == 1)
-				teams.add(Color.BLUE);
-			if(i == 2)
-				teams.add(Color.BLUE);
-
-			if(i > 2 && i%3 == 0)
-				teams.add(Color.YELLOW);
-			if(i > 2 && i%3 == 1)
-				teams.add(Color.RED);
-			else if(i > 2 && i%3 == 2)
-				teams.add(Color.BLUE);
-		}
-		
-		Collections.shuffle(teams);
-		players.get(0).setTeam(Color.YELLOW);
-		for(int i=1; i < players.size(); ++i)
-			players.get(i).setTeam(teams.remove(0));
+		cardsStart();
+		teams();
 		
 	}
 
@@ -167,14 +130,60 @@ public class Board implements Runnable {
 		this.updatePlayers();
 		findTheWinner();
 	}
+
+	/** 
+	 * Deciding how many of each teams have.
+	 * After this shuffle it will distribute the teams randomly.
+	 * 
+	 * Notice that starts from 1, not 0.
+	 * The reason is, the players are already shuffle and the first to play HAVE TO BE yellow.
+	 * So there is no reason to shuffle with others and distributing.
+	 */
+	private void teams() {
+		ArrayList<Color> teams = new ArrayList<Color>();
+		for(int i = 1; i < players.size(); ++i) {
+			if(i == 1)
+				teams.add(Color.BLUE);
+			if(i == 2)
+				teams.add(Color.BLUE);
+
+			if(i > 2 && i%3 == 0)
+				teams.add(Color.YELLOW);
+			if(i > 2 && i%3 == 1)
+				teams.add(Color.RED);
+			else if(i > 2 && i%3 == 2)
+				teams.add(Color.BLUE);
+		}
+		
+		Collections.shuffle(teams);
+		players.get(0).setTeam(Color.YELLOW);
+		for(int i=1; i < players.size(); ++i)
+			players.get(i).setTeam(teams.remove(0));
+	}
+	
+	/**
+	 * Decide how manny cards each player have to start.
+	 * <br>After this code run the first player will not automatically buy a card, so i included in this code to make him buy.
+	 */
+	private void cardsStart() {
+		int cardsStart = 4;
+		
+		for(int i=0; i < players.size(); ++i) {
+			players.get(i).receiveCards(pickFromDeck(cardsStart));
+			if((i+1)%2 == 1)
+				++cardsStart;
+		}
+		
+		players.get(0).receiveCards(pickFromDeck(1));	// Player 0 start buying one card
+	}
 	
 	/**
 	 * Pick randomly each client and fixing with your 'Player'.
 	 * @param clients	ArrayList of clients/players
 	 */
-	public void decideShiftOrder(ArrayList<ConnectionToClient> clients) {
+	public void shiftOrder(ArrayList<Connection> clients) {
 		Collections.shuffle(clients);
-		ConnectionToClient connection;
+		Connection connection;
 		Player new_player;
 		
 		for(int i=0; i < clients.size(); ++i) {

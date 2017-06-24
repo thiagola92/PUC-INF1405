@@ -76,7 +76,23 @@ public class Translator implements Runnable{
 		for(int i=0; i < arguments.length; ++i)
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		
-		if(arguments[0].compareTo(Language.ASKTEXT) == 0) {
+		if(arguments[0].compareTo(Language.IGNORE) == 0) { 
+			
+			//clientFrame.talking(true);
+			
+		} else if(arguments[0].compareTo(Language.DONTIGNORE) == 0) { 
+			
+			//clientFrame.talking(true);
+			
+		} else if(arguments[0].compareTo(Language.TALK) == 0) { 
+			
+			clientFrame.talking(true);
+			
+		} else if(arguments[0].compareTo(Language.DONTTALK) == 0) { 
+			
+			clientFrame.talking(false);
+			
+		} else if(arguments[0].compareTo(Language.ASKTEXT) == 0) {
 
 			String answer = clientFrame.askText(arguments);
 			connection.sendMessage(answer);

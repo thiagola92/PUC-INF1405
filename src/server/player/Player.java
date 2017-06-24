@@ -23,7 +23,7 @@ public class Player {
 	
 	private Board board;
 	
-	private ConnectionToClient connection;
+	private Connection connection;
 	
 	private String name;
 	private int resets;
@@ -36,15 +36,12 @@ public class Player {
 	private ArrayList<Card> hand;
 	private ArrayList<Equipment> equipments;
 	
-	private static ArrayList<Action> history;
-	public static ArrayList<String> historic;
-	
 	/**
 	 * Create a class Player.
 	 * @param board			Class Board that will run the game.
 	 * @param connection	Class ConnectionToClient that will let send/receive message to/from the player.
 	 */
-	public Player(Board board, ConnectionToClient connection) {
+	public Player(Board board, Connection connection) {
 		this.board = board;
 		this.connection = connection;
 		
@@ -58,10 +55,7 @@ public class Player {
 		this.hand = new ArrayList<Card>();
 		this.equipments = new ArrayList<Equipment>();
 		
-		Player.history = new ArrayList<Action>();
-		if(Player.historic == null)
-			Player.historic = new ArrayList<String>();
-		
+		connection.sendMessage(Language.DONTTALK);
 		connection.sendMessage(Language.ASKTEXT + Language.SEPARATOR + Language.submit_your_nickname);
 		name = connection.receiveMessage()[0];
 	}
@@ -178,8 +172,8 @@ public class Player {
 		return playerInfo;
 	}
 	
-	public ArrayList<Action> getLogInfo() {
-		return history;
+	public ArrayList<String> getLogInfo() {
+		return connection.getHistoric();
 	}
 	
 	/**
@@ -239,6 +233,12 @@ public class Player {
 	
 	public void setState(State state) {
 		this.state = state;
+		
+		if(state == State.PLAYING)
+			connection.sendMessage(Language.TALK);
+		else 
+			connection.sendMessage(Language.DONTTALK);
+		
 		System.out.format(">>Player %s state changed to %s\n", name, this.state);
 	}
 
@@ -311,9 +311,6 @@ public class Player {
 	
 		for(Card card: hand) {
 			if(card.getName().compareTo(cardName) == 0) {
-				Action action = new Action(this);
-				action.setCard(card);
-				history.add(action);
 				
 				card.useCard(this, board);
 				break;
@@ -363,7 +360,6 @@ public class Player {
 		if(board.getAttacksThisTurn() > getAttacks()) {
 			System.out.format(">>You can not attack more than %s time(s) this turn\n", board.getAttacksThisTurn());
 			
-			history.remove(history.size() - 1);				// read the end of the method
 			return;
 		}
 		
@@ -391,9 +387,6 @@ public class Player {
 				
 				System.out.format(">>Target %s attacked\n", player.getName());
 				
-				Action action = history.get(history.size() - 1);
-				action.setTarget(player);
-				
 				board.setAttacksThisTurn(board.getAttacksThisTurn() + 1);
 				
 				player.blockPlayer(this, weapon);
@@ -410,19 +403,6 @@ public class Player {
 		}
 		
 		System.out.println(">>Target not found.");
-		
-		/*
-		 * This remove seen a little lost. I will explain...
-		 * When you call "useCard()" you add to the history one Action saying that you used that card.
-		 * When you call "attackPlayer()" sometimes you can't attack the other player, so you can't use this card.
-		 * In others words you didn't make the action of attacking. Now i need to remove this action.
-		 * 
-		 * The perfect way should be add to history only if the action was made.
-		 * I thought about making "useCard()" and "attackPlayer()" return true or false if the card was used but this would also means to add every card one return.
-		 * 
-		 * I didn't decide yet the best way... sorry the long comment.
-		 */
-		history.remove(history.size() - 1);
 	}
 	
 	/**
@@ -453,10 +433,6 @@ public class Player {
 		for(Card card: cardsThatCanBlock) {
 			if(card.getName().compareTo(answer) == 0) {
 				System.out.format(">>Player %s blocked with %s\n", this.getName(), card.getName());
-
-				Action action = new Action(this);
-				action.setCard(card);
-				history.add(action);
 				
 				discardCard(card);
 				
@@ -486,19 +462,9 @@ public class Player {
 	public void command() {
 		String[] arguments = connection.receiveMessage();
 		
-		String historicMessage = this.getName();
-		
-		for(int i=0; i < arguments.length; ++i) {
-			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
-			historicMessage += "|" + arguments[i];
-		}
-		
-		historic.add(historicMessage);
-		
 		if(arguments[0].compareTo(Language.NEXTTURN) == 0) {
 			
 			limitCards();
-			history.add(new Action(this));
 			board.nextTurn();
 			
 		} else if(arguments[0].compareTo(Language.USECARD) == 0 && arguments.length == 2) {
@@ -507,5 +473,4 @@ public class Player {
 			
 		}
 	}
-	
 }

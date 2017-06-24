@@ -99,5 +99,11 @@ public class PlayerPanel extends JPanel {
 		handPanel.updateCardsPanel(hand);
 		equipmentsPanel.updateCardsPanel(equip);
 	}
+
+	public void talking(boolean b) {
+		nextTurn.setEnabled(b);
+		useCard.setEnabled(b);
+	}
+	
 	
 }

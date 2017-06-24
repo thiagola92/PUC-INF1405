@@ -3,6 +3,7 @@ package server.player;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -20,13 +21,15 @@ import lang.Language;
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class ConnectionToClient {
+public class Connection {
 	
 	private Socket client;
 	private Scanner entrada;
 	private PrintStream saida;
 	
-	public ConnectionToClient(Socket socket) {
+	private static ArrayList<String> historic;
+	
+	public Connection(Socket socket) {
 		this.client = socket;
 		
         try {
@@ -38,6 +41,12 @@ public class ConnectionToClient {
 			System.out.println("IOException - if an I/O error occurs when creating the input stream, the socket is closed, the socket is not connected, or the socket input has been shutdown using shutdownInput().");
 			System.out.println("IOException - if an I/O error occurs when creating the output stream or if the socket is not connected.");
 		}
+        
+        Connection.historic = new ArrayList<String>();
+	}
+	
+	public ArrayList<String> getHistoric() {
+		return historic;
 	}
 	
 	/**
@@ -63,6 +72,7 @@ public class ConnectionToClient {
 		try {
 			
 			message = entrada.nextLine();
+			historic.add(message);
 			arguments = message.split("[" + Language.SEPARATOR + "]");
 			
 		} catch(NoSuchElementException e) {

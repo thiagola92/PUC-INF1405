@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-import server.player.ConnectionToClient;
+import server.player.Connection;
 
 /**
  * This class will receive every connection/player that is trying to play.
@@ -15,7 +15,7 @@ import server.player.ConnectionToClient;
  */
 public class ConnectionReceiver {
 	
-	private ArrayList<ConnectionToClient> clients;
+	private ArrayList<Connection> clients;
 	
 	/**
 	 * Create a ServerSocket that will wait N connections, making an ArrayList with them.
@@ -24,7 +24,7 @@ public class ConnectionReceiver {
 	 * @param howManyWait	How many players it will wait until start the game.
 	 */
 	public ConnectionReceiver(int port, int howManyWait) {
-		this.clients = new ArrayList<ConnectionToClient>();
+		this.clients = new ArrayList<Connection>();
 		
 		try {
 			ServerSocket serversocket = new ServerSocket(port);
@@ -32,7 +32,7 @@ public class ConnectionReceiver {
 			for(; howManyWait > 0; --howManyWait) {
 				System.out.format(">>Waiting %s players\n", howManyWait);
 				
-				ConnectionToClient connection = new ConnectionToClient(serversocket.accept());
+				Connection connection = new Connection(serversocket.accept());
 				clients.add(connection);
 			}
 			

@@ -3,8 +3,7 @@ package server;
 import java.util.ArrayList;
 
 import server.board.Board;
-import server.player.Action;
-import server.player.ConnectionToClient;
+import server.player.Connection;
 import server.window.ServerFrame;
 
 /**
@@ -23,14 +22,14 @@ public class Manager implements Runnable {
 	 * Create the board and window.
 	 * @param clients	To create the board you need clients, connections.
 	 */
-	public Manager(ArrayList<ConnectionToClient> clients) {
+	public Manager(ArrayList<Connection> clients) {
 		this.board = new Board(clients);
 		this.serverFrame = new ServerFrame();
 		
 		new Thread(board).start();
 		new Thread(this).start();
 	}
-
+	
 	/**
 	 * It will get information about player and board and insert to the right panel.
 	 * <br>This will be repeat until closed.
@@ -40,7 +39,7 @@ public class Manager implements Runnable {
 		
 		ArrayList<String> boardInfo;
 		ArrayList<String> playerInfo;
-		ArrayList<Action> logInfo;
+		ArrayList<String> logInfo;
 		
 		serverFrame.getPlayersPanel().setPlayers(board.getPlayers().size());
 		

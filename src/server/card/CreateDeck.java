@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class AllCards {
+public class CreateDeck {
 	
 	private ArrayList<Card> deck;
 	
-	public AllCards(ArrayList<Card> deck) {
+	public CreateDeck(ArrayList<Card> deck) {
 		this.deck = deck;
 		
 		// Equipments
@@ -85,7 +85,7 @@ public class AllCards {
 	 * @param range				How much increase the range from the attacks of this player
 	 * @param function			What the card is suppose to do when used
 	 */
-	public void equipment(int quantity, String name, int damage, int attacks, int distance, int range, FunctionEquipment function) {
+	private void equipment(int quantity, String name, int damage, int attacks, int distance, int range, FunctionEquipment function) {
 		for(int i=0; i < quantity; ++i)
 			deck.add(new Equipment(name, damage, attacks, distance, range, function));
 		
@@ -101,7 +101,7 @@ public class AllCards {
 	 * @param range				Enemy must be this close to you for you hit.
 	 * @param function			What the card is suppose to do when used
 	 */
-	public void weapon(int quantity, String name, int damage, int range, FunctionWeapon function) {
+	private void weapon(int quantity, String name, int damage, int range, FunctionWeapon function) {
 		for(int i=0; i < quantity; ++i)
 			deck.add(new Weapon(name, damage, range, function));
 		
@@ -115,7 +115,7 @@ public class AllCards {
 	 * @param description		Description of the card
 	 * @param function			What the card is suppose to do when used
 	 */
-	public void event(int quantity, String name, FunctionEvent function) {
+	private void event(int quantity, String name, FunctionEvent function) {
 		for(int i=0; i < quantity; ++i)
 			deck.add(new Event(name, function));
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
