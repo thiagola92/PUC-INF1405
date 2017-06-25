@@ -7,13 +7,13 @@ Game based on [Samurai Sword](https://boardgamegeek.com/boardgame/128667/samurai
 **Discipline**: INF1405 - Construção de Sistemas  
 **Institution**: Pontifícia Universidade Católica do Rio de Janeiro  
 
-# Importante files #
+# Importante files/pages #
 
- Name                                | Description
--------------------------------------|-----------
-[README](README.md)                  |Instructions of this project
-[LICENSE](LICENSE)                   |License of this project
-[MANUAL](documentation/MANUAL.md)    |How to play manual
+ Name                                       | Description
+--------------------------------------------|-----------
+[README](README.md)                         |Instructions of this project
+[LICENSE](LICENSE)                          |License of this project
+[wiki/How-To-Play](../../wiki/How-To-Play)  |How to play
 
 # Pre requirements #
 To play you will need:
