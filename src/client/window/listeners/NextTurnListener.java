@@ -1,16 +1,18 @@
-package client.window;
+package client.window.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class NextListener implements MouseListener {
-	
-	private OtherPlayerPanel panel;
+import client.Translator;
 
-	public NextListener(OtherPlayerPanel panel) {
-		this.panel = panel;
-	}
+public class NextTurnListener implements MouseListener {
 	
+	private Translator translator;
+	
+	public NextTurnListener(Translator translator) {
+		this.translator = translator;
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
@@ -25,7 +27,7 @@ public class NextListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		panel.nextPlayer();
+		translator.nextTurn();
 	}
 
 	@Override

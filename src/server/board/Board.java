@@ -6,9 +6,9 @@ import java.util.Hashtable;
 
 import lang.Language;
 import server.card.CreateDeck;
-import server.card.Card;
+import server.card.interfaces.Card;
 import server.player.Color;
-import server.player.Connection;
+import server.player.ConnectionClient;
 import server.player.Player;
 import server.player.State;
 
@@ -46,7 +46,7 @@ public class Board implements Runnable {
 	 * <li>Decide everyone teams</li>
 	 * @param clients		ArrayList of clients
 	 */
-	public Board(ArrayList<Connection> clients) {
+	public Board(ArrayList<ConnectionClient> clients) {
 		this.endGame = false;
 		
 		this.turnFromPlayer = 0;
@@ -181,9 +181,9 @@ public class Board implements Runnable {
 	 * Pick randomly each client and fixing with your 'Player'.
 	 * @param clients	ArrayList of clients/players
 	 */
-	public void shiftOrder(ArrayList<Connection> clients) {
+	public void shiftOrder(ArrayList<ConnectionClient> clients) {
 		Collections.shuffle(clients);
-		Connection connection;
+		ConnectionClient connection;
 		Player new_player;
 		
 		for(int i=0; i < clients.size(); ++i) {
@@ -375,7 +375,7 @@ public class Board implements Runnable {
 	public void updatePlayers() {
 		
 		for(Player player: players) {
-			ArrayList<String> information = player.getPlayerInfo(false);
+			ArrayList<String> information = player.getPlayerInfo(player, false);
 			
 			information.add(Language.BOARD);
 			information.addAll(this.getBoardInfo());
@@ -383,7 +383,7 @@ public class Board implements Runnable {
 			for(Player p: players) {
 				if(player != p) {
 					information.add(Language.OTHERPLAYER);
-					information.addAll(p.getPlayerInfo(true));
+					information.addAll(p.getPlayerInfo(player, true));
 				}
 			}
 			

@@ -4,26 +4,15 @@ import java.util.ArrayList;
 
 import lang.Language;
 import server.board.Board;
-import server.card.Card;
 import server.card.Equipment;
 import server.card.Weapon;
+import server.card.interfaces.Card;
 
-/**
- * You probably came here from Board, this class represent the Player.
- * <br>Player will communicate with:
- * <li>Board</li>
- * <li>Player hand</li>
- * <li>Player equipments</li>
- * <li>Player connection</li>
- * <br>Every player can communicate with Board and using it can communicate with others player.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
 public class Player {
 	
 	private Board board;
 	
-	private Connection connection;
+	private ConnectionClient connection;
 	
 	private String name;
 	private int resets;
@@ -36,29 +25,32 @@ public class Player {
 	private ArrayList<Card> hand;
 	private ArrayList<Equipment> equipments;
 	
-	/**
-	 * Create a class Player.
-	 * @param board			Class Board that will run the game.
-	 * @param connection	Class ConnectionToClient that will let send/receive message to/from the player.
-	 */
-	public Player(Board board, Connection connection) {
+	public Player(Board board, ConnectionClient connection) {
 		this.board = board;
 		this.connection = connection;
 		
 		this.name = "";
-		this.resets = 4;
-		this.health = 5;
-		this.state = State.WAITING_TURN;
+		setResets(4);
+		setHealth(5);
+		setState(State.WAITING_TURN);
 		
 		this.handSize = 7;
 
 		this.hand = new ArrayList<Card>();
 		this.equipments = new ArrayList<Equipment>();
 		
-		connection.sendMessage(Language.DONTTALK);
 		connection.sendMessage(Language.ASKTEXT + Language.SEPARATOR + Language.submit_your_nickname);
 		name = connection.receiveMessage()[0];
 	}
+
+	/*
+	 * get
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 */
 	
 	public String getName() {
 		return name;
@@ -67,7 +59,6 @@ public class Player {
 	public int getResets() {
 		return resets;
 	}
-
 
 	public int getHealth() {
 		return health;
@@ -128,16 +119,12 @@ public class Player {
 		
 		return range;
 	}
+	
+	public ArrayList<String> getLogInfo() {
+		return connection.getHistoric();
+	}
 
-	/**
-	 * Compile all information about the player into one ArrayList.
-	 * <br>To get the information back you can memorize the order or use regex to identify the text before information.
-	 * <br>All information start after two dots (:).
-	 * <p>The attribute anonymous will tell the method if he should put one the ArrayList private things like "cards on hand" or "team".
-	 * @param anonymous 	If you want to see all information or just public information
-	 * @return				ArrayList with the informations about the player
-	 */
-	public ArrayList<String> getPlayerInfo(boolean anonymous) {
+	public ArrayList<String> getPlayerInfo(Player player, boolean secret) {
 		ArrayList<String> playerInfo = new ArrayList<String>();
 
 		playerInfo.add(Language.player_name + Language.SEPARATOR + this.getName());
@@ -145,19 +132,19 @@ public class Player {
 		playerInfo.add(Language.resets + Language.SEPARATOR + this.getResets());
 		playerInfo.add(Language.health + Language.SEPARATOR + this.getHealth());
 		
-		if(anonymous == false) {
+		if(secret == false) {
 			playerInfo.add(Language.team + Language.SEPARATOR + this.getTeam());
 			playerInfo.add(Language.state + Language.SEPARATOR + this.getState());
 		}
 		
 		playerInfo.add(Language.damage + Language.SEPARATOR + this.getDamage());
 		playerInfo.add(Language.attacks + Language.SEPARATOR + this.getAttacks());
-		playerInfo.add(Language.distance + Language.SEPARATOR + this.getDistance());
+		playerInfo.add(Language.distance + Language.SEPARATOR + board.distanceFromPlayer1ToPlayer2(player, this));
 		playerInfo.add(Language.range + Language.SEPARATOR + this.getRange());
 		
 		playerInfo.add(Language.number_of_cards_holding + Language.SEPARATOR + this.hand.size());
 		
-		if(anonymous == false) {
+		if(secret == false) {
 			synchronized(hand) {
 				for(Card c: hand)
 					playerInfo.add(Language.cards + Language.SEPARATOR + c.getName());
@@ -172,63 +159,39 @@ public class Player {
 		return playerInfo;
 	}
 	
-	public ArrayList<String> getLogInfo() {
-		return connection.getHistoric();
+	/*
+	 * set
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 */
+	
+	public void setResets(int resets) {
+		this.resets = resets;
+		
+		if(this.resets <= 0) {
+			this.resets = 0;
+
+			board.setEndGame();
+		}
 	}
 	
-	/**
-	 * Sets the player health to this amount(if is less than 0, it will set to 0).
-	 * <br>If his health is 0:
-	 * <li>State goes to DEAD</li>
-	 * <li>Lose one honor</li>
-	 * <p>Observation:
-	 * <br>Some people may think that this class is to subtract or increment health, but is not. You will set the health to the amount you want.
-	 * <br>If you want to increment you will have to do:
-	 * <p><code>setHealth(getHealth() + 1)</code>
-	 * @param health	The player health quantity
-	 */
 	public void setHealth(int health) {
-		int pre_health = this.health;
 		this.health = health;
 		
 		if(this.health <= 0) {
 			this.health = 0;
 			this.state = State.DEAD;
 
-			System.out.format(">>Player %s health: %d -> %d\n", this.getName(), pre_health, this.getHealth());
 			
 			setResets(getResets() - 1);
-		} else
-			System.out.format(">>Player %s health: %d -> %d\n", this.getName(), pre_health, this.getHealth());
-	}
-	
-	/**
-	 * Sets the player resets to this amount(if is less than 0, it will set to 0).
-	 * <br>If his resets is 0:
-	 * <li>It will call endGame() and end the game.</li>
-	 * <p>Observation:
-	 * <br>Some people may think that this class is to subtract or increment resets, but is not. You will set the resets to the amount you want.
-	 * <br>If you want to increment you will have to do:
-	 * <p><code>setResets(getResets() + 1)</code>
-	 * @param resets	The player resets quantity
-	 */
-	public void setResets(int resets) {
-		int pre_resets = this.resets;
-		this.resets = resets;
-		
-		if(this.resets <= 0) {
-			this.resets = 0;
-
-			System.out.format(">>Player %s resets: %d -> %d\n", this.getName(), pre_resets, this.getResets());
-			
-			board.setEndGame();
-		} else
-			System.out.format(">>Player %s resets: %d -> %d\n", this.getName(), pre_resets, this.getResets());
+		}
 	}
 
 	public void setTeam(Color team) {
 		this.team = team;
-		System.out.format(">>Player %s team is %s\n", name, this.team);
 	}
 	
 	public void setState(State state) {
@@ -239,20 +202,19 @@ public class Player {
 		else 
 			connection.sendMessage(Language.DONTTALK);
 		
-		System.out.format(">>Player %s state changed to %s\n", name, this.state);
 	}
-
-	/**
-	 * Add ONE cards to equipments.
-	 * <br>This cards must be an equipment.
-	 * <br>Cards don't have access to the equipments, they will only be able to change using methods.
-	 * @param equipment		Card to be equipped
+	
+	/*
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
 	 */
+	
 	public void equipCard(Equipment equipment) {
-		hand.remove(equipment);
-		equipments.add(equipment);
-		
-		System.out.format(">>Player %s equiped card %s\n", name, equipment.getName());
+		if(hand.remove(equipment))
+			equipments.add(equipment);
 	}
 	
 	/**

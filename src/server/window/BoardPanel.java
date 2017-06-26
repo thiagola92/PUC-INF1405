@@ -5,18 +5,15 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * Panel that show the board informations.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
+import lang.Language;
+
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 	
 	private JLabel boardLabel;
 	
 	public BoardPanel() {
-		this.boardLabel = new JLabel("");
+		this.boardLabel = new JLabel("---");
 		
 		this.add(boardLabel);
 	}
@@ -25,7 +22,7 @@ public class BoardPanel extends JPanel {
 		String label = "<html>";
 		
 		for(String info: boardInfo) 
-			label += info + " <br/> ";
+			label += info + Language.SEPARATOR;
 		
 		label += "</html>";
 		

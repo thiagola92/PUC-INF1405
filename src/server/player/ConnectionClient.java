@@ -21,7 +21,7 @@ import lang.Language;
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class Connection {
+public class ConnectionClient {
 	
 	private Socket client;
 	private Scanner entrada;
@@ -29,7 +29,7 @@ public class Connection {
 	
 	private static ArrayList<String> historic;
 	
-	public Connection(Socket socket) {
+	public ConnectionClient(Socket socket) {
 		this.client = socket;
 		
         try {
@@ -42,29 +42,17 @@ public class Connection {
 			System.out.println("IOException - if an I/O error occurs when creating the output stream or if the socket is not connected.");
 		}
         
-        Connection.historic = new ArrayList<String>();
+        ConnectionClient.historic = new ArrayList<String>();
 	}
 	
 	public ArrayList<String> getHistoric() {
 		return historic;
 	}
 	
-	/**
-	 * Pass a String and will write to the client.
-	 * @param message		String to be write
-	 */
 	public void sendMessage(String message) {
 		saida.println(message);
 	}
 	
-	/**
-	 * Receive a string from client and split it, so you can now the arguments.
-	 * <br>The message arguments are divide by comma, for example:
-	 * <p>USE,CARD
-	 * <p>This way i know that the first argument means you are trying to use a card and the second the card you want to use.
-	 * <br>Take care because you can end in a loop when waiting for message. Normally you would need to throw a exception to get out.
-	 * @return		One array of arguments for the class Player interpret.
-	 */
 	public String[] receiveMessage() {
 		String[] arguments = null;
 		String message = null;
@@ -73,6 +61,7 @@ public class Connection {
 			
 			message = entrada.nextLine();
 			historic.add(message);
+			
 			arguments = message.split("[" + Language.SEPARATOR + "]");
 			
 		} catch(NoSuchElementException e) {

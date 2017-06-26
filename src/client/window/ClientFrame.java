@@ -22,35 +22,34 @@ import client.Translator;
  */
 @SuppressWarnings("serial")
 public class ClientFrame extends JFrame {
-	
-	private JPanel panel;
 
-	private OtherPlayerPanel otherPlayerPanel;
+	private BoardPanel boardPanel;
+	private EnemyPanel enemyPanel;
 	private PlayerPanel playerPanel;
 
 	public ClientFrame(Translator translator) {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		this.panel = new JPanel(new BorderLayout());
+		this.setLayout(new BorderLayout());
 		
-		this.otherPlayerPanel = new OtherPlayerPanel();
+		this.boardPanel = new BoardPanel();
+		this.enemyPanel = new EnemyPanel();
 		this.playerPanel = new PlayerPanel(translator);
 		
-		//temporary
-		//otherPlayerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-		//playerPanel.setBorder(BorderFactory.createLineBorder(Color.red));
-		
-		panel.add(otherPlayerPanel, BorderLayout.CENTER);
-		panel.add(playerPanel, BorderLayout.PAGE_END);
-		
-		this.add(panel);
+		this.add(boardPanel, BorderLayout.PAGE_START);
+		this.add(enemyPanel, BorderLayout.CENTER);
+		this.add(playerPanel, BorderLayout.PAGE_END);
 		
 		this.pack();
 	}
 	
-	public OtherPlayerPanel getOtherPlayerPanel() {
-		return otherPlayerPanel;
+	public BoardPanel getBoardPanel() {
+		return boardPanel;
+	}
+	
+	public EnemyPanel getOtherPlayerPanel() {
+		return enemyPanel;
 	}
 	
 	public PlayerPanel getPlayerPanel() {

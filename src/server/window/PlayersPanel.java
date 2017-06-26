@@ -8,11 +8,6 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * Panel that show the players informations.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
 @SuppressWarnings("serial")
 public class PlayersPanel extends JPanel {
 	
@@ -29,11 +24,6 @@ public class PlayersPanel extends JPanel {
 		this.add(playersPanel);
 	}
 	
-	/**
-	 * The playersPanel doesn't know how many players are and how many JLabel create.
-	 * <br>Initialize this before start using.
-	 * @param quantity
-	 */
 	public void setPlayers(int quantity) {
 		
 		constraints.weightx = 1;
@@ -49,7 +39,7 @@ public class PlayersPanel extends JPanel {
 		
 	}
 	
-	public void updatePlayerInfo(ArrayList<String> playerInfo, int index) {
+	public void updatePlayersInfo(ArrayList<String> playerInfo, int index) {
 		String label = "<html>";
 
 		for(String info: playerInfo) 

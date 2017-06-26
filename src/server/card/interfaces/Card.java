@@ -1,4 +1,4 @@
-package server.card;
+package server.card.interfaces;
 
 import server.board.Board;
 import server.player.Player;

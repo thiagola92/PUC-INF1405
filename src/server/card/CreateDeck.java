@@ -2,6 +2,11 @@ package server.card;
 
 import java.util.ArrayList;
 
+import server.card.interfaces.Card;
+import server.card.interfaces.FunctionEquipment;
+import server.card.interfaces.FunctionSpecial;
+import server.card.interfaces.FunctionWeapon;
+
 /**
  * You probably came from Board.
  * <br>This class will make:
@@ -115,9 +120,9 @@ public class CreateDeck {
 	 * @param description		Description of the card
 	 * @param function			What the card is suppose to do when used
 	 */
-	private void event(int quantity, String name, FunctionEvent function) {
+	private void event(int quantity, String name, FunctionSpecial function) {
 		for(int i=0; i < quantity; ++i)
-			deck.add(new Event(name, function));
+			deck.add(new Special(name, function));
 		System.out.format(">>%d cards of '%s' were add to the game\n", quantity, name);
 	}
 

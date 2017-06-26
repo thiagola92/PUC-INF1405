@@ -9,9 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import client.Translator;
-import client.window.cards.EquipmentPanel;
+import client.window.cards.CardsPanel;
 import client.window.cards.HandPanel;
 import client.window.cards.UseCardListener;
+import client.window.listeners.NextTurnListener;
 import lang.Language;
 
 /**
@@ -32,7 +33,7 @@ public class PlayerPanel extends JPanel {
 	
 	private JPanel handAndEquipPanel;
 	private HandPanel handPanel;
-	private EquipmentPanel equipmentsPanel;
+	private CardsPanel equipmentsPanel;
 	
 	private JButton useCard;
 
@@ -49,7 +50,7 @@ public class PlayerPanel extends JPanel {
 		
 		this.handAndEquipPanel = new JPanel(new BorderLayout());
 		this.handPanel = new HandPanel(translator);
-		this.equipmentsPanel = new EquipmentPanel();
+		this.equipmentsPanel = new CardsPanel();
 		
 		this.useCard = new JButton(Language.use_card);
 		this.useCard.addMouseListener(new UseCardListener(translator));

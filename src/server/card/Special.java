@@ -1,6 +1,8 @@
 package server.card;
 
 import server.board.Board;
+import server.card.interfaces.Card;
+import server.card.interfaces.FunctionSpecial;
 import server.player.Player;
 
 /**
@@ -10,12 +12,12 @@ import server.player.Player;
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class Event implements Card {
+public class Special implements Card {
 
 	private String name;
-	private FunctionEvent function;
+	private FunctionSpecial function;
 	
-	public Event(String name, FunctionEvent function) {
+	public Special(String name, FunctionSpecial function) {
 		this.name = name;
 		this.function = function;
 	}

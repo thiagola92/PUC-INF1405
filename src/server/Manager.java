@@ -3,37 +3,24 @@ package server;
 import java.util.ArrayList;
 
 import server.board.Board;
-import server.player.Connection;
+import server.player.Player;
 import server.window.ServerFrame;
 
-/**
- * This class was created so visual things didn't interact with the game.
- * <br>If you want to edit windows/frames/panels go the <b>serverFrame</b>.
- * <br>If you want to edit the game go to <b>board</b>.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
 public class Manager implements Runnable {
 
+	private ConnectionReceiver connections;
 	private Board board;
 	private ServerFrame serverFrame;
 	
-	/**
-	 * Create the board and window.
-	 * @param clients	To create the board you need clients, connections.
-	 */
-	public Manager(ArrayList<Connection> clients) {
-		this.board = new Board(clients);
+	public Manager(int port, int howManyWait) {
+		this.connections = new ConnectionReceiver(port, howManyWait);
+		this.board = new Board(connections.getConnections());
 		this.serverFrame = new ServerFrame();
 		
 		new Thread(board).start();
 		new Thread(this).start();
 	}
 	
-	/**
-	 * It will get information about player and board and insert to the right panel.
-	 * <br>This will be repeat until closed.
-	 */
 	@Override
 	public void run() {
 		
@@ -41,20 +28,21 @@ public class Manager implements Runnable {
 		ArrayList<String> playerInfo;
 		ArrayList<String> logInfo;
 		
-		serverFrame.getPlayersPanel().setPlayers(board.getPlayers().size());
+		serverFrame.setPlayers(board.getPlayers().size());
 		
 		boolean firstPack = true;
 		while(true) {
 			boardInfo = board.getBoardInfo();
-			serverFrame.getBoardPanel().updateBoardInfo(boardInfo);
+			serverFrame.updateBoardInfo(boardInfo);
 			
 			for(int i=0; i < board.getPlayers().size(); ++i) {
-				playerInfo = board.getPlayers().get(i).getPlayerInfo(false);
-				serverFrame.getPlayersPanel().updatePlayerInfo(playerInfo, i);
+				Player player = board.getPlayers().get(i);
+				playerInfo = player.getPlayerInfo(player, false);
+				serverFrame.updatePlayersInfo(playerInfo, i);
 			}
 			
 			logInfo = board.getPlayers().get(0).getLogInfo();
-			serverFrame.getLogPanel().updateLogInfo(logInfo);
+			serverFrame.updateLogInfo(logInfo);
 			
 			if(firstPack) {
 				serverFrame.pack();

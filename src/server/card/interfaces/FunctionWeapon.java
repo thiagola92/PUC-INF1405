@@ -1,6 +1,7 @@
-package server.card;
+package server.card.interfaces;
 
 import server.board.Board;
+import server.card.Weapon;
 import server.player.Player;
 
 /**

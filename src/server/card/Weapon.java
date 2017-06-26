@@ -1,6 +1,8 @@
 package server.card;
 
 import server.board.Board;
+import server.card.interfaces.Card;
+import server.card.interfaces.FunctionWeapon;
 import server.player.Player;
 
 /**

@@ -1,18 +1,18 @@
-package client.window;
+package client.window.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import client.Translator;
+import client.window.EnemyPanel;
 
-public class NextTurnListener implements MouseListener {
+public class BackListener implements MouseListener {
 	
-	private Translator translator;
-	
-	public NextTurnListener(Translator translator) {
-		this.translator = translator;
+	private EnemyPanel panel;
+
+	public BackListener(EnemyPanel panel) {
+		this.panel = panel;
 	}
-
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
@@ -27,7 +27,7 @@ public class NextTurnListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		translator.nextTurn();
+		panel.backPlayer();
 	}
 
 	@Override

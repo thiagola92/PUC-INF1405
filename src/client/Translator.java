@@ -29,18 +29,17 @@ import lang.Language;
  */
 public class Translator implements Runnable{
 
-	private ConnectionToServer connection;
+	private ConnectionServer connection;
 	private ClientFrame clientFrame;
 	
 	private String cardSelected;
 	
 	public Translator(int port, String ip) {
-		
 		this.clientFrame = new ClientFrame(this);
 		
 		try {
 			
-			this.connection = new ConnectionToServer(new Socket(ip, port));
+			this.connection = new ConnectionServer(new Socket(ip, port));
 			
 		} catch(UnknownHostException e) {
 			System.out.println("UnknownHostException - if the IP address of the host could not be determined.");
@@ -76,36 +75,18 @@ public class Translator implements Runnable{
 		for(int i=0; i < arguments.length; ++i)
 			System.out.format(">>Argument[%d]: %s\n", i ,arguments[i]);
 		
-		if(arguments[0].compareTo(Language.IGNORE) == 0) { 
-			
-			//clientFrame.talking(true);
-			
-		} else if(arguments[0].compareTo(Language.DONTIGNORE) == 0) { 
-			
-			//clientFrame.talking(true);
-			
-		} else if(arguments[0].compareTo(Language.TALK) == 0) { 
-			
+		if(arguments[0].compareTo(Language.TALK) == 0) { 
 			clientFrame.talking(true);
-			
 		} else if(arguments[0].compareTo(Language.DONTTALK) == 0) { 
-			
 			clientFrame.talking(false);
-			
 		} else if(arguments[0].compareTo(Language.ASKTEXT) == 0) {
-
 			String answer = clientFrame.askText(arguments);
 			connection.sendMessage(answer);
-			
 		} else if(arguments[0].compareTo(Language.OPTIONS) == 0) {
-			
 			String answer = clientFrame.options(arguments);
 			connection.sendMessage(answer);
-			
 		} else if(arguments[0].compareTo(Language.UPDATE) == 0) {
-			
 			update(arguments);
-			
 		}
 	}
 
@@ -145,8 +126,8 @@ public class Translator implements Runnable{
 		}
 		
 		clientFrame.getPlayerPanel().updateStatus(playerInfo);
-		clientFrame.getOtherPlayerPanel().updateBoard(boardInfo);
-		clientFrame.getOtherPlayerPanel().updateOtherPlayer(otherPlayerInfo);
+		clientFrame.getBoardPanel().updateBoard(boardInfo);
+		clientFrame.getOtherPlayerPanel().updateEnemy(otherPlayerInfo);
 	}
 	
 	/**

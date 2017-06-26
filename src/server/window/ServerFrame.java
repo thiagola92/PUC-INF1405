@@ -1,23 +1,12 @@
 package server.window;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-/**
- * Window to visualize what is happen in the game.
- * <br>This window is composed from the following panels:
- * <li>BoardPanel</li>
- * <li>PlayersPanel</li>
- * <li>LogPanel</li>
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
 @SuppressWarnings("serial")
 public class ServerFrame extends JFrame {
-	
-	private JPanel panel;
 	
 	private BoardPanel boardPanel;
 	private PlayersPanel playersPanel;
@@ -25,32 +14,34 @@ public class ServerFrame extends JFrame {
 	
 	public ServerFrame() {
 		this.setVisible(true);
+		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		panel = new JPanel(new BorderLayout());
 		
 		boardPanel = new BoardPanel();
 		playersPanel = new PlayersPanel();
 		logPanel = new LogPanel();
 		
-		panel.add(boardPanel, BorderLayout.PAGE_START);
-		panel.add(playersPanel, BorderLayout.CENTER);
-		panel.add(logPanel, BorderLayout.PAGE_END);
+		this.add(boardPanel, BorderLayout.PAGE_START);
+		this.add(playersPanel, BorderLayout.CENTER);
+		this.add(logPanel, BorderLayout.PAGE_END);
 		
-		this.add(panel);
 		this.pack();
 	}
 
-	public BoardPanel getBoardPanel() {
-		return boardPanel;
+	public void setPlayers(int size) {
+		playersPanel.setPlayers(size);
 	}
 	
-	public PlayersPanel getPlayersPanel() {
-		return playersPanel;
+	public void updateBoardInfo(ArrayList<String> boardInfo) {
+		boardPanel.updateBoardInfo(boardInfo);
 	}
 
-	public LogPanel getLogPanel() {
-		return logPanel;
+	public void updatePlayersInfo(ArrayList<String> playerInfo, int i) {
+		playersPanel.updatePlayersInfo(playerInfo, i);
+	}
+
+	public void updateLogInfo(ArrayList<String> logInfo) {
+		logPanel.updateLogInfo(logInfo);
 	}
 	
 }

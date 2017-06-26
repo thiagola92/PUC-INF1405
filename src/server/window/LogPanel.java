@@ -6,11 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-/**
- * Panel that show the players actions.
- * @author		Thiago Lages de Alencar
- * @version		%I%, %G%
- */
 @SuppressWarnings("serial")
 public class LogPanel extends JPanel {
 	

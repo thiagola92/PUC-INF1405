@@ -1,13 +1,15 @@
-package client.window;
+package client.window.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class BackListener implements MouseListener {
-	
-	private OtherPlayerPanel panel;
+import client.window.EnemyPanel;
 
-	public BackListener(OtherPlayerPanel panel) {
+public class NextListener implements MouseListener {
+	
+	private EnemyPanel panel;
+
+	public NextListener(EnemyPanel panel) {
 		this.panel = panel;
 	}
 	
@@ -25,7 +27,7 @@ public class BackListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		panel.backPlayer();
+		panel.nextPlayer();
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import lang.Language;
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
  */
-public class ConnectionToServer {
+public class ConnectionServer {
 	
 	private Socket server;
 	private Scanner entrada;
@@ -25,7 +25,7 @@ public class ConnectionToServer {
 	 * @param port		Port to connect
 	 * @param ip		IP to connect
 	 */
-	public ConnectionToServer(Socket socket) {
+	public ConnectionServer(Socket socket) {
 		this.server = socket;
 		
 		try {

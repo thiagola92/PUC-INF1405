@@ -68,10 +68,6 @@ public class Language {
 	public static final String TALK = "TALK";
 	public static final String DONTTALK = "DONTTALK";
 	
-	public static final String SENDME = "SENDME";
-	public static final String IGNORE = "IGNORE";
-	public static final String DONTIGNORE = "DONTIGNORE";
-	
 	// From the client to server
 	public static final String NEXTTURN = "NEXTTURN";
 	public static final String USECARD = "USECARD";
