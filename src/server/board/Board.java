@@ -142,23 +142,20 @@ public class Board implements Runnable {
 	private void teams() {
 		ArrayList<Color> teams = new ArrayList<Color>();
 		for(int i = 1; i < players.size(); ++i) {
-			if(i == 1)
-				teams.add(Color.BLUE);
-			if(i == 2)
-				teams.add(Color.BLUE);
 
-			if(i > 2 && i%3 == 0)
+			if(i%3 == 0)
 				teams.add(Color.YELLOW);
-			if(i > 2 && i%3 == 1)
-				teams.add(Color.RED);
-			else if(i > 2 && i%3 == 2)
+			if(i%3 == 1)
 				teams.add(Color.BLUE);
+			else if(i%3 == 2)
+				teams.add(Color.RED);
 		}
 		
 		Collections.shuffle(teams);
-		players.get(0).setTeam(Color.YELLOW);
 		for(int i=1; i < players.size(); ++i)
 			players.get(i).setTeam(teams.remove(0));
+		
+		players.get(0).setTeam(Color.YELLOW);
 	}
 	
 	/**
@@ -409,8 +406,14 @@ public class Board implements Runnable {
 			teams.put(playerTeam, teams.get(playerTeam) + player.getResets());
 		}
 		
-		System.out.format(">>Team %s have %d points\n", Color.BLUE, teams.get(Color.BLUE));
-		System.out.format(">>Team %s have %d points\n", Color.YELLOW, teams.get(Color.YELLOW));
-		System.out.format(">>Team %s have %d points\n", Color.RED, teams.get(Color.RED));
+		String message = Language.NOTIFICATION + Language.SEPARATOR;
+		message += "<html>";
+		message += Language.points_team_yellow + teams.get(Color.YELLOW) + "<br>";
+		message += Language.points_team_blue + teams.get(Color.BLUE) + "<br>";
+		message += Language.points_team_red + teams.get(Color.RED) + "<br>";
+		message += "</html>";
+		
+		for(Player player: players)
+			player.sendMessage(message);
 	}
 }

@@ -79,6 +79,8 @@ public class Translator implements Runnable{
 			clientFrame.talking(true);
 		} else if(arguments[0].compareTo(Language.DONTTALK) == 0) { 
 			clientFrame.talking(false);
+		}  else if(arguments[0].compareTo(Language.NOTIFICATION) == 0) { 
+			clientFrame.notification(arguments);
 		} else if(arguments[0].compareTo(Language.ASKTEXT) == 0) {
 			String answer = clientFrame.askText(arguments);
 			connection.sendMessage(answer);

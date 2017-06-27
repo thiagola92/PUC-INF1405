@@ -30,7 +30,7 @@ public class Player {
 		this.connection = connection;
 		
 		this.name = "";
-		setResets(4);
+		setResets(2);
 		setHealth(5);
 		setState(State.WAITING_TURN);
 		
@@ -205,6 +205,7 @@ public class Player {
 	}
 	
 	/*
+	 * card interactions
 	 ***************************************************************
 	 ***************************************************************
 	 ***************************************************************
@@ -217,16 +218,9 @@ public class Player {
 			equipments.add(equipment);
 	}
 	
-	/**
-	 * Add X cards to your hand.
-	 * <br>Cards don't have access to the hand, they will only be able to change using methods.
-	 * @param card		Cards that is going to your hand
-	 */
 	public void receiveCards(Card[] card) {
-		for(int i=0; i < card.length; ++i) {
+		for(int i=0; i < card.length; ++i)
 			hand.add(card[i]);
-			System.out.format(">>Player %s received card %s\n", name, card[i].getName());
-		}
 	}
 	
 	public void receiveCards(Card card) {
@@ -235,12 +229,6 @@ public class Player {
 		receiveCards(x);
 	}
 	
-	/**
-	 * Search on hand and equipments the card that will be discard.
-	 * <br>Good side is that work as an unequipCard one time that you have know exactly the card to be removed.
-	 * <br>This happens because you are giving the exactly card.
-	 * @param card		Card to discard
-	 */
 	public void discardCard(Card card) {
 		
 		for(int i=0; i < hand.size(); ++i) {
@@ -257,20 +245,11 @@ public class Player {
 			}
 		}
 		
-		System.out.format(">>Player %s discarded %s\n", name, card.getName());
 		board.discardCard(card);
 	}
 	
-	/**
-	 * The player use one card, search his hand for the card, if exist then use.
-	 * <br>Notice that the card will not be removed from the hand, this will be the cards job's.
-	 * <br>Why? Some cards can go to the discard and others can be moved to the equipment, so i can't know for sure where it will go, just the card knows.
-	 * @param cardName		Name of the card to search.
-	 */
 	public void useCard(String cardName) {
 
-		System.out.format(">>Player %s tried to use card %s\n", this.getName(), cardName);
-	
 		for(Card card: hand) {
 			if(card.getName().compareTo(cardName) == 0) {
 				
@@ -280,14 +259,10 @@ public class Player {
 		}
 	}
 	
-	/**
-	 * Ask the player to discard until the hand size be less than the max.
-	 */
 	private void limitCards() {
 		
 		synchronized(hand) {
 			while(hand.size() > getHandSize()) {
-				System.out.format(">>You have %d cards on hand when the max is %d\n", hand.size(), getHandSize());
 				
 				String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_one_card_to_discard;
 				
@@ -307,47 +282,44 @@ public class Player {
 		}
 	}
 	
-	/**
-	 * The player attacks another using one Weapon.
-	 * <li>Check if the player can still attack.</li>
-	 * <li>Search all players alive (is not State.DEAD).</li>
-	 * <li>Get all players in range.</li>
-	 * <li>Ask the client the target.</li>
-	 * <li>Call blockPlayer() to know if the target is going to block.</li>
-	 * <li>If he die after the attack (doesn't matter if blocked or not), you gain you reset.</li>
-	 * @param weapon	Weapon used in the attack.
+	/*
+	 * player interactions
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
 	 */
+	
 	public void attackPlayer(Weapon weapon) {
 		
 		if(board.getAttacksThisTurn() > getAttacks()) {
-			System.out.format(">>You can not attack more than %s time(s) this turn\n", board.getAttacksThisTurn());
+			String message = Language.NOTIFICATION + Language.SEPARATOR;
+			message += Language.cant_attack_anymore;
+			connection.sendMessage(message);
 			
 			return;
 		}
 		
-		ArrayList<Player> playersThatCanBeAttacked = board.getPlayersWithState(State.WAITING_TURN);
-		String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_one_player_to_attack;
+		ArrayList<Player> playersAlive = board.getPlayersWithState(State.WAITING_TURN);
+		String message = Language.OPTIONS + Language.SEPARATOR;
+		message += Language.chose_one_player_to_attack;
 		
-		for(int i=0; i < playersThatCanBeAttacked.size();) {
-			Player player = playersThatCanBeAttacked.get(i);
+		for(int i=0; i < playersAlive.size();) {
+			Player player = playersAlive.get(i);
 			
 			if(board.distanceFromPlayer1ToPlayer2(this, player) <= weapon.getRange() + this.getRange()) {
 				message += Language.SEPARATOR + player.getName();
 				++i;
 			} else
-				playersThatCanBeAttacked.remove(player);
+				playersAlive.remove(player);
 		}
-		
-		System.out.format(">>Options that this player can attack \n%s\n", message);
 		
 		connection.sendMessage(message);
 		String answer = connection.receiveMessage()[0];
-		System.out.format(">>Chosen target: %s\n", answer);
 		
-		for(Player player: playersThatCanBeAttacked) {
+		for(Player player: playersAlive) {
 			if(player.getName().compareTo(answer) == 0) {
-				
-				System.out.format(">>Target %s attacked\n", player.getName());
 				
 				board.setAttacksThisTurn(board.getAttacksThisTurn() + 1);
 				
@@ -355,10 +327,8 @@ public class Player {
 				
 				discardCard(weapon);
 				
-				if(player.state == State.DEAD) {
-					System.out.format(">>Player %s gain one reset\n", this.getName());
+				if(player.state == State.DEAD) 
 					setResets(getResets() + 1);
-				}
 				
 				return;
 			}
@@ -377,11 +347,17 @@ public class Player {
 	 */
 	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
-		String message = Language.OPTIONS + Language.SEPARATOR + Language.chose_a_block_card;
+		
+		String message = Language.OPTIONS + Language.SEPARATOR;
+		message += "<html>";
+		message += Language.enemy_attacking + player.getName() + "<br>";
+		message += Language.enemy_damage + (player.getDamage() + weapon.getDamage()) + "<br>";
+		message += Language.chose_a_block_card;
+		message += "</html>";
 		
 		for(Card card: hand) {
 			if(card.getName().compareTo("Block") == 0) {
-				message += (Language.SEPARATOR + card.getName());
+				message += Language.SEPARATOR + card.getName();
 				cardsThatCanBlock.add(card);
 			}
 		}
@@ -434,5 +410,9 @@ public class Player {
 			this.useCard(arguments[1]);
 			
 		}
+	}
+	
+	public void sendMessage(String message) {
+		connection.sendMessage(message);
 	}
 }

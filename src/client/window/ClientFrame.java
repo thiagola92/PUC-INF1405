@@ -56,6 +56,10 @@ public class ClientFrame extends JFrame {
 		return playerPanel;
 	}
 	
+	public void notification(String[] arguments) {
+		JOptionPane.showMessageDialog(this, arguments[1]);
+	}
+	
 	/**
 	 * Bring a pop-up asking the player to insert some text(string).
 	 * <br>The pop-up will include a description so the player know what he have to answer.
