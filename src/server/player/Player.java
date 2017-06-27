@@ -337,14 +337,6 @@ public class Player {
 		System.out.println(">>Target not found.");
 	}
 	
-	/**
-	 * Check if the player will block the other player attack.
-	 * <li>Get all cards that can block</li>
-	 * <li>Ask player what he wants to do</li>
-	 * <li>Check if his answer is one card that can block</li>
-	 * @param player
-	 * @param weapon
-	 */
 	public void blockPlayer(Player player, Weapon weapon) {
 		ArrayList<Card> cardsThatCanBlock = new ArrayList<Card>();
 		
@@ -382,6 +374,15 @@ public class Player {
 		setHealth(getHealth() - weapon.getDamage() - player.getDamage());
 	}
 	
+	/*
+	 * technical
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 ***************************************************************
+	 */
+	
 	public void updatePlayer(ArrayList<String> publicInfo) {
 		String message = Language.UPDATE;
 		
@@ -391,12 +392,6 @@ public class Player {
 		connection.sendMessage(message);
 	}
 	
-	/**
-	 * Get the player message and translate to one action/command.
-	 * <br>Right now the options are:
-	 * <li>NEXTTURN</li>
-	 * <li>USECARD</li>
-	 */
 	public void command() {
 		String[] arguments = connection.receiveMessage();
 		

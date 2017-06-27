@@ -12,7 +12,6 @@ import server.card.interfaces.FunctionWeapon;
  * <br>This class will make:
  * <li>Create all cards.</li>
  * <li>Putting them on one ArrayList</li>
- * <li>Remove at random each one and putting on deck (in other words, shuffling the deck)</li>
  * <br>If you want to add a new card to the game, you should make this here.
  * @author		Thiago Lages de Alencar
  * @version		%I%, %G%
@@ -79,17 +78,6 @@ public class CreateDeck {
 		System.out.println(">>Created all cards in the game");
 	}
 	
-	/**
-	 * A function that helps to create X equals equipments and put on the array allCards.
-	 * @param quantity			How many of this card
-	 * @param name				Name of the card
-	 * @param description		Description of the card
-	 * @param damage			How much increase the damage of the player
-	 * @param attacks			How many times more the player can attack
-	 * @param distance			How much increase the distance from this player to others
-	 * @param range				How much increase the range from the attacks of this player
-	 * @param function			What the card is suppose to do when used
-	 */
 	private void equipment(int quantity, String name, int damage, int attacks, int distance, int range, FunctionEquipment function) {
 		for(int i=0; i < quantity; ++i)
 			deck.add(new Equipment(name, damage, attacks, distance, range, function));
